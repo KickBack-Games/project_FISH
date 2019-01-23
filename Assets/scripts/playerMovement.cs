@@ -35,6 +35,7 @@ public class playerMovement : MonoBehaviour
 	public bool lookingRight;
 
 	public GameObject bubble;
+	private bool move;
 
 	// Use this for initialization
 	void Start () 
@@ -67,6 +68,7 @@ public class playerMovement : MonoBehaviour
 		{
 			
 			moveRotation();
+			move = false;
 		}
 		else
 		{
@@ -75,6 +77,7 @@ public class playerMovement : MonoBehaviour
 				pos = new Vector2(transform.position.x, 5.8f);
 				hookRotation();
 				life = 0;
+				move = false;
 			}
 			else
 			{
@@ -113,19 +116,10 @@ public class playerMovement : MonoBehaviour
 					{
 						if ((mousePos.x >= Screen.width *.5f) && (pos.x < 2.25f))
 						{
-							/*if(tr.position == pos)
-							{
-		                		//sprite.flipX = true;
-		                		
-		                	}*/
 		                	TapRight();
 		                }
 						else if ((mousePos.x < Screen.width *.5f) && (pos.x > -2.25f)) 
 						{
-							/*if(tr.position == pos)
-							{
-
-							}*/
 							TapLeft();
 						}
 					}
@@ -145,9 +139,16 @@ public class playerMovement : MonoBehaviour
         			transform.localScale += new Vector3(-.25f, 0, 0);
         		}
 			}
+			move = true;
 			
-			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);	
 		}
+		
+	}
+
+	void FixedUpdate()
+	{
+		if (move)
+			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);	
 		transform.rotation = newQuaternion;	
 	}
     public void TapLeft()

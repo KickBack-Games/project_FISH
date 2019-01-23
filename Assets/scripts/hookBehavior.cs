@@ -26,6 +26,8 @@ public class hookBehavior : MonoBehaviour
 	private float wait1;
 	private float wait2;
 
+	private bool move;
+
 	void Start () 
 	{
     	pScript = gm.GetComponent<play>();
@@ -41,7 +43,7 @@ public class hookBehavior : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () 
+	void Update () 
 	{
 		if (pScript.inMenu)
 		{
@@ -88,21 +90,31 @@ public class hookBehavior : MonoBehaviour
 				{
 					speed = 6;
 				}
-				transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
+				move = true;
+				//transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
 			}
 			else
 			{
 				if ((Mathf.Abs(fish.transform.position.x - transform.position.x)) < 1f)
+				{
 					transform.position = fish.transform.position;
+					move = false;
+				}
 				else
-					transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
+					move = true;
+					//transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
 
 			}
 			hook = fishy.hooked;
 		}
 	}
+	void FixedUpdate()
+	{
+		if (move)
+			transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
+	}
 
-	IEnumerator move()
+	IEnumerator moveHook()
     {
         yield return new WaitForSeconds(Random.Range(wait1, wait2));
         // logic
@@ -128,11 +140,11 @@ public class hookBehavior : MonoBehaviour
         		pos = new Vector2(xStart, 5.5f);
         	}
         }
-        StartCoroutine(move());
+        StartCoroutine(moveHook());
     }
     IEnumerator onBegin()
     {
     	yield return new WaitForSeconds(0);
-    	StartCoroutine(move());
+    	StartCoroutine(moveHook());
     }
 }

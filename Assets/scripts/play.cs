@@ -5,41 +5,35 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class play : MonoBehaviour {
-	public GameObject fish;
-	public GameObject hat;
+	public GameObject fish, hat, titleObj, resetMessage;
 	public playerMovement pm; 
-	private SpriteRenderer fishSpr;
-	private SpriteRenderer hatSpr;
-	private Sprite[] fishSprites;
-	private Sprite[] hatSprites;
+	public SpriteRenderer messageSpr;
+	private SpriteRenderer fishSpr,hatSpr;
+	private Sprite[] fishSprites,hatSprites;
+	public Sprite[] messageSprites;
 
-	private int hatChoose;
-	private int fishChoose;
+	private int hatChoose, fishChoose, messageChoose, ghostNum;
 
-	public bool inMenu;
-	public bool inSettings;
-	public GameObject bubbles;
+	public bool inMenu, inSettings;
+	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
 				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
-				  ui_highscore;
+				  ui_highscore, ui_resetNo, ui_resetYes, ui_ghostRepellant;
 
-	private bool unlocked;
-
-	public bool onceTrigger;
-
-	public Text txtLife;
-	public Text txtHighScrInt;
+	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed;
 	public float life;
 
+	private bool unlocked;
 	public float timer;
-
+	public bool onceTrigger, msgDown, isGhost;
 	// Use this for initialization
 	void Awake()
     {
         // load all frames in fruitsSprites array
-        fishSprites = Resources.LoadAll<Sprite>("fish_sheetv2");
-        hatSprites = Resources.LoadAll<Sprite>("hats_wave_1");
+        fishSprites = Resources.LoadAll<Sprite>("fish_sheetv4");
+        hatSprites = Resources.LoadAll<Sprite>("hats_wave_2");
+        messageSprites = Resources.LoadAll<Sprite>("resetMessage");
         inMenu = true;
         inSettings = false;
     }
@@ -65,20 +59,22 @@ public class play : MonoBehaviour {
 		pm = fish.GetComponent<playerMovement>();
 		fishSpr = fish.GetComponent<SpriteRenderer>();
 		hatSpr = hat.GetComponent<SpriteRenderer>();
+		messageSpr = resetMessage.GetComponent<SpriteRenderer>();
+		// load the sprites
+		fishSpr.sprite = fishSprites[fishChoose];
+		hatSpr.sprite = hatSprites[hatChoose];
 
 		// TIME AND LIFE TEXTS
 		life = 100f;
 		txtLife.text = "";
 		txtHighScrInt.text = "";
-		//setLifeText();
-		timer = 0;
-
-		// load the fish skins
-		fishSpr.sprite = fishSprites[fishChoose];
-		hatSpr.sprite = hatSprites[hatChoose];
-		
+		txtHatsRemaining.text = "";
+		txtFishRemaining.text = "";
+		txtDeath.text = "";
+		txtTimePlayed.text = "";
+		timer = 0;		
 		// Add functionality to buttons
-		ui_back.onClick.AddListener(back);
+		/*ui_back.onClick.AddListener(back);
 		ui_settings.onClick.AddListener(settings);
 		ui_play.onClick.AddListener(playGame);
 		ui_leftSkin.onClick.AddListener(leftSkin);
@@ -87,10 +83,9 @@ public class play : MonoBehaviour {
 		ui_leftHat.onClick.AddListener(leftHat);
 		ui_resetAll.onClick.AddListener(resetAll);
 		ui_toMenu.onClick.AddListener(toMenu);
-
+*/
 		disableSettings();
 		disableLost();
-
 		onceTrigger = false;
 	}
 	
@@ -128,7 +123,7 @@ public class play : MonoBehaviour {
 		}
 	}
 
-	void playGame()
+	public void playGame()
 	{
 		inMenu = false;
 
@@ -138,32 +133,42 @@ public class play : MonoBehaviour {
 		txtLife.text = 100.ToString();
 		disableButtons();
 	}
-	void toMenu()
+	public void toMenu()
 	{
 		inMenu = true;
 		onceTrigger = false;
 		SceneManager.LoadScene("main");
 		txtLife.text = "";
 	}
-	void settings()
+	public void settings()
 	{
-		bubbles.gameObject.SetActive(false);
+		//bubbles.gameObject.SetActive(false);
 		disableButtons();
 		enableSettings();
+		setSettingsText();
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
 		inSettings = true;
 	}
-	void back()
+	public void back()
 	{
-		bubbles.gameObject.SetActive(true);
+		//bubbles.gameObject.SetActive(true);
 		enableButtons();
 		disableSettings();
+		setSettingsTextInvisible();
 		inSettings = false;
 	}
-
-	void resetAll()
+	public void noReset()
 	{
+		ui_resetNo.gameObject.SetActive(false);
+		ui_resetYes.gameObject.SetActive(false);
+		ui_back.gameObject.SetActive(true);
+		msgDown = false;
+	}
+	public void yesReset()
+	{
+
+
 		print("BOOOOM");
 		var str_ = "u_skins";
 		var int_ = 2;
@@ -197,7 +202,48 @@ public class play : MonoBehaviour {
 		hatSpr.sprite = hatSprites[hatSprites.Length-1];
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
+
+		ui_resetYes.gameObject.SetActive(false);
+		ui_resetNo.gameObject.SetActive(false);
+		ui_back.gameObject.SetActive(true);
+		msgDown = false;
 	}
+
+	public void resetAll()
+	{
+		resetMessage.gameObject.SetActive(true);
+		msgDown = true;
+		// Ghost or not?
+		ghostNum = Random.Range(0,10);
+		if (ghostNum == 5)
+		{
+			messageSpr.sprite = messageSprites[1];
+			ui_ghostRepellant.gameObject.SetActive(true);
+			isGhost = true;
+		}
+		else
+		{
+			messageSpr.sprite = messageSprites[0];
+			ui_resetYes.gameObject.SetActive(true);
+			ui_resetNo.gameObject.SetActive(true);
+			isGhost = false;
+		}
+
+		ui_back.gameObject.SetActive(false);
+		setSettingsTextInvisible();
+	}
+	public void byeGhost()
+	{
+		ui_ghostRepellant.gameObject.SetActive(false);
+		ui_resetYes.gameObject.SetActive(true);
+		ui_resetNo.gameObject.SetActive(true);
+		isGhost = false;
+	}
+	IEnumerator ghostFlip()
+    {
+    	yield return new WaitForSeconds(.25f);
+    	messageSpr.sprite = messageSprites[0];
+    }
 
 	void updateRecords(float timing)
 	{
@@ -215,10 +261,6 @@ public class play : MonoBehaviour {
 
 		// Now that all has been updated above, we can check for unlocks
 		checkUnlocked(numDeaths, tTime);
-		print("records updated.");
-		print("Number of deaths: " + PlayerPrefs.GetInt("numDeaths"));
-		print("Highscore: " + PlayerPrefs.GetFloat("Highscore"));
-		print("Time played: " + PlayerPrefs.GetFloat("totalTime"));
 	}
 	void checkUnlocked(int deaths, float time_)
 	{
@@ -320,13 +362,13 @@ public class play : MonoBehaviour {
 							}
 							if (timer > 240)
 							{
-								/*lm = PlayerPrefs.GetInt("u_skins6", 0);
+								lm = PlayerPrefs.GetInt("u_skins6", 0);
 								if (lm == 0)
 								{
 									unlocked = true;
 									b_fish = true;
 									PlayerPrefs.SetInt("u_skins6", 1);
-								}*/
+								}
 								lm = PlayerPrefs.GetInt("u_hats11", 0);
 								if (lm == 0)
 								{
@@ -349,18 +391,18 @@ public class play : MonoBehaviour {
 		}
 
 		// Death based unlockables
-		if (deaths == 10)
+		if (deaths >= 50)
 		{
-			lm = PlayerPrefs.GetInt("u_skins8", 0);
+			lm = PlayerPrefs.GetInt("u_skins9", 0);
 			if (lm == 0)
 			{
-				PlayerPrefs.SetInt("u_skins8", 1);
+				PlayerPrefs.SetInt("u_skins9", 1);
 				unlocked = true;
 				b_fish = true;
 			}
 		}
-		else if (deaths == 20)
-		{
+		else if (deaths >= 40)
+		{			
 			lm = PlayerPrefs.GetInt("u_skins7", 0);
 			if (lm == 0)
 			{
@@ -368,9 +410,18 @@ public class play : MonoBehaviour {
 				unlocked = true;
 				b_fish = true;
 			}
+			lm = PlayerPrefs.GetInt("u_hats5", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_skins5", 1);
+				unlocked = true;
+				b_hat = true;
+			}
+
 		}
-		else if (deaths == 50)
+		else if (deaths >= 25)
 		{
+
 			lm = PlayerPrefs.GetInt("u_hats6", 0);
 			if (lm == 0)
 			{
@@ -378,12 +429,16 @@ public class play : MonoBehaviour {
 				unlocked = true;
 				b_hat = true;
 			}
-			lm = PlayerPrefs.GetInt("u_hats5", 0);
+		}
+		else if (deaths >= 10)
+		{
+			lm = PlayerPrefs.GetInt("u_skins8", 0);
 			if (lm == 0)
 			{
-				PlayerPrefs.SetInt("u_skins5", 1);
+				PlayerPrefs.SetInt("u_skins8", 1);
+				PlayerPrefs.SetInt("u_skins9", 1);
 				unlocked = true;
-				b_hat = true;
+				b_fish = true;
 			}
 		}
 
@@ -530,6 +585,7 @@ public class play : MonoBehaviour {
 		ui_rightSkin.gameObject.SetActive(true);
 		ui_play.gameObject.SetActive(true);
 		ui_settings.gameObject.SetActive(true);
+		titleObj.SetActive(true);
 	}
 
 	void disableButtons()
@@ -543,6 +599,7 @@ public class play : MonoBehaviour {
 		ui_newOutfit.gameObject.SetActive(false);
 		ui_hat.gameObject.SetActive(false);
 		ui_fish.gameObject.SetActive(false);
+		titleObj.SetActive(false);
 	}
 	void enableSettings()
 	{
@@ -575,7 +632,7 @@ public class play : MonoBehaviour {
 				ARROW FUNCTIONAL STUFF
 	**************************************************************************/
 
-	void leftSkin()
+	public void leftSkin()
 	{
 		var str_ = "u_skins";
 		int int_ = fishChoose;
@@ -603,10 +660,9 @@ public class play : MonoBehaviour {
 			hat.gameObject.SetActive(false);
 		else
 			hat.gameObject.SetActive(true);
-
 	}
 
-	void rightSkin()
+	public void rightSkin()
 	{
 		var str_ = "u_skins";
 		int int_ = fishChoose;
@@ -636,7 +692,7 @@ public class play : MonoBehaviour {
 		else
 			hat.gameObject.SetActive(true);
 	}
-	void leftHat()
+	public void leftHat()
 	{
 		var str_ = "u_hats";
 		int int_ = hatChoose;
@@ -662,7 +718,7 @@ public class play : MonoBehaviour {
 
 		hatSpr.sprite = hatSprites[hatChoose];
 	}
-	void rightHat()
+	public void rightHat()
 	{
 		var str_ = "u_hats";
 		int int_ = hatChoose;
@@ -705,13 +761,32 @@ public class play : MonoBehaviour {
 	{
 		PlayerPrefs.SetFloat("Highscore", Mathf.Round(timer));
 	}
+	public void setSettingsText()
+	{
+		// Set the remaining hats... count total of unlocked ones
+		int unlocked = 0;
+		for (int i = 0; i < hatSprites.Length - 1; i++)
+		{
+			unlocked += PlayerPrefs.GetInt("u_hats" + i.ToString(), 0);
+		}
+		txtHatsRemaining.text = unlocked + " OUT OF " + (hatSprites.Length - 1).ToString(); // Last hat is blank; does not count
 
-	// For testing
-	public IEnumerator OnBegin()
-    {
-        yield return new WaitForSeconds(2);
-        fishChoose = Random.Range(0, (fishSprites.Length));
-		hatChoose = Random.Range(0, (hatSprites.Length));
-        StartCoroutine(OnBegin());
-    }
+		unlocked = 0;
+		for (int i = 0; i < fishSprites.Length; i++)
+		{
+			unlocked += PlayerPrefs.GetInt("u_skins" + i.ToString(), 0);
+		}
+		txtFishRemaining.text = unlocked + " OUT OF " + fishSprites.Length;
+ 
+		txtDeath.text = "DEATHS: " + (PlayerPrefs.GetInt("numDeaths"));
+		txtTimePlayed.text = "TIME PLAYED: " + Mathf.Round((PlayerPrefs.GetFloat("totalTime"))) + " S";
+	}
+	public void setSettingsTextInvisible()
+	{
+
+		txtHatsRemaining.text = "";
+		txtFishRemaining.text = "";
+		txtDeath.text = "";
+		txtTimePlayed.text = "";
+	}
 }

@@ -15,10 +15,10 @@ public class bubbleBehavior : MonoBehaviour
      {
         sprite = GetComponent<SpriteRenderer>();
         sprite.sortingOrder = Random.Range(-1, 2);
-		var size = Random.Range(.5f, 1.2f);
+		var size = Random.Range(.5f, .9f);
 		transform.localScale = new Vector2(size, size);
 
-		speedY = Random.Range(1.5f, 2f);
+		speedY = 7f;
 		speedX = Random.Range(-.8f, .8f);
 		count = .1f;
 	}
@@ -35,7 +35,7 @@ public class bubbleBehavior : MonoBehaviour
 		{
 			count *= -1;
 		}
-		speedY += .1f;
+		
 
 		transform.position = new Vector2(transform.position.x + speedX * Time.deltaTime, transform.position.y + speedY * Time.deltaTime);
 	}

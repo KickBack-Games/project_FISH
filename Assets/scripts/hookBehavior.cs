@@ -90,29 +90,29 @@ public class hookBehavior : MonoBehaviour
 				{
 					speed = 6;
 				}
-				move = true;
-				//transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
+				//move = true;
+				transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
 			}
 			else
 			{
 				if ((Mathf.Abs(fish.transform.position.x - transform.position.x)) < 1f)
 				{
 					transform.position = fish.transform.position;
-					move = false;
+					//move = false;
 				}
 				else
-					move = true;
-					//transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
+					//move = true;
+					transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
 
 			}
 			hook = fishy.hooked;
 		}
 	}
-	void FixedUpdate()
+	/*void FixedUpdate()
 	{
 		if (move)
 			transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
-	}
+	}*/
 
 	IEnumerator moveHook()
     {
@@ -137,7 +137,7 @@ public class hookBehavior : MonoBehaviour
         		wait1 = 2f;
         		wait2 = 2.5f;
         		//yield return new WaitForSeconds(Random.Range(0f, 5f));
-        		pos = new Vector2(xStart, 5.5f);
+        		pos = new Vector2(xStart, 6f);
         	}
         }
         StartCoroutine(moveHook());

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class bubbleGenerator : MonoBehaviour {
 	public IEnumerator OnBegin()
     {
         yield return new WaitForSeconds(Random.Range(3, 8));
-        x = Random.Range(-2.5f, 2.5f);
+        x = Random.Range(-2.1f, 2.1f);
         Instantiate(bubble, new Vector2(x,y), Quaternion.identity);
         StartCoroutine(OnBegin());
     }

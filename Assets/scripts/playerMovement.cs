@@ -114,11 +114,11 @@ public class playerMovement : MonoBehaviour
 					saved = false;
 					if (Input.GetMouseButtonDown(0) && !hooked)
 					{
-						if ((mousePos.x >= Screen.width *.5f) && (pos.x < 2.25f))
+						if ((mousePos.x >= Screen.width *.5f) && (pos.x < 2.5f))
 						{
 		                	TapRight();
 		                }
-						else if ((mousePos.x < Screen.width *.5f) && (pos.x > -2.25f)) 
+						else if ((mousePos.x < Screen.width *.5f) && (pos.x > -2.5f)) 
 						{
 							TapLeft();
 						}
@@ -139,27 +139,30 @@ public class playerMovement : MonoBehaviour
         			transform.localScale += new Vector3(-.25f, 0, 0);
         		}
 			}
-			move = true;
-			
+			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);	
 		}
-		
+		transform.rotation = newQuaternion;	
 	}
 
-	void FixedUpdate()
+	/*void FixedUpdate()
 	{
 		if (move)
 			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);	
 		transform.rotation = newQuaternion;	
-	}
+	}*/
     public void TapLeft()
     {
     	lookingRight = false;
         pos += Vector3.left * 1.5f;
+        if (pos.x < -2.26f)
+        	pos = new Vector2(-2.25f, pos.y);
     }
     public void TapRight()
     {   
     	lookingRight = true;
         pos += Vector3.right * 1.5f;
+        if (pos.x > 2.26f)
+        	pos = new Vector2(2.25f, pos.y);
     }
 
     void hookRotation()

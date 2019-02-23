@@ -13,8 +13,6 @@ public class play : MonoBehaviour {
 	public Sprite[] messageSprites;
 
 	private int hatChoose, fishChoose, messageChoose, ghostNum;
-
-	public bool inMenu, inSettings;
 	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
@@ -22,11 +20,11 @@ public class play : MonoBehaviour {
 				  ui_highscore, ui_resetNo, ui_resetYes, ui_ghostRepellant;
 
 	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed;
-	public float life;
 
+	private float hr, min, sec;
 	private bool unlocked;
-	public float timer;
-	public bool onceTrigger, msgDown, isGhost;
+	public float timer,life;
+	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings;
 	// Use this for initialization
 	void Awake()
     {
@@ -778,8 +776,17 @@ public class play : MonoBehaviour {
 		}
 		txtFishRemaining.text = unlocked + " OUT OF " + fishSprites.Length;
  
-		txtDeath.text = "DEATHS: " + (PlayerPrefs.GetInt("numDeaths"));
-		txtTimePlayed.text = "TIME PLAYED: " + Mathf.Round((PlayerPrefs.GetFloat("totalTime"))) + " S";
+		txtDeath.text = PlayerPrefs.GetInt("numDeaths").ToString();
+
+		sec = Mathf.Round((PlayerPrefs.GetFloat("totalTime")));
+		hr = Mathf.Floor((sec / 3600));
+		min = Mathf.Floor((sec / 60)) % 60;
+		sec = sec % 60;
+		
+		
+
+
+		txtTimePlayed.text = "H: " + hr + "  M: " + min + "  S: " + sec;
 	}
 	public void setSettingsTextInvisible()
 	{

@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class play : MonoBehaviour {
-	public GameObject fish, hat, titleObj, resetMessage;
+	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut;
+	public Camera cam;
 	public playerMovement pm; 
 	public SpriteRenderer messageSpr;
 	private SpriteRenderer fishSpr,hatSpr;
@@ -17,9 +18,9 @@ public class play : MonoBehaviour {
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
 				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
-				  ui_highscore, ui_resetNo, ui_resetYes, ui_ghostRepellant;
+				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_donate;
 
-	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed;
+	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore;
 
 	private float hr, min, sec;
 	private bool unlocked;
@@ -38,6 +39,7 @@ public class play : MonoBehaviour {
 	void Start () 
 	{
 		// Save player outfit
+		setSettingsText();
 		PlayerPrefs.SetInt("u_skins0", 1);
 		PlayerPrefs.SetInt("u_skins1", 1);
 		PlayerPrefs.SetInt("u_hats0", 1);
@@ -71,18 +73,6 @@ public class play : MonoBehaviour {
 		txtDeath.text = "";
 		txtTimePlayed.text = "";
 		timer = 0;		
-		// Add functionality to buttons
-		/*ui_back.onClick.AddListener(back);
-		ui_settings.onClick.AddListener(settings);
-		ui_play.onClick.AddListener(playGame);
-		ui_leftSkin.onClick.AddListener(leftSkin);
-		ui_rightSkin.onClick.AddListener(rightSkin);
-		ui_rightHat.onClick.AddListener(rightHat);
-		ui_leftHat.onClick.AddListener(leftHat);
-		ui_resetAll.onClick.AddListener(resetAll);
-		ui_toMenu.onClick.AddListener(toMenu);
-*/
-		disableSettings();
 		disableLost();
 		onceTrigger = false;
 	}
@@ -130,19 +120,22 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetInt("Hat", hatChoose);
 		txtLife.text = 100.ToString();
 		disableButtons();
+		disableSettings();
 	}
 	public void toMenu()
 	{
-		inMenu = true;
+		//inMenu = true;
 		onceTrigger = false;
-		SceneManager.LoadScene("main");
-		txtLife.text = "";
+		fadeOut.SetActive(true);
+		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
+
+	//	txtLife.text = "";
 	}
 	public void settings()
 	{
 		//bubbles.gameObject.SetActive(false);
-		disableButtons();
-		enableSettings();
+		//disableButtons();
+		//enableSettings();
 		setSettingsText();
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
@@ -151,9 +144,9 @@ public class play : MonoBehaviour {
 	public void back()
 	{
 		//bubbles.gameObject.SetActive(true);
-		enableButtons();
-		disableSettings();
-		setSettingsTextInvisible();
+		//enableButtons();
+		//disableSettings();
+		//setSettingsTextInvisible();
 		inSettings = false;
 	}
 	public void noReset()
@@ -161,13 +154,13 @@ public class play : MonoBehaviour {
 		ui_resetNo.gameObject.SetActive(false);
 		ui_resetYes.gameObject.SetActive(false);
 		ui_back.gameObject.SetActive(true);
+		ui_rate.gameObject.SetActive(true);
+		ui_share.gameObject.SetActive(true);
+		ui_donate.gameObject.SetActive(true);
 		msgDown = false;
 	}
 	public void yesReset()
 	{
-
-
-		print("BOOOOM");
 		var str_ = "u_skins";
 		var int_ = 2;
 		// fish
@@ -204,6 +197,9 @@ public class play : MonoBehaviour {
 		ui_resetYes.gameObject.SetActive(false);
 		ui_resetNo.gameObject.SetActive(false);
 		ui_back.gameObject.SetActive(true);
+		ui_rate.gameObject.SetActive(true);
+		ui_share.gameObject.SetActive(true);
+		ui_donate.gameObject.SetActive(true);
 		msgDown = false;
 	}
 
@@ -228,7 +224,11 @@ public class play : MonoBehaviour {
 		}
 
 		ui_back.gameObject.SetActive(false);
-		setSettingsTextInvisible();
+		ui_rate.gameObject.SetActive(false);
+		ui_share.gameObject.SetActive(false);
+		ui_donate.gameObject.SetActive(false);
+
+		//fsetSettingsTextInvisible();
 	}
 	public void byeGhost()
 	{
@@ -584,6 +584,8 @@ public class play : MonoBehaviour {
 		ui_play.gameObject.SetActive(true);
 		ui_settings.gameObject.SetActive(true);
 		titleObj.SetActive(true);
+		//titleObj.transform.position = new Vector2(transform.position.x, 2.5f);
+		//shelf_GO.transform.parent = null;
 	}
 
 	void disableButtons()
@@ -612,17 +614,21 @@ public class play : MonoBehaviour {
 	void enableLost()
 	{
 		ui_toMenu.gameObject.SetActive(true);
-		ui_highscore.gameObject.SetActive(true);
-		// replay 
-		// highscore
+		titleObj.SetActive(true);
+		titleObj.transform.position = new Vector2(0, 3.25f);
+		shelf_GO.SetActive(true);
+		shelf_GO.transform.parent = cam.transform;
+		shelf_GO.transform.position = new Vector2(0f, .34f);
 	}
 	void disableLost()
 	{
-		ui_highscore.gameObject.SetActive(false);
+		cam.transform.position = new Vector2(.75f,transform.position.y);
+		titleObj.transform.position = new Vector2(.75f, 2.5f);
 		ui_toMenu.gameObject.SetActive(false);
 		ui_newOutfit.gameObject.SetActive(false);
 		ui_fish.gameObject.SetActive(false);
 		ui_hat.gameObject.SetActive(false);
+		shelf_GO.SetActive(false);
 	}
 
 
@@ -752,8 +758,11 @@ public class play : MonoBehaviour {
 	}
 	void setTimerText()
 	{
-		txtLife.text = Mathf.Round(timer).ToString() + "  secs";
+		txtLife.text = "";
 		txtHighScrInt.text = Mathf.Round(PlayerPrefs.GetFloat("Highscore", 0)).ToString();
+		txtScore.text = Mathf.Round(timer).ToString();
+		//txtHighScrInt.transform.SetParent(cam.transform);
+		//txtScore.transform.SetParent(cam.transform);
 	}
 	void setHighScore()
 	{

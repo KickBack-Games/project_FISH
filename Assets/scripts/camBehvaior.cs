@@ -19,7 +19,7 @@ public class camBehvaior : MonoBehaviour
     void Start()
     {
     	pScript = gm.GetComponent<play>();
-
+    	pos = new Vector3(fish.transform.position.x, 0, -10f);
     	m_ViewPositionX = 0;
     	m_ViewPositionY = 0;
     	m_ViewWidth = 1;
@@ -64,7 +64,6 @@ public class camBehvaior : MonoBehaviour
 					view += 10f * Time.deltaTime;
 			}        	
         }
-
 
 		transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * 30f);	
 		transform.position = new Vector3 (transform.position.x, transform.position.y, -10);

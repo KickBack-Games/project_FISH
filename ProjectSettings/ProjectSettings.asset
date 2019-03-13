@@ -153,7 +153,8 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.testgame.gonefish
     iOS: com.DarkShotStudios.FishinHats
-  buildNumber: {}
+  buildNumber:
+    iOS: 0.1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0

@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class play : MonoBehaviour {
-	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut;
+	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad;
 	public Camera cam;
+	public Ads ads;
 	public playerMovement pm; 
 	public SpriteRenderer messageSpr;
 	private SpriteRenderer fishSpr,hatSpr;
@@ -20,12 +21,13 @@ public class play : MonoBehaviour {
 				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
 				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_donate;
 
-	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore;
+	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore,txtGameTimer;
 
 	private float hr, min, sec;
 	private bool unlocked;
 	public float timer,life;
 	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings;
+	private float ti;
 	// Use this for initialization
 	void Awake()
     {
@@ -38,6 +40,7 @@ public class play : MonoBehaviour {
     }
 	void Start () 
 	{
+		ti = 0;
 		// Save player outfit
 		setSettingsText();
 		PlayerPrefs.SetInt("u_skins0", 1);
@@ -56,6 +59,7 @@ public class play : MonoBehaviour {
 			hat.gameObject.SetActive(true);
 		//END PRECAUTION
 
+		ads = ad.GetComponent<Ads>();
 		pm = fish.GetComponent<playerMovement>();
 		fishSpr = fish.GetComponent<SpriteRenderer>();
 		hatSpr = hat.GetComponent<SpriteRenderer>();
@@ -67,6 +71,7 @@ public class play : MonoBehaviour {
 		// TIME AND LIFE TEXTS
 		life = 100f;
 		txtLife.text = "";
+		txtGameTimer.text = "";
 		txtHighScrInt.text = "";
 		txtHatsRemaining.text = "";
 		txtFishRemaining.text = "";
@@ -84,24 +89,27 @@ public class play : MonoBehaviour {
 		{
 			if (pm.lost)
 			{
-				enableLost();
-				// Record things only once!
 				if (!onceTrigger)
 				{
 					onceTrigger = true;
-
-					if (Mathf.Round(timer) > Mathf.Round(PlayerPrefs.GetFloat("Highscore", 0)))
-					{
-						setHighScore();
-					}
-					setTimerText();
-					updateRecords(timer);
+					life = 0;
+					setLifeText();
+					StartCoroutine(onLost());
 				}
+
 			}
 			else
 			{
 				// begin game stuff
 				timer += 1.0f * Time.deltaTime;
+				
+				if (ti !=  Mathf.Round(timer))
+				{
+					ti = Mathf.Round(timer);
+					tictoc(ti);
+					
+				}
+				
 				life = pm.life;
 				if (pm.hooked)
 				{
@@ -119,23 +127,22 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
 		txtLife.text = 100.ToString();
+		txtGameTimer.text = 0.ToString();
 		disableButtons();
 		disableSettings();
 	}
 	public void toMenu()
 	{
+		ads.ShowRewardedAd();
 		//inMenu = true;
-		onceTrigger = false;
 		fadeOut.SetActive(true);
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
 
-	//	txtLife.text = "";
 	}
 	public void settings()
 	{
-		//bubbles.gameObject.SetActive(false);
-		//disableButtons();
-		//enableSettings();
+
+		ads.ShowRewardedAd();
 		setSettingsText();
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
@@ -143,10 +150,6 @@ public class play : MonoBehaviour {
 	}
 	public void back()
 	{
-		//bubbles.gameObject.SetActive(true);
-		//enableButtons();
-		//disableSettings();
-		//setSettingsTextInvisible();
 		inSettings = false;
 	}
 	public void noReset()
@@ -227,8 +230,6 @@ public class play : MonoBehaviour {
 		ui_rate.gameObject.SetActive(false);
 		ui_share.gameObject.SetActive(false);
 		ui_donate.gameObject.SetActive(false);
-
-		//fsetSettingsTextInvisible();
 	}
 	public void byeGhost()
 	{
@@ -344,12 +345,12 @@ public class play : MonoBehaviour {
 						}
 						if (timer > 160)
 						{
-							lm = PlayerPrefs.GetInt("u_skins6", 0);
+							lm = PlayerPrefs.GetInt("u_skins2", 0);
 							if (lm == 0)
 							{
 								unlocked = true;
 								b_fish = true;
-								PlayerPrefs.SetInt("u_skins6", 1);
+								PlayerPrefs.SetInt("u_skins2", 1);
 							}
 							lm = PlayerPrefs.GetInt("u_hats10", 0);
 							if (lm == 0)
@@ -411,7 +412,7 @@ public class play : MonoBehaviour {
 			lm = PlayerPrefs.GetInt("u_hats5", 0);
 			if (lm == 0)
 			{
-				PlayerPrefs.SetInt("u_skins5", 1);
+				PlayerPrefs.SetInt("u_hats5", 1);
 				unlocked = true;
 				b_hat = true;
 			}
@@ -434,14 +435,13 @@ public class play : MonoBehaviour {
 			if (lm == 0)
 			{
 				PlayerPrefs.SetInt("u_skins8", 1);
-				PlayerPrefs.SetInt("u_skins9", 1);
 				unlocked = true;
 				b_fish = true;
 			}
 		}
 
 		// Total time played unlockables
-		if (time_  > 2000f)
+		if (time_  > 10000f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats24", 0);
 			if (lm == 0)
@@ -451,7 +451,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 1500f)
+		else if (time_  > 5000f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats23", 0);
 			if (lm == 0)
@@ -461,7 +461,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 1000f)
+		else if (time_  > 2000f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats22", 0);
 			if (lm == 0)
@@ -471,7 +471,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 750f)
+		else if (time_  > 1000f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats21", 0);
 			if (lm == 0)
@@ -481,7 +481,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 500f)
+		else if (time_  > 600f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats20", 0);
 			if (lm == 0)
@@ -501,7 +501,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 300f)
+		else if (time_  > 350f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats18", 0);
 			if (lm == 0)
@@ -511,7 +511,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 200f)
+		else if (time_  > 300f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats17", 0);
 			if (lm == 0)
@@ -521,7 +521,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 150f)
+		else if (time_  > 240f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats16", 0);
 			if (lm == 0)
@@ -531,7 +531,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 100f)
+		else if (time_  > 150f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats15", 0);
 			if (lm == 0)
@@ -541,7 +541,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 50f)
+		else if (time_  > 80f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats14", 0);
 			if (lm == 0)
@@ -551,7 +551,7 @@ public class play : MonoBehaviour {
 				b_hat = true;
 			}
 		}
-		else if (time_  > 10f)
+		else if (time_  > 20f)
 		{
 			lm = PlayerPrefs.GetInt("u_hats13", 0);
 			if (lm == 0)
@@ -753,20 +753,23 @@ public class play : MonoBehaviour {
 	void setLifeText()
 	{
 		txtLife.text = Mathf.Round(life).ToString();
-		txtHighScrInt.text = "";
+		//txtHighScrInt.text = "";
 		// Empty out everything
 	}
 	void setTimerText()
 	{
 		txtLife.text = "";
+		txtGameTimer.text = "";
 		txtHighScrInt.text = Mathf.Round(PlayerPrefs.GetFloat("Highscore", 0)).ToString();
 		txtScore.text = Mathf.Round(timer).ToString();
-		//txtHighScrInt.transform.SetParent(cam.transform);
-		//txtScore.transform.SetParent(cam.transform);
 	}
 	void setHighScore()
 	{
 		PlayerPrefs.SetFloat("Highscore", Mathf.Round(timer));
+	}
+	void tictoc(float time)
+	{
+		txtGameTimer.text = time.ToString();
 	}
 	public void setSettingsText()
 	{
@@ -786,7 +789,6 @@ public class play : MonoBehaviour {
 		txtFishRemaining.text = unlocked + " OUT OF " + fishSprites.Length;
  
 		txtDeath.text = PlayerPrefs.GetInt("numDeaths").ToString();
-
 		sec = Mathf.Round((PlayerPrefs.GetFloat("totalTime")));
 		hr = Mathf.Floor((sec / 3600));
 		min = Mathf.Floor((sec / 60)) % 60;
@@ -805,4 +807,19 @@ public class play : MonoBehaviour {
 		txtDeath.text = "";
 		txtTimePlayed.text = "";
 	}
+    IEnumerator onLost()
+    {
+    	yield return new WaitForSeconds(1);
+		enableLost();
+		// Record things only once!
+
+
+		if (Mathf.Round(timer) > Mathf.Round(PlayerPrefs.GetFloat("Highscore", 0)))
+		{
+			setHighScore();
+		}
+
+		setTimerText();
+		updateRecords(timer);
+    }
 }

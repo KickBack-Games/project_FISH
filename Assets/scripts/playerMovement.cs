@@ -89,6 +89,7 @@ public class playerMovement : MonoBehaviour
 
 					if (life <= 0)
 					{
+						life = 0;
 						lost = true;
 					}
 					else

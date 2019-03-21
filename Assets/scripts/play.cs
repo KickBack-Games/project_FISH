@@ -31,6 +31,7 @@ public class play : MonoBehaviour {
 	// Use this for initialization
 	void Awake()
     {
+        Application.targetFrameRate = 60;
         // load all frames in fruitsSprites array
         fishSprites = Resources.LoadAll<Sprite>("fish_sheetv4");
         hatSprites = Resources.LoadAll<Sprite>("hats_wave_2");

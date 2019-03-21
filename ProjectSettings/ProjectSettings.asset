@@ -152,7 +152,9 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.testgame.gonefish
-  buildNumber: {}
+    iOS: com.DarkShotStudios.FishinHats
+  buildNumber:
+    iOS: 0.1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
   AndroidTargetSdkVersion: 0

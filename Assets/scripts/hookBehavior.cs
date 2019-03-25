@@ -11,7 +11,6 @@ public class hookBehavior : MonoBehaviour
 	public bool anchored;
 	private float yStart;
 	private float xStart;
-	public float difficulty;
 
 	public bool lost;
 	public GameObject fish;
@@ -91,29 +90,32 @@ public class hookBehavior : MonoBehaviour
 					speed = 6;
 				}
 				//move = true;
-				transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
+				transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed));
 			}
 			else
 			{
-				if ((Mathf.Abs(fish.transform.position.x - transform.position.x)) < 1f)
-				{
-					transform.position = fish.transform.position;
-					//move = false;
+				if (!pScript.trophyBG)
+				{    			
+					if ((Mathf.Abs(fish.transform.position.x - transform.position.x)) < 1f)
+					{
+						transform.position = fish.transform.position;
+					}
+					else
+					{
+						pos = new Vector2(transform.position.x, yStart);
+						transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed));
+					}
 				}
 				else
-					//move = true;
-					transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
+				{
+					transform.position = new Vector2(xStart, yStart);
+				}
 
 			}
 			hook = fishy.hooked;
 		}
 	}
-	/*void FixedUpdate()
-	{
-		if (move)
-			transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * (speed + difficulty));
-	}*/
-
+	
 	IEnumerator moveHook()
     {
         yield return new WaitForSeconds(Random.Range(wait1, wait2));

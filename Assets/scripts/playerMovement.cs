@@ -6,11 +6,11 @@ public class playerMovement : MonoBehaviour
 {
 
 	// GAME MANAGER STUFF
-	public GameObject gm;
+	public GameObject gm, hat;
 	private play pScript;
 
 	// OTHER STUFF
-	private SpriteRenderer sprite;
+	private SpriteRenderer sprite, hatSprite;
 	public bool hooked;
 	public bool lost;
 
@@ -36,10 +36,13 @@ public class playerMovement : MonoBehaviour
 
 	public GameObject bubble;
 	private bool move;
+	public int SFX;
 
 	// Use this for initialization
 	void Start () 
 	{
+
+		hatSprite = hat.GetComponent<SpriteRenderer>();
     	pScript = gm.GetComponent<play>();
 
 		pos = transform.position;
@@ -78,10 +81,14 @@ public class playerMovement : MonoBehaviour
 				hookRotation();
 				life = 0;
 				move = false;
+				if (pScript.trophyBG)
+				{
+					pos = new Vector2(0, -3.0f);
+				}
 			}
 			else
 			{
-				if (hooked)
+				if (hooked && !pScript.trophyBG)
 				{
 					life -= damage * Time.deltaTime;
 					rot = 0;
@@ -140,7 +147,18 @@ public class playerMovement : MonoBehaviour
         			transform.localScale += new Vector3(-.25f, 0, 0);
         		}
 			}
-			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);	
+			if (!pScript.trophyBG)
+				{ transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed); }	
+			else
+			{
+				transform.localScale = new Vector2(-1, transform.localScale.y);
+				sprite.sortingOrder = 2000;
+				hatSprite.sortingOrder = 2001;
+				hooked = false;
+				newQuaternion.Set(0, 0, 0, .5f);
+				transform.position = new Vector2(0, -4f);
+
+			}
 		}
 		transform.rotation = newQuaternion;	
 	}
@@ -155,15 +173,30 @@ public class playerMovement : MonoBehaviour
     {
     	lookingRight = false;
         pos += Vector3.left * 1.5f;
+
         if (pos.x < -2.26f)
+        {
         	pos = new Vector2(-2.25f, pos.y);
+        }
+        else
+        {
+        	if(SFX == 1)
+				FindObjectOfType<SM>().Play("Bloop");
+        }
     }
     public void TapRight()
     {   
     	lookingRight = true;
         pos += Vector3.right * 1.5f;
         if (pos.x > 2.26f)
+        {
         	pos = new Vector2(2.25f, pos.y);
+        }
+        else
+        {
+        	if(SFX == 1)
+				FindObjectOfType<SM>().Play("Bloop");
+        }
     }
 
     void hookRotation()

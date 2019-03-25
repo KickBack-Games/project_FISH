@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class play : MonoBehaviour {
-	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad;
+	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -23,11 +23,12 @@ public class play : MonoBehaviour {
 
 	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore,txtGameTimer;
 
-	private float hr, min, sec;
-	private bool unlocked;
+	private float hr, min, sec,ti;
 	public float timer,life;
-	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings;
-	private float ti;
+
+	private bool unlocked;
+	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG;
+
 	// Use this for initialization
 	void Awake()
     {
@@ -81,6 +82,7 @@ public class play : MonoBehaviour {
 		timer = 0;		
 		disableLost();
 		onceTrigger = false;
+		trophyBG = false;
 	}
 	
 	// Update is called once per frame
@@ -97,6 +99,7 @@ public class play : MonoBehaviour {
 					setLifeText();
 					StartCoroutine(onLost());
 				}
+
 
 			}
 			else
@@ -123,6 +126,8 @@ public class play : MonoBehaviour {
 	public void playGame()
 	{
 		inMenu = false;
+		pm.SFX = PlayerPrefs.GetInt("MuteSFX", 1);
+		print("Started: " + pm.SFX);
 
 		// Save
 		PlayerPrefs.SetInt("Fish", fishChoose);
@@ -132,9 +137,27 @@ public class play : MonoBehaviour {
 		disableButtons();
 		disableSettings();
 	}
+	public void Paid() 
+	{
+		PlayerPrefs.SetInt("Paid",1);
+
+	}
 	public void toMenu()
 	{
-		ads.ShowRewardedAd();
+		//show every 3rd game
+		if (PlayerPrefs.GetInt("Paid", 0) == 0)
+		{
+			int num = PlayerPrefs.GetInt("AdCount", 0);
+			if (num > 2)
+			{
+				num = 0;
+				ads.ShowRewardedAd();
+			}
+			else
+				num += 1;
+			print(num);
+			PlayerPrefs.SetInt("AdCount", num);
+		}
 		//inMenu = true;
 		fadeOut.SetActive(true);
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
@@ -142,8 +165,6 @@ public class play : MonoBehaviour {
 	}
 	public void settings()
 	{
-
-		ads.ShowRewardedAd();
 		setSettingsText();
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
@@ -808,9 +829,41 @@ public class play : MonoBehaviour {
 		txtDeath.text = "";
 		txtTimePlayed.text = "";
 	}
+
+	public void muteMusic()
+	{
+		int x = PlayerPrefs.GetInt("MuteMusic", 1);
+		if(x == 1)
+		{
+			PlayerPrefs.SetInt("MuteMusic", 0);
+			FindObjectOfType<SM>().Stop("Theme");
+		}
+		else 
+		{
+			PlayerPrefs.SetInt("MuteMusic", 1);
+			FindObjectOfType<SM>().Play("Theme");
+		}
+	}
+	public void muteSFX() 
+	{
+		int x = PlayerPrefs.GetInt("MuteSFX", 1);
+		if(x == 0)
+		{
+			// ON!
+			print("ON!");
+			PlayerPrefs.SetInt("MuteSFX", 1);
+		}
+		else 
+		{
+			// OFF!
+			print("OFF");
+			PlayerPrefs.SetInt("MuteSFX", 0);
+		}
+		print(x);
+	}
     IEnumerator onLost()
     {
-    	yield return new WaitForSeconds(1);
+    	yield return new WaitForSeconds(1.5f);
 		enableLost();
 		// Record things only once!
 
@@ -822,5 +875,7 @@ public class play : MonoBehaviour {
 
 		setTimerText();
 		updateRecords(timer);
+		trophyBG = true;
+		trophyBGobj.SetActive(true);
     }
 }

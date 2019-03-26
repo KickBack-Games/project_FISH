@@ -19,7 +19,7 @@ public class play : MonoBehaviour {
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
 				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
-				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_donate;
+				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_mute_music, ui_mute_SFX;
 
 	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore,txtGameTimer;
 
@@ -28,6 +28,7 @@ public class play : MonoBehaviour {
 
 	private bool unlocked;
 	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG;
+	public Sprite sfxOn,sfxOff,musicOn,musicOff;
 
 	// Use this for initialization
 	void Awake()
@@ -42,6 +43,23 @@ public class play : MonoBehaviour {
     }
 	void Start () 
 	{
+		if (PlayerPrefs.GetInt("MuteSFX") == 0)
+		{
+			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
+		}
+		else
+		{
+			ui_mute_SFX.GetComponent<Image>().sprite = sfxOff;
+		}
+		if (PlayerPrefs.GetInt("MuteMusic") == 0)
+		{
+			ui_mute_music.GetComponent<Image>().sprite = musicOn;
+		}
+		else
+		{
+			ui_mute_music.GetComponent<Image>().sprite = musicOff;
+		}
+
 		ti = 0;
 		// Save player outfit
 		setSettingsText();
@@ -181,7 +199,8 @@ public class play : MonoBehaviour {
 		ui_back.gameObject.SetActive(true);
 		ui_rate.gameObject.SetActive(true);
 		ui_share.gameObject.SetActive(true);
-		ui_donate.gameObject.SetActive(true);
+		ui_mute_music.gameObject.SetActive(true);
+		ui_mute_SFX.gameObject.SetActive(true);
 		msgDown = false;
 	}
 	public void yesReset()
@@ -224,7 +243,8 @@ public class play : MonoBehaviour {
 		ui_back.gameObject.SetActive(true);
 		ui_rate.gameObject.SetActive(true);
 		ui_share.gameObject.SetActive(true);
-		ui_donate.gameObject.SetActive(true);
+		ui_mute_music.gameObject.SetActive(true);
+		ui_mute_SFX.gameObject.SetActive(true);
 		msgDown = false;
 	}
 
@@ -251,7 +271,8 @@ public class play : MonoBehaviour {
 		ui_back.gameObject.SetActive(false);
 		ui_rate.gameObject.SetActive(false);
 		ui_share.gameObject.SetActive(false);
-		ui_donate.gameObject.SetActive(false);
+		ui_mute_music.gameObject.SetActive(false);
+		ui_mute_SFX.gameObject.SetActive(false);
 	}
 	public void byeGhost()
 	{
@@ -837,11 +858,13 @@ public class play : MonoBehaviour {
 		{
 			PlayerPrefs.SetInt("MuteMusic", 0);
 			FindObjectOfType<SM>().Stop("Theme");
+			ui_mute_music.GetComponent<Image>().sprite = musicOn;
 		}
 		else 
 		{
 			PlayerPrefs.SetInt("MuteMusic", 1);
 			FindObjectOfType<SM>().Play("Theme");
+			ui_mute_music.GetComponent<Image>().sprite = musicOff;
 		}
 	}
 	public void muteSFX() 
@@ -852,12 +875,14 @@ public class play : MonoBehaviour {
 			// ON!
 			print("ON!");
 			PlayerPrefs.SetInt("MuteSFX", 1);
+			ui_mute_SFX.GetComponent<Image>().sprite = sfxOff;
 		}
 		else 
 		{
 			// OFF!
 			print("OFF");
 			PlayerPrefs.SetInt("MuteSFX", 0);
+			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
 		}
 		print(x);
 	}

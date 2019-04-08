@@ -663,6 +663,7 @@ public class play : MonoBehaviour {
 		shelf_GO.SetActive(true);
 		shelf_GO.transform.parent = cam.transform;
 		shelf_GO.transform.position = new Vector2(0f, .34f);
+		ui_share.transform.position = new Vector2(1.6f, -3.96f);
 	}
 	void disableLost()
 	{
@@ -869,31 +870,35 @@ public class play : MonoBehaviour {
 		}
 	}
 
-    public void OnScreen() {
-        ScreenCapture.CaptureScreenshot(Application.persistentDataPath + @"/screen.png");
-        sharefile = new NativeShare();
-        sharefile.AddFile(Application.persistentDataPath + @"/screen.png");
-        sharefile.Share();
-    }
 	public void muteSFX() 
 	{
 		int x = PlayerPrefs.GetInt("MuteSFX", 1);
 		if(x == 0)
 		{
 			// ON!
-			print("ON!");
 			PlayerPrefs.SetInt("MuteSFX", 1);
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOff;
 		}
 		else 
 		{
 			// OFF!
-			print("OFF");
 			PlayerPrefs.SetInt("MuteSFX", 0);
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
 		}
 		print(x);
 	}
+
+	public void rate() 
+	{
+		Application.OpenURL ("market://details?id=" + Application.productName);
+	}
+
+    public void OnScreen() 
+    {
+
+        StartCoroutine(shareDelay());
+    }
+
     IEnumerator onLost()
     {
     	yield return new WaitForSeconds(1.5f);
@@ -910,5 +915,23 @@ public class play : MonoBehaviour {
 		updateRecords(timer);
 		trophyBG = true;
 		trophyBGobj.SetActive(true);
+    }
+
+    IEnumerator shareDelay()
+    {
+		yield return new WaitForEndOfFrame();
+
+		Texture2D ss = new Texture2D( Screen.width, Screen.height, TextureFormat.RGB24, false );
+		ss.ReadPixels( new Rect( 0, 0, Screen.width, Screen.height ), 0, 0 );
+		ss.Apply();
+
+		string filePath = System.IO.Path.Combine( Application.temporaryCachePath, "shared img.png" );
+		System.IO.File.WriteAllBytes( filePath, ss.EncodeToPNG() );
+		
+		// To avoid memory leaks
+		Destroy( ss );
+
+		new NativeShare().AddFile( filePath ).SetSubject( "Play Fish'n Hats" ).SetText( "Bet you can't beat my highscore!" ).Share();
+
     }
 }

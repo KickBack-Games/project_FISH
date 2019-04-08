@@ -13,8 +13,9 @@ public class play : MonoBehaviour {
 	private SpriteRenderer fishSpr,hatSpr;
 	private Sprite[] fishSprites,hatSprites;
 	public Sprite[] messageSprites;
+    NativeShare sharefile;
 
-	private int hatChoose, fishChoose, messageChoose, ghostNum;
+    private int hatChoose, fishChoose, messageChoose, ghostNum;
 	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
@@ -867,6 +868,13 @@ public class play : MonoBehaviour {
 			ui_mute_music.GetComponent<Image>().sprite = musicOff;
 		}
 	}
+
+    public void OnScreen() {
+        ScreenCapture.CaptureScreenshot(Application.persistentDataPath + @"/screen.png");
+        sharefile = new NativeShare();
+        sharefile.AddFile(Application.persistentDataPath + @"/screen.png");
+        sharefile.Share();
+    }
 	public void muteSFX() 
 	{
 		int x = PlayerPrefs.GetInt("MuteSFX", 1);

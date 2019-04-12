@@ -77,13 +77,14 @@ public class playerMovement : MonoBehaviour
 		{
 			if (lost)
 			{
-				pos = new Vector2(transform.position.x, 5.8f);
+				pos = new Vector2(pos.x, 5.8f);
 				hookRotation();
 				life = 0;
-				move = false;
+				
 				if (pScript.trophyBG)
 				{
 					pos = new Vector2(0, -3.0f);
+					move = false;
 				}
 			}
 			else
@@ -163,12 +164,6 @@ public class playerMovement : MonoBehaviour
 		transform.rotation = newQuaternion;	
 	}
 
-	/*void FixedUpdate()
-	{
-		if (move)
-			transform.position = Vector3.MoveTowards(transform.position, pos, Time.deltaTime * speed);	
-		transform.rotation = newQuaternion;	
-	}*/
     public void TapLeft()
     {
     	lookingRight = false;

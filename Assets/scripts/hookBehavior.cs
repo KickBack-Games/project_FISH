@@ -98,7 +98,7 @@ public class hookBehavior : MonoBehaviour
 				{    			
 					if ((Mathf.Abs(fish.transform.position.x - transform.position.x)) < 1f)
 					{
-						transform.position = fish.transform.position;
+						transform.position = new Vector2(transform.position.x, fish.transform.position.y);
 					}
 					else
 					{

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class play : MonoBehaviour {
-	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager;
+	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, obj_txt_time;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -44,6 +44,9 @@ public class play : MonoBehaviour {
     }
 	void Start () 
 	{
+		obj_txt_hs.SetActive(false);
+		obj_txt_score.SetActive(false);
+		obj_txt_time.SetActive(false);
 		if (PlayerPrefs.GetInt("MuteSFX") == 0)
 		{
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
@@ -153,6 +156,9 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetInt("Hat", hatChoose);
 		txtLife.text = 100.ToString();
 		txtGameTimer.text = 0.ToString();
+		obj_txt_hs.SetActive(true);
+		obj_txt_time.SetActive(true);
+		obj_txt_score.SetActive(true);
 		disableButtons();
 		disableSettings();
 	}

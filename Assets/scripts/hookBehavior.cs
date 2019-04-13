@@ -24,13 +24,14 @@ public class hookBehavior : MonoBehaviour
 	public float speed;
 	private float wait1;
 	private float wait2;
+	public float difficulty;
 
 	private bool move;
 
 	void Start () 
 	{
     	pScript = gm.GetComponent<play>();
-
+    	difficulty = 0;
 		pos = transform.position;
 		anchored = false;
 		yStart = transform.position.y;
@@ -83,7 +84,9 @@ public class hookBehavior : MonoBehaviour
 			{
 				if (!anchored)
 				{
-					speed = 9;
+					if (difficulty < 3.1f)
+						difficulty = pScript.timer * .05f;
+					speed = 6 + difficulty;
 				}
 				else
 				{

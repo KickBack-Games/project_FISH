@@ -10,12 +10,15 @@ public class play : MonoBehaviour {
 	public Ads ads;
 	public playerMovement pm; 
 	public SpriteRenderer messageSpr;
+	public SpriteRenderer bandaidSpr;
 	private SpriteRenderer fishSpr,hatSpr;
 	private Sprite[] fishSprites,hatSprites;
 	public Sprite[] messageSprites;
+	public Sprite[] bandaidSprites;
+
     NativeShare sharefile;
 
-    private int hatChoose, fishChoose, messageChoose, ghostNum;
+    private int hatChoose, fishChoose, messageChoose, ghostNum, bandaidChoose;
 	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
@@ -30,23 +33,28 @@ public class play : MonoBehaviour {
 	private bool unlocked;
 	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG;
 	public Sprite sfxOn,sfxOff,musicOn,musicOff;
+	public Transform bandaidobj;
 
 	// Use this for initialization
 	void Awake()
     {
+    	Time.timeScale = 1;
         Application.targetFrameRate = 60;
         // load all frames in fruitsSprites array
         fishSprites = Resources.LoadAll<Sprite>("fish_sheetv4");
         hatSprites = Resources.LoadAll<Sprite>("hats_wave_2");
         messageSprites = Resources.LoadAll<Sprite>("resetMessage");
+        bandaidSprites = Resources.LoadAll<Sprite>("bandAids");
         inMenu = true;
         inSettings = false;
     }
 	void Start () 
 	{
+		// Keep these texts from overlapping with buttons in menu
 		obj_txt_hs.SetActive(false);
 		obj_txt_score.SetActive(false);
 		obj_txt_time.SetActive(false);
+
 		if (PlayerPrefs.GetInt("MuteSFX") == 0)
 		{
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
@@ -88,6 +96,7 @@ public class play : MonoBehaviour {
 		fishSpr = fish.GetComponent<SpriteRenderer>();
 		hatSpr = hat.GetComponent<SpriteRenderer>();
 		messageSpr = resetMessage.GetComponent<SpriteRenderer>();
+		bandaidSpr = bandaidobj.GetComponent<SpriteRenderer>();
 		// load the sprites
 		fishSpr.sprite = fishSprites[fishChoose];
 		hatSpr.sprite = hatSprites[hatChoose];
@@ -132,13 +141,18 @@ public class play : MonoBehaviour {
 				if (ti !=  Mathf.Round(timer))
 				{
 					ti = Mathf.Round(timer);
+					if (ti % 3 == 0)
+					{
+						Instantiate(bandaidobj, new Vector2(Random.Range(-3f,3f), 5f), transform.rotation);
+					}
 					tictoc(ti);
 					
 				}
 				
 				life = pm.life;
-				if (pm.hooked)
+				if (pm.hooked || pm.healed)
 				{
+					pm.healed = false;
 					setLifeText();
 				}
 			}
@@ -892,6 +906,15 @@ public class play : MonoBehaviour {
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
 		}
 		print(x);
+	}
+
+	public void Pause()
+	{
+		if(Time.timeScale == 1)
+			Time.timeScale = 0;
+		else
+			Time.timeScale = 1;
+
 	}
 
 	public void rate() 

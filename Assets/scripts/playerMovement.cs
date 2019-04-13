@@ -11,8 +11,7 @@ public class playerMovement : MonoBehaviour
 
 	// OTHER STUFF
 	private SpriteRenderer sprite, hatSprite;
-	public bool hooked;
-	public bool lost;
+	public bool hooked, lost, healed;
 
 	private Vector3 pos;
 	public float speed = 9.0f;
@@ -34,7 +33,7 @@ public class playerMovement : MonoBehaviour
 	public float damage;
 	public bool lookingRight;
 
-	public GameObject bubble;
+	public GameObject hearts,bubble;
 	private bool move;
 	public int SFX;
 
@@ -242,6 +241,18 @@ public class playerMovement : MonoBehaviour
 			hooked = true;
 
 			pos = new Vector2(other.transform.position.x, transform.position.y);
+		}
+
+		if(other.gameObject.tag == "pupLife")
+		{
+			for(int i = 0; i < 5; i++)
+				Instantiate(hearts, transform.position, newQuaternion);
+			healed = true;
+			if (life < 100)
+				life += 25;
+			else
+				life = 125;
+			Destroy(other.gameObject);
 		}
 	}
 }

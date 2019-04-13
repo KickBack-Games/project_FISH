@@ -17,16 +17,13 @@ public class hookBehavior : MonoBehaviour
 	public bool hook;
 	public playerMovement fishy;
 
-	private bool repelled;
-	private bool started;
+	private bool repelled, started,move;
 
 	// difficulty
 	public float speed;
 	private float wait1;
 	private float wait2;
 	public float difficulty;
-
-	private bool move;
 
 	void Start () 
 	{
@@ -122,9 +119,11 @@ public class hookBehavior : MonoBehaviour
 	IEnumerator moveHook()
     {
         yield return new WaitForSeconds(Random.Range(wait1, wait2));
+
         // logic
         if (!anchored)
         {
+
         	// going down
         	anchored = !anchored;
         	if (!hook)
@@ -141,7 +140,6 @@ public class hookBehavior : MonoBehaviour
         	{
         		wait1 = 2f;
         		wait2 = 2.5f;
-        		//yield return new WaitForSeconds(Random.Range(0f, 5f));
         		pos = new Vector2(xStart, 6f);
         	}
         }

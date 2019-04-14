@@ -23,7 +23,8 @@ public class play : MonoBehaviour {
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
 				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
-				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_mute_music, ui_mute_SFX;
+				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_mute_music, ui_mute_SFX,
+				  ui_pause, ui_restart;
 
 	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore,txtGameTimer;
 
@@ -31,7 +32,7 @@ public class play : MonoBehaviour {
 	public float timer,life;
 
 	private bool unlocked;
-	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG;
+	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused;
 	public Sprite sfxOn,sfxOff,musicOn,musicOff;
 	public Transform bandaidobj;
 
@@ -129,6 +130,7 @@ public class play : MonoBehaviour {
 					life = 0;
 					setLifeText();
 					StartCoroutine(onLost());
+					ui_pause.gameObject.SetActive(false);
 				}
 
 
@@ -141,9 +143,9 @@ public class play : MonoBehaviour {
 				if (ti !=  Mathf.Round(timer))
 				{
 					ti = Mathf.Round(timer);
-					if (ti % 3 == 0)
+					if (ti % 60 == 0)
 					{
-						Instantiate(bandaidobj, new Vector2(Random.Range(-3f,3f), 5f), transform.rotation);
+						Instantiate(bandaidobj, new Vector2(Random.Range(-2.5f,2.5f), 5.5f), transform.rotation);
 					}
 					tictoc(ti);
 					
@@ -170,9 +172,15 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetInt("Hat", hatChoose);
 		txtLife.text = 100.ToString();
 		txtGameTimer.text = 0.ToString();
+		
+		// Texts
 		obj_txt_hs.SetActive(true);
 		obj_txt_time.SetActive(true);
 		obj_txt_score.SetActive(true);
+
+		// pause stuff
+		ui_pause.gameObject.SetActive(true);
+
 		disableButtons();
 		disableSettings();
 	}
@@ -180,6 +188,12 @@ public class play : MonoBehaviour {
 	{
 		PlayerPrefs.SetInt("Paid",1);
 
+	}
+	public void restart()
+	{
+
+		//fadeOut.SetActive(true);
+		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
 	}
 	public void toMenu()
 	{
@@ -197,8 +211,7 @@ public class play : MonoBehaviour {
 			print(num);
 			PlayerPrefs.SetInt("AdCount", num);
 		}
-		//inMenu = true;
-		fadeOut.SetActive(true);
+
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
 
 	}
@@ -911,9 +924,21 @@ public class play : MonoBehaviour {
 	public void Pause()
 	{
 		if(Time.timeScale == 1)
+		{
+			// pause
+			paused = true;
 			Time.timeScale = 0;
+			ui_restart.gameObject.SetActive(true);
+		}
 		else
+		{
+			// unpause
+			ui_pause.gameObject.SetActive(false);
+			paused = false;
+			ui_restart.gameObject.SetActive(false);
 			Time.timeScale = 1;
+			StartCoroutine(pauseDelay());
+		}
 
 	}
 
@@ -944,6 +969,12 @@ public class play : MonoBehaviour {
 		updateRecords(timer);
 		trophyBG = true;
 		trophyBGobj.SetActive(true);
+    }
+
+    IEnumerator pauseDelay()
+    {
+    	yield return new WaitForSeconds(2);
+    	ui_pause.gameObject.SetActive(true);
     }
 
     IEnumerator shareDelay()

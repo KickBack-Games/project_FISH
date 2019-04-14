@@ -120,13 +120,13 @@ public class playerMovement : MonoBehaviour
 					// reset
 					counter = 0;
 					saved = false;
-					if (Input.GetMouseButtonDown(0) && !hooked)
+					if (Input.GetMouseButtonDown(0) && !hooked && !pScript.paused)
 					{
-						if ((mousePos.x >= Screen.width *.5f) && (pos.x < 2.5f))
+						if ((mousePos.x >= Screen.width *.5f) && (pos.x < 2.5f) && (mousePos.y > Screen.height * .1f))
 						{
 		                	TapRight();
 		                }
-						else if ((mousePos.x < Screen.width *.5f) && (pos.x > -2.5f)) 
+						else if ((mousePos.x < Screen.width *.5f) && (pos.x > -2.5f) && (mousePos.y > Screen.height * .1f)) 
 						{
 							TapLeft();
 						}
@@ -243,7 +243,7 @@ public class playerMovement : MonoBehaviour
 			pos = new Vector2(other.transform.position.x, transform.position.y);
 		}
 
-		if(other.gameObject.tag == "pupLife")
+		if(other.gameObject.tag == "pupLife" && !lost)
 		{
 			for(int i = 0; i < 5; i++)
 				Instantiate(hearts, transform.position, newQuaternion);

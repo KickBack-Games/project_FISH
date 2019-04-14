@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class play : MonoBehaviour {
-	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, obj_txt_time;
+	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, obj_txt_time, obj_newStar;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -81,6 +81,11 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetInt("u_hats0", 1);
 		PlayerPrefs.SetInt("u_hats1", 1);
 		PlayerPrefs.SetInt("u_hats25", 1);
+		PlayerPrefs.SetInt("u_hats0_new", 2);
+		PlayerPrefs.SetInt("u_hats1_new", 2);
+		PlayerPrefs.SetInt("u_hats25_new", 2);
+		PlayerPrefs.SetInt("u_skins0_new", 2);
+		PlayerPrefs.SetInt("u_skins1_new", 2);
 		fishChoose = PlayerPrefs.GetInt("Fish", 0);
 		hatChoose = PlayerPrefs.GetInt("Hat", 0);
 		// End player outfit
@@ -244,16 +249,15 @@ public class play : MonoBehaviour {
 		// fish
 		for (int i = int_; i < fishSprites.Length; i++)
 		{
-			str_ += i.ToString();
-			PlayerPrefs.SetInt(str_, 0);
-			str_ = "u_skins";
+			PlayerPrefs.SetInt(str_ + i.ToString(), 0);
+			PlayerPrefs.SetInt(str_+  i.ToString() + "_new", 0);
 		}
 		// hats
-		for (int i = 1; i < hatSprites.Length - 1; i++)
+		str_ = "u_hats";
+		for (int i = int_; i < hatSprites.Length - 1; i++)
 		{
-			str_ += i.ToString();
-			PlayerPrefs.SetInt(str_, 0);
-			str_ = "u_hats";
+			PlayerPrefs.SetInt(str_ + i.ToString(), 0);
+			PlayerPrefs.SetInt(str_ + i.ToString() + "_new", 0);
 		}
 
 		// RESET HIGHSCORE
@@ -263,8 +267,14 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetFloat("totalTime", 0);
 
 		// In any case they were wearing a deleted skin... reset it default skin
-
 		PlayerPrefs.SetInt("u_skins1", 1);
+
+		// Also need to do this for the new star when unlocking stuff
+		PlayerPrefs.SetInt("u_hats0_new", 2);
+		PlayerPrefs.SetInt("u_hats1_new", 2);
+		PlayerPrefs.SetInt("u_hats25_new", 2);
+		PlayerPrefs.SetInt("u_skins0_new", 2);
+		PlayerPrefs.SetInt("u_skins1_new", 2);
 		fishChoose = 0;
 		hatChoose = hatSprites.Length-1;
 		fishSpr.sprite = fishSprites[fishChoose];
@@ -338,12 +348,35 @@ public class play : MonoBehaviour {
 		// Now that all has been updated above, we can check for unlocks
 		checkUnlocked(numDeaths, tTime);
 	}
+
+	private void starActivation (int total, int[] unlockIdArr, string type)
+	{
+		print("LENGTH: " + unlockIdArr.Length + "TOTAL: " + total);
+		string og = type;
+		for (int i = 0; i < total; i++)
+		{
+			type = "u_" + type + unlockIdArr[i].ToString() + "_new";
+			PlayerPrefs.SetInt(type, 1);
+			print(type);
+			print("HEYYYYY: " + PlayerPrefs.GetInt(type, 0));
+			type = og;
+		}
+	}
 	void checkUnlocked(int deaths, float time_)
 	{
 		int lm;
 		bool unlocked = false;
 		bool b_hat = false;
 		bool b_fish = false;
+
+		// will never get bigger than that. Camn't unlock that many hats or fish at once.
+		int[] hatArr = new int[10];
+		int[] fishArr = new int[10];
+
+		// Will count the total of unlocked for each and if any then an array will be initialized to activate them as discovered
+		int counterHats = 0;
+		int counterFish = 0;
+
 		// Timer based unlockables
 		if (timer > 10)
 		{
@@ -353,6 +386,10 @@ public class play : MonoBehaviour {
 				b_hat = true;
 				unlocked = true;
 				PlayerPrefs.SetInt("u_hats2", 1);
+
+				hatArr[counterHats] = 2;
+				counterHats += 1;
+
 			}
 
 			if (timer > 20)
@@ -363,6 +400,9 @@ public class play : MonoBehaviour {
 					unlocked = true;
 					b_hat = true;
 					PlayerPrefs.SetInt("u_hats3", 1);
+
+					hatArr[counterHats] = 3;
+					counterHats += 1;
 				}
 				if (timer > 35)
 				{
@@ -372,6 +412,9 @@ public class play : MonoBehaviour {
 						unlocked = true;
 						b_fish = true;
 						PlayerPrefs.SetInt("u_skins3", 1);
+
+						fishArr[counterFish] = 3;
+						counterFish += 1;
 					}
 					lm = PlayerPrefs.GetInt("u_hats4", 0);
 					if (lm == 0)
@@ -379,6 +422,9 @@ public class play : MonoBehaviour {
 						unlocked = true;
 						b_hat = true;
 						PlayerPrefs.SetInt("u_hats4", 1);
+
+						hatArr[counterHats] = 4;
+						counterHats += 1;
 					}
 					lm = PlayerPrefs.GetInt("u_hats7", 0);
 					if (lm == 0)
@@ -386,6 +432,9 @@ public class play : MonoBehaviour {
 						unlocked = true;
 						b_hat = true;
 						PlayerPrefs.SetInt("u_hats7", 1);
+
+						hatArr[counterHats] = 7;
+						counterHats += 1;
 					}
 					if (timer > 60)
 					{
@@ -395,6 +444,9 @@ public class play : MonoBehaviour {
 							unlocked = true;
 							b_hat = true;
 							PlayerPrefs.SetInt("u_hats8", 1);
+
+							hatArr[counterHats] = 8;
+							counterHats += 1;
 						}
 						lm = PlayerPrefs.GetInt("u_skins4", 0);
 						if (lm == 0)
@@ -402,6 +454,9 @@ public class play : MonoBehaviour {
 							unlocked = true;
 							b_fish = true;
 							PlayerPrefs.SetInt("u_skins4", 1);
+
+							fishArr[counterFish] = 4;
+							counterFish += 1;
 						}
 						if (timer > 100)
 						{
@@ -411,6 +466,9 @@ public class play : MonoBehaviour {
 								unlocked = true;
 								b_fish = true;
 								PlayerPrefs.SetInt("u_skins5", 1);
+
+								fishArr[counterFish] = 5;
+								counterFish += 1;
 							}
 							lm = PlayerPrefs.GetInt("u_hats9", 0);
 							if (lm == 0)
@@ -418,6 +476,9 @@ public class play : MonoBehaviour {
 								unlocked = true;
 								b_hat = true;
 								PlayerPrefs.SetInt("u_hats9", 1);
+
+								hatArr[counterHats] = 9;
+								counterHats += 1;
 							}
 						}
 						if (timer > 160)
@@ -428,6 +489,9 @@ public class play : MonoBehaviour {
 								unlocked = true;
 								b_fish = true;
 								PlayerPrefs.SetInt("u_skins2", 1);
+
+								fishArr[counterFish] = 2;
+								counterFish += 1;
 							}
 							lm = PlayerPrefs.GetInt("u_hats10", 0);
 							if (lm == 0)
@@ -435,6 +499,9 @@ public class play : MonoBehaviour {
 								unlocked = true;
 								b_hat = true;
 								PlayerPrefs.SetInt("u_hats10", 1);
+
+								hatArr[counterHats] = 10;
+								counterHats += 1;
 							}
 							if (timer > 240)
 							{
@@ -444,6 +511,9 @@ public class play : MonoBehaviour {
 									unlocked = true;
 									b_fish = true;
 									PlayerPrefs.SetInt("u_skins6", 1);
+
+									fishArr[counterFish] = 6;
+									counterFish += 1;
 								}
 								lm = PlayerPrefs.GetInt("u_hats11", 0);
 								if (lm == 0)
@@ -451,6 +521,9 @@ public class play : MonoBehaviour {
 									unlocked = true;
 									b_hat = true;
 									PlayerPrefs.SetInt("u_hats11", 1);
+
+									hatArr[counterHats] = 11;
+									counterHats += 1;
 								}
 								lm = PlayerPrefs.GetInt("u_hats12", 0);
 								if (lm == 0)
@@ -458,6 +531,9 @@ public class play : MonoBehaviour {
 									unlocked = true;
 									b_hat = true;
 									PlayerPrefs.SetInt("u_hats12", 1);
+
+									hatArr[counterHats] = 12;
+									counterHats += 1;
 								}
 							}
 						}
@@ -475,6 +551,9 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_skins9", 1);
 				unlocked = true;
 				b_fish = true;
+
+				fishArr[counterFish] = 9;
+				counterFish += 1;
 			}
 		}
 		else if (deaths >= 40)
@@ -485,6 +564,9 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_skins7", 1);
 				unlocked = true;
 				b_fish = true;
+
+				fishArr[counterFish] = 7;
+				counterFish += 1;
 			}
 			lm = PlayerPrefs.GetInt("u_hats5", 0);
 			if (lm == 0)
@@ -492,6 +574,9 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats5", 1);
 				unlocked = true;
 				b_hat = true;
+
+				hatArr[counterHats] = 5;
+				counterHats += 1;
 			}
 
 		}
@@ -504,6 +589,9 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats6", 1);
 				unlocked = true;
 				b_hat = true;
+
+				hatArr[counterHats] = 6;
+				counterHats += 1;
 			}
 		}
 		else if (deaths >= 10)
@@ -514,6 +602,9 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_skins8", 1);
 				unlocked = true;
 				b_fish = true;
+
+				fishArr[counterFish] = 8;
+				counterFish += 1;
 			}
 		}
 
@@ -526,6 +617,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats24", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 24;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 5000f)
@@ -536,6 +629,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats23", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 23;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 2000f)
@@ -546,6 +641,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats22", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 22;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 1000f)
@@ -556,6 +653,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats21", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 21;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 600f)
@@ -566,6 +665,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats20", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 20;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 400f)
@@ -576,6 +677,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats19", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 19;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 350f)
@@ -586,6 +689,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats18", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 18;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 300f)
@@ -596,6 +701,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats17", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 17;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 240f)
@@ -606,6 +713,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats16", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 16;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 150f)
@@ -616,6 +725,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats15", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 15;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 80f)
@@ -626,6 +737,8 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats14", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 14;
+				counterHats += 1;
 			}
 		}
 		else if (time_  > 20f)
@@ -636,17 +749,30 @@ public class play : MonoBehaviour {
 				PlayerPrefs.SetInt("u_hats13", 1);
 				unlocked = true;
 				b_hat = true;
+				hatArr[counterHats] = 13;
+				counterHats += 1;
 			}
 		}
 
+
 		// Final touch
 		if (unlocked)
+		{
 			ui_newOutfit.gameObject.SetActive(true);
-		if (b_hat)
-			ui_hat.gameObject.SetActive(true);
-		if (b_fish)
-			ui_fish.gameObject.SetActive(true);
+			// Initialize arrays with the total amount for hats or fish
+			if (b_hat)
+			{
+				// These wll be initialized at the end when we are done counting how many.
+				starActivation(counterHats,hatArr,"hats");
 
+				ui_hat.gameObject.SetActive(true);
+			}
+			if (b_fish)
+			{
+				starActivation(counterFish,fishArr,"skins");
+				ui_fish.gameObject.SetActive(true);
+			}
+		}
 	}
 
 	/******************************************************************************
@@ -714,6 +840,26 @@ public class play : MonoBehaviour {
 				ARROW FUNCTIONAL STUFF
 	**************************************************************************/
 
+
+	private void newStar(string curr)
+	{
+		// I THINK INITIALLY THE SKINS AND HATS THAT ARE BY DEFAULT NEED TO BE SET TO 2. SINCE THEY WERE NEVER SET TO 0
+		string new_ = "_new";
+		new_ = curr+new_;
+		if (PlayerPrefs.GetInt(new_,0) == 1)
+		{
+			// JUST DISCOVERED - ACTIVATE STAR
+			obj_newStar.SetActive(true);
+			PlayerPrefs.SetInt(new_,2);
+		}
+		else if (PlayerPrefs.GetInt(new_,0) == 2)
+		{
+			// NOTHING TO SEE HERRE - DEACTIVATE
+			obj_newStar.SetActive(false);
+		}
+
+	} 
+
 	public void leftSkin()
 	{
 		var str_ = "u_skins";
@@ -733,7 +879,8 @@ public class play : MonoBehaviour {
 			if (PlayerPrefs.GetInt(str_, 0) == 1)
 			{
 				fishChoose = int_;
-				b = false;				
+				b = false;
+				newStar(str_);			
 			}
 		}
 
@@ -765,7 +912,8 @@ public class play : MonoBehaviour {
 			{
 
 				b = false;
-				fishChoose = int_;				
+				fishChoose = int_;
+				newStar(str_);				
 			}
 		}
 		fishSpr.sprite = fishSprites[fishChoose];
@@ -774,6 +922,7 @@ public class play : MonoBehaviour {
 		else
 			hat.gameObject.SetActive(true);
 	}
+
 	public void leftHat()
 	{
 		var str_ = "u_hats";
@@ -790,11 +939,11 @@ public class play : MonoBehaviour {
 				int_ = hatSprites.Length - 1;
 			}
 			str_ = "u_hats" + int_.ToString();
-
 			if (PlayerPrefs.GetInt(str_, 0) == 1)
 			{
 				hatChoose = int_;
-				b = false;				
+				b = false;
+				newStar(str_);		
 			}
 		}
 
@@ -821,7 +970,8 @@ public class play : MonoBehaviour {
 			{
 
 				b = false;
-				hatChoose = int_;				
+				hatChoose = int_;
+				newStar(str_);					
 			}
 		}
 

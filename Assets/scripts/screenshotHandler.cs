@@ -30,9 +30,9 @@ public class screenshotHandler : MonoBehaviour
 
 		string date = System.DateTime.Now.ToString ("dd-MM-yy");
 
-		ScreenshotHandler.ScreenShotNumber++;
+		screenshotHandler.ScreenShotNumber++;
 
-		string screenshotFilename = fileName + "_" + ScreenshotHandler.ScreenShotNumber + "_" + date + ".png";
+		string screenshotFilename = fileName + "_" + screenshotHandler.ScreenShotNumber + "_" + date + ".png";
 
 		Debug.Log ("Save screenshot " + screenshotFilename);
 

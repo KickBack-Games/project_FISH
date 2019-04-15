@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: com.testgame.fishnhats
+  companyName: com.DarkShotStudios.FishinHats
   productName: Fish 'N Hats
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -154,7 +154,7 @@ PlayerSettings:
     Android: com.DarkShotStudios.FishinHats
     iOS: com.DarkShotStudios.FishinHats
   buildNumber:
-    iOS: 0.1
+    iOS: 0.3
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0

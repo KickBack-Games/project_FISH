@@ -42,7 +42,7 @@ public class screenshotHandler : MonoBehaviour
 				
 			string iosPath = Application.persistentDataPath + "/" + fileName;
 			savedImagePath = iosPath;
-			Application.CaptureScreenshot (screenshotFilename);
+			ScreenCapture.CaptureScreenshot (screenshotFilename);
 
 			while (!photoSaved) {
 				photoSaved = saveToGallery (iosPath);
@@ -50,11 +50,11 @@ public class screenshotHandler : MonoBehaviour
 				yield return new WaitForSeconds (.5f);
 			}				
 			
-			iPhone.SetNoBackupFlag (iosPath);
+			UnityEngine.iOS.Device.SetNoBackupFlag (iosPath);
 			
 		} else {
 			
-			Application.CaptureScreenshot (screenshotFilename);
+			ScreenCapture.CaptureScreenshot (screenshotFilename);
 			
 		}
 			
@@ -85,7 +85,7 @@ public class screenshotHandler : MonoBehaviour
 				yield return new WaitForSeconds (.5f);
 			}
 			
-			iPhone.SetNoBackupFlag (filePath);
+			UnityEngine.iOS.Device.SetNoBackupFlag (filePath);
 		}
 			
 #endif

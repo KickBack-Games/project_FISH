@@ -148,7 +148,7 @@ public class play : MonoBehaviour {
 				if (ti !=  Mathf.Round(timer))
 				{
 					ti = Mathf.Round(timer);
-					if (ti % 60 == 0)
+					if (ti % 5 == 0)
 					{
 						Instantiate(bandaidobj, new Vector2(Random.Range(-2.5f,2.5f), 5.5f), transform.rotation);
 					}
@@ -170,7 +170,6 @@ public class play : MonoBehaviour {
 	{
 		inMenu = false;
 		pm.SFX = PlayerPrefs.GetInt("MuteSFX", 1);
-		print("Started: " + pm.SFX);
 
 		// Save
 		PlayerPrefs.SetInt("Fish", fishChoose);
@@ -185,6 +184,9 @@ public class play : MonoBehaviour {
 
 		// pause stuff
 		ui_pause.gameObject.SetActive(true);
+
+		// in case star is active for new skin/hat
+		obj_newStar.SetActive(false);
 
 		disableButtons();
 		disableSettings();
@@ -213,7 +215,6 @@ public class play : MonoBehaviour {
 			}
 			else
 				num += 1;
-			print(num);
 			PlayerPrefs.SetInt("AdCount", num);
 		}
 
@@ -351,14 +352,11 @@ public class play : MonoBehaviour {
 
 	private void starActivation (int total, int[] unlockIdArr, string type)
 	{
-		print("LENGTH: " + unlockIdArr.Length + "TOTAL: " + total);
 		string og = type;
 		for (int i = 0; i < total; i++)
 		{
 			type = "u_" + type + unlockIdArr[i].ToString() + "_new";
 			PlayerPrefs.SetInt(type, 1);
-			print(type);
-			print("HEYYYYY: " + PlayerPrefs.GetInt(type, 0));
 			type = og;
 		}
 	}
@@ -1036,7 +1034,7 @@ public class play : MonoBehaviour {
 		txtTimePlayed.text = "";
 	}
 
-	public void muteMusic()
+	/*public void muteMusic()
 	{
 		int x = PlayerPrefs.GetInt("MuteMusic", 1);
 		if(x == 1)
@@ -1051,7 +1049,7 @@ public class play : MonoBehaviour {
 			FindObjectOfType<SM>().Play("Theme");
 			ui_mute_music.GetComponent<Image>().sprite = musicOff;
 		}
-	}
+	}*/
 
 	public void muteSFX() 
 	{
@@ -1068,7 +1066,6 @@ public class play : MonoBehaviour {
 			PlayerPrefs.SetInt("MuteSFX", 0);
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
 		}
-		print(x);
 	}
 
 	public void Pause()

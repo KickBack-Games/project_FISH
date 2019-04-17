@@ -115,7 +115,7 @@ public class hookBehavior : MonoBehaviour
 			hook = fishy.hooked;
 		}
 	}
-	
+
 	IEnumerator moveHook()
     {
         yield return new WaitForSeconds(Random.Range(wait1, wait2));

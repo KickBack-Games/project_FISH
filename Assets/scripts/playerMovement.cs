@@ -34,7 +34,7 @@ public class playerMovement : MonoBehaviour
 	public bool lookingRight;
 
 	public GameObject hearts,bubble;
-	private bool move;
+	private bool move, onlyOnce;
 	public int SFX;
 
 	// Use this for initialization
@@ -59,6 +59,7 @@ public class playerMovement : MonoBehaviour
 		newQuaternion = new Quaternion();
         newQuaternion.Set(0, 0, z, 0);
         lookingRight = true;
+        onlyOnce = false;
 	}
 	
 	// Update is called once per frame
@@ -76,6 +77,12 @@ public class playerMovement : MonoBehaviour
 		{
 			if (lost)
 			{
+				if(SFX == 1 && !onlyOnce)
+				{
+					FindObjectOfType<SM>().Stop("hookAlarm");
+					FindObjectOfType<SM>().Play("lost");
+					onlyOnce = true;
+				}
 				pos = new Vector2(pos.x, 5.8f);
 				hookRotation();
 				life = 0;
@@ -110,6 +117,9 @@ public class playerMovement : MonoBehaviour
 						{
 							hooked = false;
 							saved = true;
+							if(SFX == 1)
+								FindObjectOfType<SM>().Stop("hookAlarm");
+
 						}
 					}
 				}
@@ -226,6 +236,8 @@ public class playerMovement : MonoBehaviour
 		{
 			if (!hooked)
 			{
+				if(SFX == 1)
+					FindObjectOfType<SM>().Play("hookAlarm");
 				if ((transform.position.y > other.transform.position.y))
 				{
 					life -= 30;
@@ -245,6 +257,8 @@ public class playerMovement : MonoBehaviour
 
 		if(other.gameObject.tag == "pupLife" && !lost)
 		{
+			if(SFX == 1)
+				FindObjectOfType<SM>().Play("healUp");
 			for(int i = 0; i < 5; i++)
 				Instantiate(hearts, transform.position, newQuaternion);
 			healed = true;

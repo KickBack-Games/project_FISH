@@ -22,7 +22,7 @@ public class NSPostProcessBuild
 		{
 			string plistPath = Path.Combine( buildPath, "Info.plist" );
 
-			PlistDocument plist = new PlistDocument();
+            PlistDocument plist = new PlistDocument();
 			plist.ReadFromString( File.ReadAllText( plistPath ) );
 
 			PlistElementDict rootDict = plist.root;

@@ -1096,7 +1096,7 @@ public class play : MonoBehaviour {
 
     public void OnScreen() 
     {
-
+        ScreenCapture.CaptureScreenshot(Application.persistentDataPath + @"/screen.png");
         StartCoroutine(shareDelay());
     }
 
@@ -1127,18 +1127,21 @@ public class play : MonoBehaviour {
     IEnumerator shareDelay()
     {
 		yield return new WaitForEndOfFrame();
-
+        /*
 		Texture2D ss = new Texture2D( Screen.width, Screen.height, TextureFormat.RGB24, false );
 		ss.ReadPixels( new Rect( 0, 0, Screen.width, Screen.height ), 0, 0 );
 		ss.Apply();
 
-		string filePath = System.IO.Path.Combine( Application.temporaryCachePath, "shared img.png" );
+		string filePath = System.IO.Path.Combine( Application.temporaryCachePath, "sharedimg.png" );
 		System.IO.File.WriteAllBytes( filePath, ss.EncodeToPNG() );
 		
 		// To avoid memory leaks
 		Destroy( ss );
 
 		new NativeShare().AddFile( filePath ).SetSubject( "Play Fish'n Hats" ).SetText( "Bet you can't beat my highscore!" ).Share();
-
+        */
+        sharefile = new NativeShare();
+        sharefile.AddFile(Application.persistentDataPath + @"/screen.png");
+        sharefile.Share();
     }
 }

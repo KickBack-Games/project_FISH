@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class play : MonoBehaviour {
-	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, obj_txt_time, obj_newStar;
+	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
+					  obj_txt_time, obj_newStar, obj_life_stuff;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -136,6 +137,8 @@ public class play : MonoBehaviour {
 					setLifeText();
 					StartCoroutine(onLost());
 					ui_pause.gameObject.SetActive(false);
+					obj_life_stuff.SetActive(false);
+					obj_txt_time.SetActive(false);
 				}
 
 
@@ -184,6 +187,7 @@ public class play : MonoBehaviour {
 
 		// pause stuff
 		ui_pause.gameObject.SetActive(true);
+		obj_life_stuff.SetActive(true);
 
 		// in case star is active for new skin/hat
 		obj_newStar.SetActive(false);
@@ -201,6 +205,7 @@ public class play : MonoBehaviour {
 
 		//fadeOut.SetActive(true);
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
+		ui_restart.gameObject.SetActive(false);
 	}
 	public void toMenu()
 	{

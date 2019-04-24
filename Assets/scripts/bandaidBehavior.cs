@@ -29,8 +29,8 @@ public class bandaidBehavior : MonoBehaviour
 	{
 		if (switch_)
 		{
-			transform.localScale += new Vector3(-.05f, 0, 0);
-	       	if (transform.localScale.x <= -1f)
+			transform.localScale += new Vector3(-.1f, 0, 0);
+	       	if (transform.localScale.x <= -3f)
 	       	{
 	    		switch_ = false;
 			}	
@@ -40,8 +40,8 @@ public class bandaidBehavior : MonoBehaviour
 		}
 		else
 		{           	
-			transform.localScale += new Vector3(.05f, 0, 0);	
-    		if (transform.localScale.x >= 1)
+			transform.localScale += new Vector3(.1f, 0, 0);	
+    		if (transform.localScale.x >= 3)
     		{
     			switch_ = true;
     		}
@@ -49,7 +49,6 @@ public class bandaidBehavior : MonoBehaviour
 				faceup = true;
 		}
 
-		print(faceup);
 		if(faceup)
 		{
 			pl.bandaidSpr.sprite = pl.bandaidSprites[0];
@@ -57,7 +56,6 @@ public class bandaidBehavior : MonoBehaviour
 		}
 		else
 		{
-			print("NOW");
 			pl.bandaidSpr.sprite = pl.bandaidSprites[1];
 			spr.sprite = pl.bandaidSprites[1];
 		}

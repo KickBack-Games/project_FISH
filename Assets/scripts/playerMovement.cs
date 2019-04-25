@@ -100,7 +100,7 @@ public class playerMovement : MonoBehaviour
 				if (hooked && !pScript.trophyBG)
 				{
 					spawner -= .1f;
-					if (spawner <= 0f)
+					if (spawner <= 0f && !pScript.paused)
 					{
 						spawner = 1f;
 						Instantiate(tap, new Vector2(transform.position.x + (Random.Range(-1.5f,1.5f)), transform.position.y + (Random.Range(-1.5f, 1.5f))), tap.transform.rotation);
@@ -268,7 +268,7 @@ public class playerMovement : MonoBehaviour
 			if(SFX == 1)
 				FindObjectOfType<SM>().Play("healUp");
 			for(int i = 0; i < 5; i++)
-				Instantiate(hearts, transform.position, newQuaternion);
+				Instantiate(hearts, transform.position, hearts.transform.rotation);
 			healed = true;
 			if (life < 100)
 				life += 25;

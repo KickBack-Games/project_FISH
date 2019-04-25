@@ -11,15 +11,13 @@ public class play : MonoBehaviour {
 	public Ads ads;
 	public playerMovement pm; 
 	public SpriteRenderer messageSpr;
-	public SpriteRenderer bandaidSpr;
 	private SpriteRenderer fishSpr,hatSpr;
 	private Sprite[] fishSprites,hatSprites;
 	public Sprite[] messageSprites;
-	public Sprite[] bandaidSprites;
 
     NativeShare sharefile;
 
-    private int hatChoose, fishChoose, messageChoose, ghostNum, bandaidChoose;
+    private int hatChoose, fishChoose, messageChoose, ghostNum;
 	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
@@ -46,7 +44,6 @@ public class play : MonoBehaviour {
         fishSprites = Resources.LoadAll<Sprite>("fish_sheetv4");
         hatSprites = Resources.LoadAll<Sprite>("hats_wave_2");
         messageSprites = Resources.LoadAll<Sprite>("resetMessage");
-        bandaidSprites = Resources.LoadAll<Sprite>("bandAids");
         inMenu = true;
         inSettings = false;
     }
@@ -103,7 +100,6 @@ public class play : MonoBehaviour {
 		fishSpr = fish.GetComponent<SpriteRenderer>();
 		hatSpr = hat.GetComponent<SpriteRenderer>();
 		messageSpr = resetMessage.GetComponent<SpriteRenderer>();
-		bandaidSpr = bandaidobj.GetComponent<SpriteRenderer>();
 		// load the sprites
 		fishSpr.sprite = fishSprites[fishChoose];
 		hatSpr.sprite = hatSprites[hatChoose];
@@ -151,7 +147,7 @@ public class play : MonoBehaviour {
 				if (ti !=  Mathf.Round(timer))
 				{
 					ti = Mathf.Round(timer);
-					if (ti % 60 == 0)
+					if (ti % 5 == 0)
 					{
 						Instantiate(bandaidobj, new Vector2(Random.Range(-2.5f,2.5f), 5.5f), transform.rotation);
 					}

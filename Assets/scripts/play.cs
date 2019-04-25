@@ -151,7 +151,7 @@ public class play : MonoBehaviour {
 				if (ti !=  Mathf.Round(timer))
 				{
 					ti = Mathf.Round(timer);
-					if (ti % 5 == 0)
+					if (ti % 60 == 0)
 					{
 						Instantiate(bandaidobj, new Vector2(Random.Range(-2.5f,2.5f), 5.5f), transform.rotation);
 					}

@@ -597,7 +597,9 @@ MonoBehaviour:
   lookingRight: 0
   hearts: {fileID: 1431196904744008, guid: 8eab35d56047b364095140c229c7b1f6, type: 2}
   bubble: {fileID: 1019231499628782, guid: 99d7e646dbb096648b95af5c00a7c07b, type: 2}
+  tap: {fileID: 1817995644795992, guid: e3e15becc9894ad4fbc2ac3725fd583e, type: 2}
   SFX: 0
+  spawner: 0
 --- !u!212 &132822170
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3038,7 +3040,7 @@ RectTransform:
   m_GameObject: {fileID: 912502011}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 1399363228}
   - {fileID: 609809341}
@@ -3047,7 +3049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 98.5, y: 0}
+  m_AnchoredPosition: {x: 98.5, y: -50.31}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &926915917
@@ -6357,7 +6359,7 @@ RectTransform:
   m_GameObject: {fileID: 1870261145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_Children:
   - {fileID: 1461210805}
   m_Father: {fileID: 1058909868}
@@ -6365,7 +6367,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -21.17, y: -50.31}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1887071398

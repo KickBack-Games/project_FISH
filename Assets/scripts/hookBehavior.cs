@@ -129,8 +129,8 @@ public class hookBehavior : MonoBehaviour
         	if (!hook)
         	{
         	    wait1 = 1.5f;
-        		wait2 = 5f;
-        		pos = new Vector2(xStart, Random.Range(-4.5f, -2f));
+        		wait2 = 5.25f;
+        		pos = new Vector2(xStart, Random.Range(-3.8f, -2f));
         	}
         }
         else
@@ -138,8 +138,8 @@ public class hookBehavior : MonoBehaviour
         	anchored = !anchored;
         	if (!hook)
         	{
-        		wait1 = 2f;
-        		wait2 = 2.5f;
+        		wait1 = 1.6f;
+        		wait2 = 4f;
         		pos = new Vector2(xStart, 6f);
         	}
         }

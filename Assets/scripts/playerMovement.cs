@@ -33,9 +33,10 @@ public class playerMovement : MonoBehaviour
 	public float damage;
 	public bool lookingRight;
 
-	public GameObject hearts,bubble;
+	public GameObject hearts,bubble,tap;
 	private bool move, onlyOnce;
 	public int SFX;
+	public float spawner;
 
 	// Use this for initialization
 	void Start () 
@@ -60,6 +61,7 @@ public class playerMovement : MonoBehaviour
         newQuaternion.Set(0, 0, z, 0);
         lookingRight = true;
         onlyOnce = false;
+        spawner = 1f;
 	}
 	
 	// Update is called once per frame
@@ -97,6 +99,12 @@ public class playerMovement : MonoBehaviour
 			{
 				if (hooked && !pScript.trophyBG)
 				{
+					spawner -= .1f;
+					if (spawner <= 0f)
+					{
+						spawner = 1f;
+						Instantiate(tap, new Vector2(transform.position.x + (Random.Range(-1.5f,1.5f)), transform.position.y + (Random.Range(-1.5f, 1.5f))), tap.transform.rotation);
+					}
 					life -= damage * Time.deltaTime;
 					rot = 0;
 			    	hookRotation();

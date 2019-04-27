@@ -15,7 +15,7 @@ public class play : MonoBehaviour {
 	private Sprite[] fishSprites,hatSprites;
 	public Sprite[] messageSprites;
 
-    NativeShare sharefile;
+    //NativeShare sharefile;
 
     private int hatChoose, fishChoose, messageChoose, ghostNum;
 	//public GameObject bubbles;
@@ -1141,8 +1141,8 @@ public class play : MonoBehaviour {
 
 		new NativeShare().AddFile( filePath ).SetSubject( "Play Fish'n Hats" ).SetText( "Bet you can't beat my highscore!" ).Share();
         */
-        sharefile = new NativeShare();
+        /*sharefile = new NativeShare();
         sharefile.AddFile(Application.persistentDataPath + @"/screen.png");
-        sharefile.Share();
+        sharefile.Share();*/
     }
 }

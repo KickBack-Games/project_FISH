@@ -1096,14 +1096,14 @@ public class play : MonoBehaviour {
 	}
 
     public void OnScreen() 
-    {
+    {/*
 #if UNITY_IPHONE
         ScreenshotHandler.Save("screen", "Hats", false);
 #endif
 #if UNITY_ANDROID
         ScreenCapture.CaptureScreenshot(Application.persistentDataPath + @"/screen.png");
 #endif
-
+*/
         StartCoroutine(shareDelay());
     }
 

@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 
 public class ScreenshotHandler : MonoBehaviour
 {
-
+/*
     public static event Action ScreenshotFinishedSaving;
     public static event Action ImageFinishedSaving;
 
@@ -107,4 +107,5 @@ public class ScreenshotHandler : MonoBehaviour
 
         get { return PlayerPrefs.GetInt("screenShotNumber"); }
     }
+*/
 }

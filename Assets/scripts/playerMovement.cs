@@ -271,7 +271,7 @@ public class playerMovement : MonoBehaviour
 				Instantiate(hearts, transform.position, hearts.transform.rotation);
 			healed = true;
 			if (life < 100)
-				life += 25;
+				life += Random.Range(10, 20);
 			else
 				life = 125;
 			Destroy(other.gameObject);

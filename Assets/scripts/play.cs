@@ -49,6 +49,7 @@ public class play : MonoBehaviour {
     }
 	void Start () 
 	{
+		Screen.SetResolution(1080, 1920, true);
 		// Keep these texts from overlapping with buttons in menu
 		obj_txt_hs.SetActive(false);
 		obj_txt_score.SetActive(false);

@@ -118,7 +118,8 @@ public class playerMovement : MonoBehaviour
 					{
 						if (Input.GetMouseButtonDown(0))
 						{
-							counter++;
+							if (!pScript.paused)
+								counter++;
 
 						}	
 						if (counter >= safetyGoal)

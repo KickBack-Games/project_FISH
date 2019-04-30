@@ -133,6 +133,7 @@ public class play : MonoBehaviour {
 					life = 0;
 					setLifeText();
 					StartCoroutine(onLost());
+					StopCoroutine(pauseDelay());
 					ui_pause.gameObject.SetActive(false);
 					obj_life_stuff.SetActive(false);
 					obj_txt_time.SetActive(false);
@@ -1072,16 +1073,19 @@ public class play : MonoBehaviour {
 
 	public void Pause()
 	{
-		if(Time.timeScale == 1)
+		if(Time.timeScale == 1) // pause
 		{
-			// pause
+			if (pm.hooked)
+				FindObjectOfType<SM>().Stop("hookAlarm");
+			
 			paused = true;
 			Time.timeScale = 0;
 			ui_restart.gameObject.SetActive(true);
 		}
-		else
+		else // unpause
 		{
-			// unpause
+			if (pm.hooked)
+				FindObjectOfType<SM>().Play("hookAlarm");
 			ui_pause.gameObject.SetActive(false);
 			paused = false;
 			ui_restart.gameObject.SetActive(false);
@@ -1123,7 +1127,8 @@ public class play : MonoBehaviour {
     IEnumerator pauseDelay()
     {
     	yield return new WaitForSeconds(2);
-    	ui_pause.gameObject.SetActive(true);
+    	if (!pm.lost)
+    		ui_pause.gameObject.SetActive(true);
     }
 
     IEnumerator shareDelay()

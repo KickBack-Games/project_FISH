@@ -35,6 +35,7 @@ public class play : MonoBehaviour {
 	public Sprite sfxOn,sfxOff,musicOn,musicOff;
 	public Transform bandaidobj;
 
+	public float difficulty; 
 	// Use this for initialization
 	void Awake()
     {
@@ -118,6 +119,7 @@ public class play : MonoBehaviour {
 		disableLost();
 		onceTrigger = false;
 		trophyBG = false;
+		difficulty = 30;
 	}
 	
 	// Update is called once per frame
@@ -149,9 +151,17 @@ public class play : MonoBehaviour {
 				if (ti !=  Mathf.Round(timer))
 				{
 					ti = Mathf.Round(timer);
-					if (ti % 30 == 0)
+					if (ti % (difficulty) == 0)
 					{
 						Instantiate(bandaidobj, new Vector2(Random.Range(-2.5f,2.5f), 5.5f), transform.rotation);
+						if (timer > 240)
+						{
+							difficulty = 100f;
+						}
+						else if (timer > 180)
+						{
+							difficulty = 60f;
+						}
 					}
 					tictoc(ti);
 					

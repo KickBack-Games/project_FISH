@@ -6,24 +6,24 @@ using UnityEngine.UI;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
-					  obj_txt_time, obj_newStar, obj_life_stuff;
+					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
 	public SpriteRenderer messageSpr;
-	private SpriteRenderer fishSpr,hatSpr;
-	private Sprite[] fishSprites,hatSprites;
+	private SpriteRenderer fishSpr,hatSpr, tutSpr;
+	private Sprite[] fishSprites,hatSprites, tutSprites;
 	public Sprite[] messageSprites;
 
     NativeShare sharefile;
 
-    private int hatChoose, fishChoose, messageChoose, ghostNum;
+    private int hatChoose, fishChoose, messageChoose, ghostNum, tutPage;
 	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
 				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
 				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_mute_music, ui_mute_SFX,
-				  ui_pause, ui_restart;
+				  ui_pause, ui_restart, ui_tutorial;
 
 	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore,txtGameTimer;
 
@@ -31,7 +31,7 @@ public class play : MonoBehaviour {
 	public float timer,life;
 
 	private bool unlocked;
-	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused;
+	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused, inTutorial, firsttimer;
 	public Sprite sfxOn,sfxOff,musicOn,musicOff;
 	public Transform bandaidobj;
 
@@ -44,17 +44,32 @@ public class play : MonoBehaviour {
         // load all frames in fruitsSprites array
         fishSprites = Resources.LoadAll<Sprite>("fish_sheetv4");
         hatSprites = Resources.LoadAll<Sprite>("hats_wave_2");
-        messageSprites = Resources.LoadAll<Sprite>("resetMessage");
-        inMenu = true;
-        inSettings = false;
+        messageSprites = Resources.LoadAll<Sprite>("reset_message");
+        tutSprites = Resources.LoadAll<Sprite>("tut_full");
+
+        firsttimer = false;
+        if(!firsttimer)
+        {
+	        inMenu = true;
+	        inSettings = false;
+	        inTutorial = true;
+    	}
+    	else
+    	{
+	        inMenu = true;
+	        inSettings = false;
+	        inTutorial = false;
+    	}
     }
 	void Start () 
 	{
+		setSettingsText();
 		Screen.SetResolution(1080, 1920, true);
 		// Keep these texts from overlapping with buttons in menu
 		obj_txt_hs.SetActive(false);
 		obj_txt_score.SetActive(false);
 		obj_txt_time.SetActive(false);
+		tutPage = 0;
 
 		if (PlayerPrefs.GetInt("MuteSFX") == 0)
 		{
@@ -75,7 +90,7 @@ public class play : MonoBehaviour {
 
 		ti = 0;
 		// Save player outfit
-		setSettingsText();
+		
 		PlayerPrefs.SetInt("u_skins0", 1);
 		PlayerPrefs.SetInt("u_skins1", 1);
 		PlayerPrefs.SetInt("u_hats0", 1);
@@ -102,6 +117,7 @@ public class play : MonoBehaviour {
 		fishSpr = fish.GetComponent<SpriteRenderer>();
 		hatSpr = hat.GetComponent<SpriteRenderer>();
 		messageSpr = resetMessage.GetComponent<SpriteRenderer>();
+		tutSpr = tutObj.GetComponent<SpriteRenderer>();
 		// load the sprites
 		fishSpr.sprite = fishSprites[fishChoose];
 		hatSpr.sprite = hatSprites[hatChoose];
@@ -120,6 +136,7 @@ public class play : MonoBehaviour {
 		onceTrigger = false;
 		trophyBG = false;
 		difficulty = 30;
+		setSettingsText();
 	}
 	
 	// Update is called once per frame
@@ -241,6 +258,47 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetInt("Hat", hatChoose);
 		inSettings = true;
 	}
+	public void toTutorial()
+	{
+		inTutorial = true;
+		inSettings = false;
+		tutPage = 0;
+		tutSpr.sprite = tutSprites[tutPage];
+
+	}
+	public void tutorial_right()
+	{
+		print(tutPage);
+		if (tutPage < (tutSprites.Length - 1))
+			tutPage++;
+		tutSpr.sprite = tutSprites[tutPage];
+		
+
+	}
+
+	public void tutorial_left()
+	{
+		print(tutPage);
+		if (tutPage > 0)
+			tutPage--;
+		tutSpr.sprite = tutSprites[tutPage];
+
+	}
+	public void backToSettings()
+	{
+
+		if (!firsttimer)
+		{
+			inTutorial = false;
+			inSettings = false;
+			firsttimer = true;
+		}
+		else
+		{
+			inTutorial = false;
+			inSettings = true;
+		}
+	}
 	public void back()
 	{
 		inSettings = false;
@@ -254,6 +312,7 @@ public class play : MonoBehaviour {
 		ui_share.gameObject.SetActive(true);
 		ui_mute_music.gameObject.SetActive(true);
 		ui_mute_SFX.gameObject.SetActive(true);
+		ui_tutorial.gameObject.SetActive(true);
 		msgDown = false;
 	}
 	public void yesReset()
@@ -303,6 +362,7 @@ public class play : MonoBehaviour {
 		ui_share.gameObject.SetActive(true);
 		ui_mute_music.gameObject.SetActive(true);
 		ui_mute_SFX.gameObject.SetActive(true);
+		ui_tutorial.gameObject.SetActive(true);
 		msgDown = false;
 	}
 
@@ -331,6 +391,7 @@ public class play : MonoBehaviour {
 		ui_share.gameObject.SetActive(false);
 		ui_mute_music.gameObject.SetActive(false);
 		ui_mute_SFX.gameObject.SetActive(false);
+		ui_tutorial.gameObject.SetActive(false);
 	}
 	public void byeGhost()
 	{

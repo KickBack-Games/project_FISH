@@ -247,14 +247,8 @@ public class playerMovement : MonoBehaviour
 			{
 				if(SFX == 1)
 					FindObjectOfType<SM>().Play("hookAlarm");
-				if ((transform.position.y > other.transform.position.y))
-				{
-					life -= 30;
-				}
-				else 
-				{
-					life -= 20;
-				}
+					
+				life -= 25;
 				for(int i = 0; i < 3; i++)
 					Instantiate(bubble, transform.position, newQuaternion);
 			}

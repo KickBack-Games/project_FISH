@@ -42,6 +42,12 @@ public class camBehvaior : MonoBehaviour
         		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 8f, -10);
         		view = 4;
         	}
+        	else if (pScript.inTutorial)
+        	{
+        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 15.5f, -10);
+        		view = 4;
+
+        	}
         	else
         	{
         		// center on fish

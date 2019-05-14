@@ -31,7 +31,7 @@ public class play : MonoBehaviour {
 	public float timer,life;
 
 	private bool unlocked;
-	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused, inTutorial, firsttimer;
+	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused, inTutorial;
 	public Sprite sfxOn,sfxOff,musicOn,musicOff;
 	public Transform bandaidobj;
 
@@ -47,8 +47,7 @@ public class play : MonoBehaviour {
         messageSprites = Resources.LoadAll<Sprite>("reset_message");
         tutSprites = Resources.LoadAll<Sprite>("tut_full");
 
-        firsttimer = false;
-        if(!firsttimer)
+        if(PlayerPrefs.GetInt("FirstTimer") == 0)
         {
 	        inMenu = true;
 	        inSettings = false;
@@ -287,11 +286,11 @@ public class play : MonoBehaviour {
 	public void backToSettings()
 	{
 
-		if (!firsttimer)
+		if (PlayerPrefs.GetInt("FirstTimer") == 0)
 		{
 			inTutorial = false;
 			inSettings = false;
-			firsttimer = true;
+			PlayerPrefs.SetInt("FirstTimer", 1);
 		}
 		else
 		{

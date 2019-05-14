@@ -1654,7 +1654,6 @@ MonoBehaviour:
   trophyBG: 0
   paused: 0
   inTutorial: 0
-  firsttimer: 1
   sfxOn: {fileID: 21300000, guid: 5eaaac00366df1746936c2b7aeab15ba, type: 3}
   sfxOff: {fileID: 21300000, guid: 7a8ed0f72bb8d9447a1989520a444af7, type: 3}
   musicOn: {fileID: 21300000, guid: d48b7740f08b0c54eadff64334e5b196, type: 3}
@@ -2132,7 +2131,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &549641898
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5989,14 +5988,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.49803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 9b0393ff6ec4a9a478f1a4ea2e905d9f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: de8e104762508c048a4e2def74422807, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7315,7 +7314,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 32767
+  m_SortingOrder: 32766
   m_Sprite: {fileID: 21300000, guid: 557c9cc24ad68ed4c934231eff471aa0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8179,7 +8178,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 32767
+  m_SortingOrder: 32766
   m_Sprite: {fileID: 21300000, guid: e005ff7701bd60b43b9fc5cc50a19b11, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

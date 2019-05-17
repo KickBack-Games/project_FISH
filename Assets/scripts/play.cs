@@ -70,7 +70,7 @@ public class play : MonoBehaviour {
 		obj_txt_time.SetActive(false);
 		tutPage = 0;
 
-		if (PlayerPrefs.GetInt("MuteSFX") == 0)
+		if (PlayerPrefs.GetInt("MuteSFX", 0) == 0)
 		{
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
 		}
@@ -1167,7 +1167,8 @@ public class play : MonoBehaviour {
 
 	public void rate() 
 	{
-		Application.OpenURL ("market://details?id=" + Application.productName);
+		Application.OpenURL("https://play.google.com/apps/testing/com.DarkShotStudios.FishinHats");
+		//Application.OpenURL ("market://details?id=" + Application.productName);
 	}
 
     public void OnScreen() 

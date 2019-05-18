@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using GooglePlayGames;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
@@ -611,6 +612,15 @@ public class play : MonoBehaviour {
 					}
 				}
 			}
+		}
+		else
+		{
+            PlayGamesPlatform.Instance.ReportProgress(
+                GPGSIds.achievement_participation_trophy,
+                100.0f, (bool success) => {
+                       Debug.Log("oh my... " +
+                             success);
+            });
 		}
 
 		// Death based unlockables

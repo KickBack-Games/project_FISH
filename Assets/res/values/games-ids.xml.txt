@@ -1,0 +1,16 @@
+﻿<!-- https://codelabs.developers.google.com/codelabs/playservices_unity/index.html#5 tutorial -->
+
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+  <!-- app_id -->
+  <!-- https://codelabs.developers.google.com/codelabs/playservices_unity/index.html#5 tutorial-->
+  <string name="app_id" translatable="false">503743625583</string>
+  <!-- package_name -->
+  <string name="package_name" translatable="false">com.DarkShotStudios.FishinHats</string>
+  <!-- leaderboard Swimmin' Time -->
+  <string name="leaderboard_swimmin_time" translatable="false">CgkI7_LWy9QOEAIQAQ</string>
+</resources>

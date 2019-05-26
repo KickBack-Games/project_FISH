@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
-
+using UnityEngine.UI;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 
 public class GooglePlayLogin : MonoBehaviour {
 
+	private GameObject achieve;
 	// Use this for initialization
 	void Start () 
 	{
-		PlayGamesPlatform.Instance.Authenticate(SignInCallback, true);	
+		achieve = GameObject.Find ("but_achievements");
+		
         // Create client configuration
         PlayGamesClientConfiguration config = new 
             PlayGamesClientConfiguration.Builder()
@@ -20,14 +22,23 @@ public class GooglePlayLogin : MonoBehaviour {
         
         // Initialize and activate the platform
         PlayGamesPlatform.InitializeInstance(config);
-        PlayGamesPlatform.Activate();	
+        PlayGamesPlatform.Activate();
+
+        // Try silent sign-in (second parameter is isSilent)
+        // This should always be the last line of Start()
+        PlayGamesPlatform.Instance.Authenticate(SignInCallback, true);	
 	}
+	public void Update() {
+
+        achieve.SetActive(Social.localUser.authenticated);
+    }
 
 	public void SignIn() {
         if (!PlayGamesPlatform.Instance.localUser.authenticated) {
             // Sign in with Play Game Services, showing the consent dialog
             // by setting the second parameter to isSilent=false.
             PlayGamesPlatform.Instance.Authenticate(SignInCallback, false);
+
         } else {
             // Sign out of play games
             //PlayGamesPlatform.Instance.SignOut();
@@ -37,11 +48,8 @@ public class GooglePlayLogin : MonoBehaviour {
 
 	public void SignInCallback(bool success) {
         if (success) {
-            Debug.Log("Signed in!");
-          
            
         } else {
-            Debug.Log("Sign-in failed...");
         }
     }
 
@@ -50,7 +58,13 @@ public class GooglePlayLogin : MonoBehaviour {
             PlayGamesPlatform.Instance.ShowAchievementsUI();
         }
         else {
-          Debug.Log("Cannot show Achievements, not logged in");
         }
+    }
+
+    public void ShowLeaderboards() {
+        if (PlayGamesPlatform.Instance.localUser.authenticated) {
+            PlayGamesPlatform.Instance.ShowLeaderboardUI();
+        }
+        else {        }
     }
 }

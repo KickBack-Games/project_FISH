@@ -156,9 +156,8 @@ public class play : MonoBehaviour {
 					ui_pause.gameObject.SetActive(false);
 					obj_life_stuff.SetActive(false);
 					obj_txt_time.SetActive(false);
+
 				}
-
-
 			}
 			else
 			{
@@ -618,8 +617,6 @@ public class play : MonoBehaviour {
             PlayGamesPlatform.Instance.ReportProgress(
                 GPGSIds.achievement_participation_trophy,
                 100.0f, (bool success) => {
-                       Debug.Log("oh my... " +
-                             success);
             });
 		}
 
@@ -1074,7 +1071,18 @@ public class play : MonoBehaviour {
 	}
 	void setHighScore()
 	{
-		PlayerPrefs.SetFloat("Highscore", Mathf.Round(timer));
+		int timeVar = Mathf.RoundToInt(timer);
+		PlayerPrefs.SetFloat("Highscore", timeVar);
+		if (PlayGamesPlatform.Instance.localUser.authenticated)
+        {
+            // Note: make sure to add 'using GooglePlayGames'
+            PlayGamesPlatform.Instance.ReportScore(timeVar,
+                GPGSIds.leaderboard_swimmin_time,
+                (bool success) =>
+                {
+                    
+                });
+        }
 	}
 	void tictoc(float time)
 	{

@@ -6,11 +6,10 @@ using GooglePlayGames.BasicApi;
 
 public class GooglePlayLogin : MonoBehaviour {
 
-	private GameObject achieve;
+	public GameObject leaderBoard;
 	// Use this for initialization
 	void Start () 
 	{
-		achieve = GameObject.Find ("but_achievements");
 		
         // Create client configuration
         PlayGamesClientConfiguration config = new 
@@ -30,7 +29,7 @@ public class GooglePlayLogin : MonoBehaviour {
 	}
 	public void Update() {
 
-        achieve.SetActive(Social.localUser.authenticated);
+        leaderBoard.SetActive(Social.localUser.authenticated);
     }
 
 	public void SignIn() {

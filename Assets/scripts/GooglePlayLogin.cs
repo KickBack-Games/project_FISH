@@ -4,8 +4,8 @@ using UnityEngine.UI;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 
-public class GooglePlayLogin : MonoBehaviour {
-
+public class GooglePlayLogin : MonoBehaviour 
+{
 	public GameObject leaderBoard;
 	// Use this for initialization
 	void Start () 

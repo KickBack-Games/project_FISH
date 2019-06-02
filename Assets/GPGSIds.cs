@@ -24,9 +24,18 @@
 
 public static class GPGSIds
 {
-        public const string leaderboard_swimmin_time = "CgkI7_LWy9QOEAIQAQ"; // <GPGSID>
-        public const string achievement_the_more_the_merrier = "CgkI7_LWy9QOEAIQAw"; // <GPGSID>
+        public const string achievement_the_great_hundred = "CgkI7_LWy9QOEAIQBg"; // <GPGSID>
+        public const string achievement_boo = "CgkI7_LWy9QOEAIQCQ"; // <GPGSID>
+        public const string achievement_grand_ol_minute = "CgkI7_LWy9QOEAIQBA"; // <GPGSID>
+        public const string achievement_get_the_boot = "CgkI7_LWy9QOEAIQCg"; // <GPGSID>
         public const string achievement_participation_trophy = "CgkI7_LWy9QOEAIQAg"; // <GPGSID>
+        public const string achievement_180_your_way_out_of_the_hooks_way = "CgkI7_LWy9QOEAIQBw"; // <GPGSID>
+        public const string leaderboard_swimmin_time = "CgkI7_LWy9QOEAIQAQ"; // <GPGSID>
+        public const string achievement_shark_tale = "CgkI7_LWy9QOEAIQCw"; // <GPGSID>
+        public const string achievement_maybe_you_should_take_a_break = "CgkI7_LWy9QOEAIQCA"; // <GPGSID>
+        public const string achievement_back_to_class = "CgkI7_LWy9QOEAIQDA"; // <GPGSID>
+        public const string achievement_playing_right = "CgkI7_LWy9QOEAIQBQ"; // <GPGSID>
+        public const string achievement_the_more_the_merrier = "CgkI7_LWy9QOEAIQAw"; // <GPGSID>
 
 }
 

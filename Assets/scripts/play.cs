@@ -218,6 +218,14 @@ public class play : MonoBehaviour {
 
 		disableButtons();
 		disableSettings();
+
+		if ((PlayerPrefs.GetInt("Hat") == 5) && (PlayerPrefs.GetInt("Fish") == 7))
+		{
+			PlayGamesPlatform.Instance.ReportProgress(
+                GPGSIds.achievement_shark_tale,
+                100.0f, (bool success) => {
+            });	
+		}
 	}
 	public void Paid() 
 	{
@@ -263,6 +271,10 @@ public class play : MonoBehaviour {
 		inSettings = false;
 		tutPage = 0;
 		tutSpr.sprite = tutSprites[tutPage];
+        PlayGamesPlatform.Instance.ReportProgress(
+            GPGSIds.achievement_back_to_class,
+            100.0f, (bool success) => {
+        });
 
 	}
 	public void tutorial_right()
@@ -376,6 +388,10 @@ public class play : MonoBehaviour {
 			messageSpr.sprite = messageSprites[1];
 			ui_ghostRepellant.gameObject.SetActive(true);
 			isGhost = true;
+			PlayGamesPlatform.Instance.ReportProgress(
+                GPGSIds.achievement_boo,
+                100.0f, (bool success) => {
+            });	
 		}
 		else
 		{
@@ -475,7 +491,7 @@ public class play : MonoBehaviour {
 					hatArr[counterHats] = 3;
 					counterHats += 1;
 				}
-				if (timer > 35)
+				if (timer > 30)
 				{
 					lm = PlayerPrefs.GetInt("u_skins3", 0);
 					if (lm == 0)
@@ -509,6 +525,10 @@ public class play : MonoBehaviour {
 					}
 					if (timer > 60)
 					{
+		            	PlayGamesPlatform.Instance.ReportProgress(
+			                GPGSIds.achievement_grand_ol_minute,
+			                100.0f, (bool success) => {
+			            });
 						lm = PlayerPrefs.GetInt("u_hats8", 0);
 						if (lm == 0)
 						{
@@ -576,16 +596,6 @@ public class play : MonoBehaviour {
 							}
 							if (timer > 240)
 							{
-								lm = PlayerPrefs.GetInt("u_skins6", 0);
-								if (lm == 0)
-								{
-									unlocked = true;
-									b_fish = true;
-									PlayerPrefs.SetInt("u_skins6", 1);
-
-									fishArr[counterFish] = 6;
-									counterFish += 1;
-								}
 								lm = PlayerPrefs.GetInt("u_hats11", 0);
 								if (lm == 0)
 								{
@@ -606,6 +616,19 @@ public class play : MonoBehaviour {
 									hatArr[counterHats] = 12;
 									counterHats += 1;
 								}
+								if (timer >= 360)
+								{
+									lm = PlayerPrefs.GetInt("u_skins6", 0);
+									if (lm == 0)
+									{
+										unlocked = true;
+										b_fish = true;
+										PlayerPrefs.SetInt("u_skins6", 1);
+
+										fishArr[counterFish] = 6;
+										counterFish += 1;
+									}
+								}
 							}
 						}
 					}
@@ -619,10 +642,43 @@ public class play : MonoBehaviour {
                 100.0f, (bool success) => {
             });
 		}
+		// Achievements
+		if (timer >= 90)
+		{
+            PlayGamesPlatform.Instance.ReportProgress(
+                GPGSIds.achievement_playing_right,
+                100.0f, (bool success) => {
+            });
+			if (timer >= 120)
+			{
+	            PlayGamesPlatform.Instance.ReportProgress(
+	                GPGSIds.achievement_the_great_hundred,
+	                100.0f, (bool success) => {
+	            });
+				if (timer >= 180)
+				{
+		            PlayGamesPlatform.Instance.ReportProgress(
+		                GPGSIds.achievement_180_your_way_out_of_the_hooks_way,
+		                100.0f, (bool success) => {
+		            });
+					if(timer >= 240)
+					{
+			            PlayGamesPlatform.Instance.ReportProgress(
+			                GPGSIds.achievement_maybe_you_should_take_a_break,
+			                100.0f, (bool success) => {
+			            });
+					}
+				}
+			}
+		}
 
 		// Death based unlockables
-		if (deaths >= 50)
+		if (deaths >= 100)
 		{
+            PlayGamesPlatform.Instance.ReportProgress(
+                GPGSIds.achievement_get_the_boot,
+                100.0f, (bool success) => {
+            });			
 			lm = PlayerPrefs.GetInt("u_skins9", 0);
 			if (lm == 0)
 			{
@@ -634,7 +690,7 @@ public class play : MonoBehaviour {
 				counterFish += 1;
 			}
 		}
-		else if (deaths >= 40)
+		else if (deaths >= 50)
 		{			
 			lm = PlayerPrefs.GetInt("u_skins7", 0);
 			if (lm == 0)

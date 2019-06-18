@@ -118,7 +118,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 11
+  bundleVersion: 12
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -146,16 +146,16 @@ PlayerSettings:
   protectGraphicsMemory: 0
   useHDRDisplay: 0
   m_ColorGamuts: 00000000
-  targetPixelDensity: 30
-  resolutionScalingMode: 0
-  androidSupportedAspectRatio: 1
-  androidMaxAspectRatio: 2.1
+  targetPixelDensity: 1000
+  resolutionScalingMode: 1
+  androidSupportedAspectRatio: 2
+  androidMaxAspectRatio: 9.16
   applicationIdentifier:
     Android: com.DarkShotStudios.FishinHats
     iOS: com.DarkShotStudios.FishinHats
   buildNumber:
     iOS: 0.6
-  AndroidBundleVersionCode: 11
+  AndroidBundleVersionCode: 12
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -244,7 +244,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Alec/Documents/GitHub/project_FISH/keystore.keystore
+  AndroidKeystoreName: C:/Users/zarof/Documents/Projects/project_FISH/keystore.keystore
   AndroidKeyaliasName: darkshot studios
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1

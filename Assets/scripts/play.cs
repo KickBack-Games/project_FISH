@@ -525,6 +525,7 @@ public class play : MonoBehaviour {
 					}
 					if (timer > 60)
 					{
+
 		            	PlayGamesPlatform.Instance.ReportProgress(
 			                GPGSIds.achievement_grand_ol_minute,
 			                100.0f, (bool success) => {

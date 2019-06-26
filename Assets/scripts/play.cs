@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using GooglePlayGames;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
@@ -65,6 +66,7 @@ public class play : MonoBehaviour {
 	{
 		setSettingsText();
 		Screen.SetResolution(1080, 1920, true);
+        GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
 		// Keep these texts from overlapping with buttons in menu
 		obj_txt_hs.SetActive(false);
 		obj_txt_score.SetActive(false);
@@ -638,11 +640,18 @@ public class play : MonoBehaviour {
 		}
 		else
 		{
+#if UNITY_ANDROID
             PlayGamesPlatform.Instance.ReportProgress(
                 GPGSIds.achievement_participation_trophy,
                 100.0f, (bool success) => {
             });
-		}
+#endif
+#if UNITY_IOS
+            Social.ReportProgress("participation_trophy", 100, (result) => {
+                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+            });
+#endif
+        }
 		// Achievements
 		if (timer >= 90)
 		{

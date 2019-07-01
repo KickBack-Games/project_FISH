@@ -7,6 +7,7 @@ using GooglePlayGames.BasicApi;
 public class GooglePlayLogin : MonoBehaviour 
 {
 	public GameObject leaderBoard;
+    #if UNITY_ANDROID
 	// Use this for initialization
 	void Start () 
 	{
@@ -66,4 +67,5 @@ public class GooglePlayLogin : MonoBehaviour
         }
         else {        }
     }
+#endif
 }

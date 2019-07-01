@@ -223,10 +223,12 @@ public class play : MonoBehaviour {
 
 		if ((PlayerPrefs.GetInt("Hat") == 5) && (PlayerPrefs.GetInt("Fish") == 7))
 		{
+            #if UNITY_ANDROID
 			PlayGamesPlatform.Instance.ReportProgress(
                 GPGSIds.achievement_shark_tale,
                 100.0f, (bool success) => {
             });	
+#endif
 		}
 	}
 	public void Paid() 
@@ -273,10 +275,12 @@ public class play : MonoBehaviour {
 		inSettings = false;
 		tutPage = 0;
 		tutSpr.sprite = tutSprites[tutPage];
+#if UNITY_ANDROID
         PlayGamesPlatform.Instance.ReportProgress(
             GPGSIds.achievement_back_to_class,
             100.0f, (bool success) => {
         });
+#endif
 
 	}
 	public void tutorial_right()
@@ -390,10 +394,12 @@ public class play : MonoBehaviour {
 			messageSpr.sprite = messageSprites[1];
 			ui_ghostRepellant.gameObject.SetActive(true);
 			isGhost = true;
+            #if UNITY_ANDROID
 			PlayGamesPlatform.Instance.ReportProgress(
                 GPGSIds.achievement_boo,
                 100.0f, (bool success) => {
             });	
+#endif
 		}
 		else
 		{
@@ -527,11 +533,12 @@ public class play : MonoBehaviour {
 					}
 					if (timer > 60)
 					{
-
+                        #if UNITY_ANDROID
 		            	PlayGamesPlatform.Instance.ReportProgress(
 			                GPGSIds.achievement_grand_ol_minute,
 			                100.0f, (bool success) => {
 			            });
+#endif
 						lm = PlayerPrefs.GetInt("u_hats8", 0);
 						if (lm == 0)
 						{
@@ -655,28 +662,36 @@ public class play : MonoBehaviour {
 		// Achievements
 		if (timer >= 90)
 		{
+            #if UNITY_ANDROID
             PlayGamesPlatform.Instance.ReportProgress(
                 GPGSIds.achievement_playing_right,
                 100.0f, (bool success) => {
             });
+#endif
 			if (timer >= 120)
 			{
+                #if UNITY_ANDROID
 	            PlayGamesPlatform.Instance.ReportProgress(
 	                GPGSIds.achievement_the_great_hundred,
 	                100.0f, (bool success) => {
 	            });
+#endif
 				if (timer >= 180)
 				{
+                    #if UNITY_ANDROID
 		            PlayGamesPlatform.Instance.ReportProgress(
 		                GPGSIds.achievement_180_your_way_out_of_the_hooks_way,
 		                100.0f, (bool success) => {
 		            });
+#endif
 					if(timer >= 240)
 					{
+                        #if UNITY_ANDROID
 			            PlayGamesPlatform.Instance.ReportProgress(
 			                GPGSIds.achievement_maybe_you_should_take_a_break,
 			                100.0f, (bool success) => {
 			            });
+#endif
 					}
 				}
 			}
@@ -685,10 +700,12 @@ public class play : MonoBehaviour {
 		// Death based unlockables
 		if (deaths >= 100)
 		{
+            #if UNITY_ANDROID
             PlayGamesPlatform.Instance.ReportProgress(
                 GPGSIds.achievement_get_the_boot,
                 100.0f, (bool success) => {
-            });			
+            });	
+#endif
 			lm = PlayerPrefs.GetInt("u_skins9", 0);
 			if (lm == 0)
 			{
@@ -1139,7 +1156,8 @@ public class play : MonoBehaviour {
 	{
 		int timeVar = Mathf.RoundToInt(timer);
 		PlayerPrefs.SetFloat("Highscore", timeVar);
-		if (PlayGamesPlatform.Instance.localUser.authenticated)
+#if UNITY_ANDROID
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
         {
             // Note: make sure to add 'using GooglePlayGames'
             PlayGamesPlatform.Instance.ReportScore(timeVar,
@@ -1149,6 +1167,7 @@ public class play : MonoBehaviour {
                     
                 });
         }
+#endif
 	}
 	void tictoc(float time)
 	{

@@ -154,7 +154,7 @@ PlayerSettings:
     Android: com.DarkShotStudios.FishinHats
     iOS: com.DarkShotStudios.FishinHats
   buildNumber:
-    iOS: 0.6
+    iOS: 0.7
   AndroidBundleVersionCode: 11
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
@@ -229,7 +229,7 @@ PlayerSettings:
   metalEditorSupport: 1
   metalAPIValidation: 1
   iOSRenderExtraFrameOnPause: 0
-  appleDeveloperTeamID: 
+  appleDeveloperTeamID: Q48M6B65W6
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 0

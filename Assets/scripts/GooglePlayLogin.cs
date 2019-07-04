@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms.GameCenter;
 
 public class GooglePlayLogin : MonoBehaviour 
 {
@@ -68,4 +69,59 @@ public class GooglePlayLogin : MonoBehaviour
         else {        }
     }
 #endif
+    /****************************************************************IOS*************************************************/
+    #if UNITY_IOS
+	void Start () 
+	{
+		
+        Social.localUser.Authenticate(success => {
+            if (success)
+            {
+                Debug.Log("Authentication successful");
+                string userInfo = "Username: " + Social.localUser.userName +
+                    "\nUser ID: " + Social.localUser.id +
+                    "\nIsUnderage: " + Social.localUser.underage;
+                Debug.Log(userInfo);
+            }
+            else
+                Debug.Log("Authentication failed");
+        });
+	}
+	public void Update() {
+		
+        leaderBoard.SetActive(Social.localUser.authenticated);
+    }
+
+	public void SignIn() {
+        Social.localUser.Authenticate(success => {
+            if (success)
+            {
+                Debug.Log("Authentication successful");
+                string userInfo = "Username: " + Social.localUser.userName +
+                    "\nUser ID: " + Social.localUser.id +
+                    "\nIsUnderage: " + Social.localUser.underage;
+                Debug.Log(userInfo);
+            }
+            else
+            {
+            	ShowAchievements();
+            }
+        });
+	}
+
+	public void SignInCallback(bool success) {
+        if (success) {
+           
+        } else {
+        }
+    }
+
+    public void ShowAchievements() {
+        Social.ShowAchievementsUI();
+    }
+
+    public void ShowLeaderboards() {
+        Social.ShowLeaderboardUI();
+    }
+    #endif
 }

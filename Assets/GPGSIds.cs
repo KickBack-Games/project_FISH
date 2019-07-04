@@ -24,6 +24,7 @@
 
 public static class GPGSIds
 {
+        public const string achievement_you_win = "CgkI7_LWy9QOEAIQDQ"; // <GPGSID>
         public const string achievement_the_great_hundred = "CgkI7_LWy9QOEAIQBg"; // <GPGSID>
         public const string achievement_boo = "CgkI7_LWy9QOEAIQCQ"; // <GPGSID>
         public const string achievement_grand_ol_minute = "CgkI7_LWy9QOEAIQBA"; // <GPGSID>

@@ -61,25 +61,14 @@ public class play : MonoBehaviour {
 	        inSettings = false;
 	        inTutorial = false;
     	}
-
-        Social.localUser.Authenticate(success => {
-            if (success)
-            {
-                Debug.Log("Authentication successful");
-                string userInfo = "Username: " + Social.localUser.userName +
-                    "\nUser ID: " + Social.localUser.id +
-                    "\nIsUnderage: " + Social.localUser.underage;
-                Debug.Log(userInfo);
-            }
-            else
-                Debug.Log("Authentication failed");
-        });
     }
 	void Start () 
 	{
 		setSettingsText();
 		Screen.SetResolution(1080, 1920, true);
+
         GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
+        
 		// Keep these texts from overlapping with buttons in menu
 		obj_txt_hs.SetActive(false);
 		obj_txt_score.SetActive(false);
@@ -242,6 +231,11 @@ public class play : MonoBehaviour {
                 100.0f, (bool success) => {
             });	
 #endif
+            #if UNITY_IOS
+            Social.ReportProgress("shark_tale", 100, (result) => {
+                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+            });
+#endif
 		}
 	}
 	public void Paid() 
@@ -292,6 +286,11 @@ public class play : MonoBehaviour {
         PlayGamesPlatform.Instance.ReportProgress(
             GPGSIds.achievement_back_to_class,
             100.0f, (bool success) => {
+        });
+#endif
+#if UNITY_IOS
+        Social.ReportProgress("back_to_class", 100, (result) => {
+            Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
         });
 #endif
 
@@ -413,6 +412,11 @@ public class play : MonoBehaviour {
                 100.0f, (bool success) => {
             });	
 #endif
+	        #if UNITY_IOS
+            Social.ReportProgress("boo", 100, (result) => {
+                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+            });
+#endif
 		}
 		else
 		{
@@ -514,6 +518,18 @@ public class play : MonoBehaviour {
 				}
 				if (timer > 30)
 				{
+					#if UNITY_ANDROID
+			            PlayGamesPlatform.Instance.ReportProgress(
+			                GPGSIds.achievement_the_more_the_merrier,
+			                100.0f, (bool success) => {
+			            });
+#endif
+					#if UNITY_IOS
+			            Social.ReportProgress("the_more_the_merrier", 100, (result) => {
+			                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+			            });
+#endif
+        
 					lm = PlayerPrefs.GetInt("u_skins3", 0);
 					if (lm == 0)
 					{
@@ -550,6 +566,11 @@ public class play : MonoBehaviour {
 		            	PlayGamesPlatform.Instance.ReportProgress(
 			                GPGSIds.achievement_grand_ol_minute,
 			                100.0f, (bool success) => {
+			            });
+#endif
+            			#if UNITY_IOS
+			            Social.ReportProgress("grand_ol_minute", 100, (result) => {
+			                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
 			            });
 #endif
 						lm = PlayerPrefs.GetInt("u_hats8", 0);
@@ -681,12 +702,22 @@ public class play : MonoBehaviour {
                 100.0f, (bool success) => {
             });
 #endif
+            #if UNITY_IOS
+            Social.ReportProgress("playing_right", 100, (result) => {
+                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+            });
+#endif
 			if (timer >= 120)
 			{
                 #if UNITY_ANDROID
 	            PlayGamesPlatform.Instance.ReportProgress(
 	                GPGSIds.achievement_the_great_hundred,
 	                100.0f, (bool success) => {
+	            });
+#endif
+	            #if UNITY_IOS
+	            Social.ReportProgress("plus_20", 100, (result) => {
+	                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
 	            });
 #endif
 				if (timer >= 180)
@@ -697,6 +728,11 @@ public class play : MonoBehaviour {
 		                100.0f, (bool success) => {
 		            });
 #endif
+		            #if UNITY_IOS
+		            Social.ReportProgress("180_your_way_out_of_the_hooks", 100, (result) => {
+		                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+		            });
+#endif
 					if(timer >= 240)
 					{
                         #if UNITY_ANDROID
@@ -705,6 +741,25 @@ public class play : MonoBehaviour {
 			                100.0f, (bool success) => {
 			            });
 #endif
+				        #if UNITY_IOS
+			            Social.ReportProgress("take_a_break", 100, (result) => {
+			                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+			            });
+#endif
+			            if(timer >= 999)
+			            {
+				            #if UNITY_ANDROID
+				            PlayGamesPlatform.Instance.ReportProgress(
+				                GPGSIds.achievement_you_win,
+				                100.0f, (bool success) => {
+				            });
+#endif
+        		            #if UNITY_IOS
+				            Social.ReportProgress("you_win", 100, (result) => {
+				                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+				            });
+#endif
+			            }
 					}
 				}
 			}
@@ -718,6 +773,11 @@ public class play : MonoBehaviour {
                 GPGSIds.achievement_get_the_boot,
                 100.0f, (bool success) => {
             });	
+#endif
+        	#if UNITY_IOS
+            Social.ReportProgress("get_the_boot", 100, (result) => {
+                Debug.Log(result ? "Reported achievement" : "Failed to report achievement");
+            });
 #endif
 			lm = PlayerPrefs.GetInt("u_skins9", 0);
 			if (lm == 0)
@@ -1169,18 +1229,7 @@ public class play : MonoBehaviour {
 	{
 		int timeVar = Mathf.RoundToInt(timer);
 		PlayerPrefs.SetFloat("Highscore", timeVar);
-#if UNITY_ANDROID
-        if (PlayGamesPlatform.Instance.localUser.authenticated)
-        {
-            // Note: make sure to add 'using GooglePlayGames'
-            PlayGamesPlatform.Instance.ReportScore(timeVar,
-                GPGSIds.leaderboard_swimmin_time,
-                (bool success) =>
-                {
-                    
-                });
-        }
-#endif
+
 	}
 	void tictoc(float time)
 	{
@@ -1304,7 +1353,26 @@ public class play : MonoBehaviour {
 		{
 			setHighScore();
 		}
+		// Send to leaderboard
+		Mathf.RoundToInt(timer);
+#if UNITY_ANDROID
 
+        if (PlayGamesPlatform.Instance.localUser.authenticated)
+        {
+            // Note: make sure to add 'using GooglePlayGames'
+            PlayGamesPlatform.Instance.ReportScore(Mathf.RoundToInt(timer),
+                GPGSIds.leaderboard_swimmin_time,
+                (bool success) =>
+                {
+                    
+                });
+        }
+#endif
+#if UNITY_IOS
+        Social.ReportScore(Mathf.RoundToInt(timer), "fishin_leaderboard", success => {
+            Debug.Log(success ? "Reported score successfully" : "Failed to report score");
+        });
+#endif
 		setTimerText();
 		updateRecords(timer);
 		trophyBG = true;

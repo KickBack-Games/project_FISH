@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+#if UNITY_ANDROID
 using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+#endif
+
+#if UNITY_IOS
 using UnityEngine.SocialPlatforms.GameCenter;
+#endif
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
@@ -67,8 +74,9 @@ public class play : MonoBehaviour {
 		setSettingsText();
 		Screen.SetResolution(1080, 1920, true);
 
+		#if UNITY_IOS
         GameCenterPlatform.ShowDefaultAchievementCompletionBanner(true);
-        
+        #endif
 		// Keep these texts from overlapping with buttons in menu
 		obj_txt_hs.SetActive(false);
 		obj_txt_score.SetActive(false);

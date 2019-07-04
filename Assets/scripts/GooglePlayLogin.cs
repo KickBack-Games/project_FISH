@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+
+#if UNITY_ANDROID
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
-using UnityEngine.SocialPlatforms.GameCenter;
+#endif
 
+#if UNITY_IOS
+using UnityEngine.SocialPlatforms.GameCenter;
+#endif
 public class GooglePlayLogin : MonoBehaviour 
 {
 	public GameObject leaderBoard;
@@ -88,7 +93,7 @@ public class GooglePlayLogin : MonoBehaviour
         });
 	}
 	public void Update() {
-		
+
         leaderBoard.SetActive(Social.localUser.authenticated);
     }
 

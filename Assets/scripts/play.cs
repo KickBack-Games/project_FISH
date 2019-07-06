@@ -1060,7 +1060,7 @@ public class play : MonoBehaviour {
 	{
 		ui_toMenu.gameObject.SetActive(true);
 		titleObj.SetActive(true);
-		titleObj.transform.position = new Vector2(0, 3.25f);
+		titleObj.transform.position = new Vector2(0, 3.4f);
 		shelf_GO.SetActive(true);
 		shelf_GO.transform.parent = cam.transform;
 		shelf_GO.transform.position = new Vector2(0f, .34f);
@@ -1340,11 +1340,11 @@ public class play : MonoBehaviour {
 
 	public void rate() 
 	{
-#if UNITY_ANDROID
- Application.OpenURL("market://details?id=com.DarkShotStudios.FishinHats");
-#elif UNITY_IPHONE
+		#if UNITY_ANDROID
+ 		Application.OpenURL("market://details?id=com.DarkShotStudios.FishinHats");
+		#elif UNITY_IPHONE
         Application.OpenURL("itms-apps://itunes.apple.com/app/1455798300");
-#endif
+		#endif
     }
 
     public void OnScreen() 

@@ -98,6 +98,16 @@ public class GooglePlayLogin : MonoBehaviour
     }
 
 	public void SignIn() {
+		if (!Social.localUser.authenticated)
+		{
+			Social.localUser.Authenticate();
+
+		}
+		else
+		{
+			ShowAchievements();
+		}
+		/*
         Social.localUser.Authenticate(success => {
             if (success)
             {
@@ -112,6 +122,7 @@ public class GooglePlayLogin : MonoBehaviour
             	ShowAchievements();
             }
         });
+        */
 	}
 
 	public void SignInCallback(bool success) {

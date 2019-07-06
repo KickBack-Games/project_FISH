@@ -1340,13 +1340,18 @@ public class play : MonoBehaviour {
 
 	public void rate() 
 	{
-		Application.OpenURL("https://play.google.com/apps/testing/com.DarkShotStudios.FishinHats");
-		//Application.OpenURL ("market://details?id=" + Application.productName);
-	}
+#if UNITY_ANDROID
+ Application.OpenURL("market://details?id=com.DarkShotStudios.FishinHats");
+#elif UNITY_IPHONE
+        Application.OpenURL("itms-apps://itunes.apple.com/app/1455798300");
+#endif
+    }
 
     public void OnScreen() 
     {
-        ScreenCapture.CaptureScreenshot(Application.persistentDataPath + @"/screen.png");
+        string path = System.IO.Path.Combine(Application.persistentDataPath, "screen.png");
+        ScreenCapture.CaptureScreenshot(path);
+
         StartCoroutine(shareDelay());
     }
 
@@ -1411,7 +1416,9 @@ public class play : MonoBehaviour {
 		new NativeShare().AddFile( filePath ).SetSubject( "Play Fish'n Hats" ).SetText( "Bet you can't beat my highscore!" ).Share();
         */
         sharefile = new NativeShare();
-        sharefile.AddFile(Application.persistentDataPath + @"/screen.png");
+        string path = System.IO.Path.Combine(Application.persistentDataPath, "screen.png");
+        sharefile.AddFile(path);
+        //sharefile.AddFile(Application.persistentDataPath + @"/screen.png");
         sharefile.Share();
     }
 }

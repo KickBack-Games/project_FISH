@@ -154,8 +154,8 @@ PlayerSettings:
     Android: com.DarkShotStudios.FishinHats
     iOS: com.DarkShotStudios.FishinHats
   buildNumber:
-    iOS: 1
-  AndroidBundleVersionCode: 14
+    iOS: 1.2
+  AndroidBundleVersionCode: 15
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -244,7 +244,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 1
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Alec/Documents/GitHub/project_FISH/keystore.keystore
+  AndroidKeystoreName: C:/Users/zarof/Documents/Projects/project_FISH/keystore.keystore
   AndroidKeyaliasName: darkshot studios
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1
@@ -750,7 +750,12 @@ PlayerSettings:
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 1
   webGLLinkerTarget: 1
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: NATIVE_PLUGINS_LITE_VERSION;USES_ADDRESS_BOOK;USES_NETWORK_CONNECTIVITY;USES_SHARING
+    4: NATIVE_PLUGINS_LITE_VERSION;USES_ADDRESS_BOOK;USES_NETWORK_CONNECTIVITY;USES_SHARING
+    7: NATIVE_PLUGINS_LITE_VERSION;USES_ADDRESS_BOOK;USES_NETWORK_CONNECTIVITY;USES_SHARING
+    14: NATIVE_PLUGINS_LITE_VERSION;USES_ADDRESS_BOOK;USES_NETWORK_CONNECTIVITY;USES_SHARING
+    25: NATIVE_PLUGINS_LITE_VERSION;USES_ADDRESS_BOOK;USES_NETWORK_CONNECTIVITY;USES_SHARING
   platformArchitecture: {}
   scriptingBackend:
     Android: 0

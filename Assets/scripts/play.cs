@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using VoxelBusters.NativePlugins;
 
 #if UNITY_ANDROID
 using GooglePlayGames;
@@ -1349,10 +1350,25 @@ public class play : MonoBehaviour {
 
     public void OnScreen() 
     {
-        string path = System.IO.Path.Combine(Application.persistentDataPath, "screen.png");
-        ScreenCapture.CaptureScreenshot(path);
+        //string path = System.IO.Path.Combine(Application.persistentDataPath, "screen.png");
+        //ScreenCapture.CaptureScreenshot(path);
+        // Create share sheet
+        ShareSheet _shareSheet = new ShareSheet();
+        _shareSheet.Text = "Think you can beat my score?";
 
-        StartCoroutine(shareDelay());
+        // Attaching screenshot here
+        _shareSheet.AttachScreenShot();
+
+        // Show composer
+        NPBinding.UI.SetPopoverPointAtLastTouchPosition();
+        NPBinding.Sharing.ShowView(_shareSheet, FinishedSharing);
+        //StartCoroutine(shareDelay());
+    }
+
+    void FinishedSharing(eShareResult _result)
+    {
+        Debug.Log("Finished sharing");
+        Debug.Log("Share Result = " + _result);
     }
 
     IEnumerator onLost()

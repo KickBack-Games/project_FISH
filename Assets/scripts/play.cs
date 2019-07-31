@@ -16,7 +16,7 @@ using UnityEngine.SocialPlatforms.GameCenter;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
-					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj;
+					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -69,6 +69,10 @@ public class play : MonoBehaviour {
 	        inSettings = false;
 	        inTutorial = false;
     	}
+        if (PlayerPrefs.GetInt("AdFree",0)==1)
+        {
+            iapAds.SetActive(false);
+        }
     }
 	void Start () 
 	{
@@ -262,7 +266,7 @@ public class play : MonoBehaviour {
 	public void toMenu()
 	{
 		//show every 3rd game
-		if (PlayerPrefs.GetInt("Paid", 0) == 0)
+		if (PlayerPrefs.GetInt("AdFree", 0) == 0)
 		{
 			int num = PlayerPrefs.GetInt("AdCount", 0);
 			if (num > 2)
@@ -1369,6 +1373,11 @@ public class play : MonoBehaviour {
     {
         Debug.Log("Finished sharing");
         Debug.Log("Share Result = " + _result);
+    }
+
+    public void IapAds()
+    {
+        PlayerPrefs.SetInt("AdFree",1);
     }
 
     IEnumerator onLost()

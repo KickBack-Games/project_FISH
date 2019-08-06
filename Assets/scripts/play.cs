@@ -214,6 +214,7 @@ public class play : MonoBehaviour {
 	{
 		inMenu = false;
 		pm.SFX = PlayerPrefs.GetInt("MuteSFX", 1);
+        pm.MUSIC = PlayerPrefs.GetInt("MuteMusic", 1);
 
 		// Save
 		PlayerPrefs.SetInt("Fish", fishChoose);
@@ -1285,7 +1286,7 @@ public class play : MonoBehaviour {
 		txtTimePlayed.text = "";
 	}
 
-	/*public void muteMusic()
+	public void muteMusic()
 	{
 		int x = PlayerPrefs.GetInt("MuteMusic", 1);
 		if(x == 1)
@@ -1300,7 +1301,7 @@ public class play : MonoBehaviour {
 			FindObjectOfType<SM>().Play("Theme");
 			ui_mute_music.GetComponent<Image>().sprite = musicOff;
 		}
-	}*/
+	}
 
 	public void muteSFX() 
 	{

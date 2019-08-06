@@ -36,6 +36,7 @@ public class playerMovement : MonoBehaviour
 	public GameObject hearts,bubble,tap;
 	private bool move, onlyOnce;
 	public int SFX;
+    public int MUSIC;
 	public float spawner;
 
 	// Use this for initialization

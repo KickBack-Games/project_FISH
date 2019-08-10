@@ -86,14 +86,18 @@ public class playerMovement : MonoBehaviour
 					FindObjectOfType<SM>().Play("lost");
 					onlyOnce = true;
 				}
-				pos = new Vector2(pos.x, 5.8f);
-				hookRotation();
-				life = 0;
-				
+
 				if (pScript.trophyBG)
 				{
 					pos = new Vector2(0, -3.0f);
 					move = false;
+				}
+				else
+				{
+					pos = new Vector2(pos.x, 5.8f);
+					hookRotation();
+					life = 0;
+					
 				}
 			}
 			else

@@ -69,7 +69,8 @@ public class play : MonoBehaviour {
 	        inSettings = false;
 	        inTutorial = false;
     	}
-        if (PlayerPrefs.GetInt("AdFree",0)==1)
+    	
+        if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
             iapAds.SetActive(false);
         }
@@ -1065,12 +1066,16 @@ public class play : MonoBehaviour {
 	void enableLost()
 	{
 		ui_toMenu.gameObject.SetActive(true);
+		if (PlayerPrefs.GetInt("AdFree", 0) == 1)
+		{
+			ui_toMenu.transform.position = new Vector2(0, ui_toMenu.transform.position.y);
+		}
 		titleObj.SetActive(true);
 		titleObj.transform.position = new Vector2(0, 3.4f);
 		shelf_GO.SetActive(true);
 		shelf_GO.transform.parent = cam.transform;
 		shelf_GO.transform.position = new Vector2(0f, .34f);
-		ui_share.transform.position = new Vector2(1.6f, -3.96f);
+		ui_share.transform.position = new Vector2(1.55f, -3.96f);
 	}
 	void disableLost()
 	{
@@ -1386,7 +1391,8 @@ public class play : MonoBehaviour {
     	yield return new WaitForSeconds(1.5f);
 		enableLost();
 		// Record things only once!
-
+		trophyBG = true;
+		trophyBGobj.SetActive(true);
 
 		if (Mathf.Round(timer) > Mathf.Round(PlayerPrefs.GetFloat("Highscore", 0)))
 		{
@@ -1414,8 +1420,7 @@ public class play : MonoBehaviour {
 #endif
 		setTimerText();
 		updateRecords(timer);
-		trophyBG = true;
-		trophyBGobj.SetActive(true);
+
     }
 
     IEnumerator pauseDelay()

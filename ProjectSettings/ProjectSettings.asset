@@ -155,7 +155,7 @@ PlayerSettings:
     iOS: com.DarkShotStudios.FishinHats
   buildNumber:
     iOS: 1.4
-  AndroidBundleVersionCode: 18
+  AndroidBundleVersionCode: 21
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -241,12 +241,12 @@ PlayerSettings:
   clonedFromGUID: 00000000000000000000000000000000
   templatePackageId: 
   templateDefaultScene: 
-  AndroidTargetArchitectures: 5
+  AndroidTargetArchitectures: 7
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Alec/Documents/GitHub/project_FISH/keystore.keystore
+  AndroidKeystoreName: C:/Users/zarof/Documents/Projects/project_FISH/keystore.keystore
   AndroidKeyaliasName: darkshot studios
-  AndroidBuildApkPerCpuArchitecture: 1
+  AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   AndroidEnableTango: 0
@@ -758,7 +758,7 @@ PlayerSettings:
     25: NATIVE_PLUGINS_LITE_VERSION;USES_ADDRESS_BOOK;USES_NETWORK_CONNECTIVITY;USES_SHARING
   platformArchitecture: {}
   scriptingBackend:
-    Android: 0
+    Android: 1
   il2cppCompilerConfiguration: {}
   incrementalIl2cppBuild: {}
   allowUnsafeCode: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Advertisements;
 using VoxelBusters.NativePlugins;
 
 #if UNITY_ANDROID
@@ -16,7 +17,7 @@ using UnityEngine.SocialPlatforms.GameCenter;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
-					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds;
+					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds, iapAds2;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -73,9 +74,16 @@ public class play : MonoBehaviour {
         if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
             iapAds.SetActive(false);
+            iapAds2.SetActive(false);
         }
+#if UNITY_IOS
+        Advertisement.Initialize("ca-app-pub-3897066097468868~3353672524");
+#endif
+#if UNITY_ANDROID
+        Advertisement.Initialize("ca-app-pub-3897066097468868~1524503965");
+#endif
     }
-	void Start () 
+    void Start () 
 	{
 		setSettingsText();
 		Screen.SetResolution(1080, 1920, true);

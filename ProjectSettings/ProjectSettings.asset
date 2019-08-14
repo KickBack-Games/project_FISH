@@ -154,8 +154,8 @@ PlayerSettings:
     Android: com.DarkShotStudios.FishinHats
     iOS: com.DarkShotStudios.FishinHats
   buildNumber:
-    iOS: 1.4
-  AndroidBundleVersionCode: 21
+    iOS: 1.5
+  AndroidBundleVersionCode: 22
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1

@@ -44,7 +44,7 @@ public class camBehvaior : MonoBehaviour
         	}
         	else if (pScript.inTutorial)
         	{
-        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 15.5f, -10);
+        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 15.9f, -10);
         		view = 4;
 
         	}

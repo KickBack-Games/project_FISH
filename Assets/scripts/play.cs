@@ -70,7 +70,6 @@ public class play : MonoBehaviour {
 	        inSettings = false;
 	        inTutorial = false;
     	}
-    	
         if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
             iapAds.SetActive(false);

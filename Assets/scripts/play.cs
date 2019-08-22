@@ -70,6 +70,7 @@ public class play : MonoBehaviour {
 	        inSettings = false;
 	        inTutorial = false;
     	}
+    	
         if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
             iapAds.SetActive(false);
@@ -274,8 +275,9 @@ public class play : MonoBehaviour {
 	}
 	public void toMenu()
 	{
-		//show every 3rd game
-		if (PlayerPrefs.GetInt("AdFree", 0) == 0)
+        //show every 3rd game
+        ads.ShowRewardedAd();
+        if (PlayerPrefs.GetInt("AdFree", 0) == 0)
 		{
 			int num = PlayerPrefs.GetInt("AdCount", 0);
 			if (num > 2)

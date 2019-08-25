@@ -73,8 +73,8 @@ public class play : MonoBehaviour {
     	
         if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
-            //iapAds.SetActive(false);
-            //iapAds2.SetActive(false);
+            iapAds.SetActive(false);
+            iapAds2.SetActive(false);
         }
     }
     void Start () 
@@ -269,31 +269,38 @@ public class play : MonoBehaviour {
 	public void toMenu()
 	{
         //show every 3rd game
-        Advertisement.Show("video");
-
-
+        if (PlayerPrefs.GetInt("AdFree", 0) == 0)
+        {
+            int num = PlayerPrefs.GetInt("AdCount", 0);
+            if (num > 2)
+            {
+                num = 0;
+                Advertisement.Show("video");
+            }
+            else
+                num += 1;
+            PlayerPrefs.SetInt("AdCount", num);
+        }
+        Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
+        
     }
     public  IEnumerator ShowAd()
     {
         yield return new WaitForSeconds(1);
-        if (Advertisement.IsReady())
-        {
-            
-        }
-        else { StartCoroutine(ShowAd()); }
-                if (PlayerPrefs.GetInt("AdFree", 0) == 0)
+        if (PlayerPrefs.GetInt("AdFree", 0) == 0)
 		{
 			int num = PlayerPrefs.GetInt("AdCount", 0);
 			if (num > 2)
 			{
 				num = 0;
-                ShowAd();
+                
             }
 			else
-				num += 1;
-			PlayerPrefs.SetInt("AdCount", num);
+            {
+                num += 1;
+                PlayerPrefs.SetInt("AdCount", num);
+            }
 		}
-
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
     }
     public void settings()

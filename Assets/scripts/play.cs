@@ -73,15 +73,9 @@ public class play : MonoBehaviour {
     	
         if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
-            iapAds.SetActive(false);
-            iapAds2.SetActive(false);
+            //iapAds.SetActive(false);
+            //iapAds2.SetActive(false);
         }
-#if UNITY_IOS
-        Advertisement.Initialize("ca-app-pub-3897066097468868~3353672524");
-#endif
-#if UNITY_ANDROID
-        Advertisement.Initialize("ca-app-pub-3897066097468868~1524503965");
-#endif
     }
     void Start () 
 	{
@@ -182,7 +176,6 @@ public class play : MonoBehaviour {
 					ui_pause.gameObject.SetActive(false);
 					obj_life_stuff.SetActive(false);
 					obj_txt_time.SetActive(false);
-
 				}
 			}
 			else
@@ -276,24 +269,34 @@ public class play : MonoBehaviour {
 	public void toMenu()
 	{
         //show every 3rd game
-        ads.ShowRewardedAd();
-        if (PlayerPrefs.GetInt("AdFree", 0) == 0)
+        Advertisement.Show("video");
+
+
+    }
+    public  IEnumerator ShowAd()
+    {
+        yield return new WaitForSeconds(1);
+        if (Advertisement.IsReady())
+        {
+            
+        }
+        else { StartCoroutine(ShowAd()); }
+                if (PlayerPrefs.GetInt("AdFree", 0) == 0)
 		{
 			int num = PlayerPrefs.GetInt("AdCount", 0);
 			if (num > 2)
 			{
 				num = 0;
-				ads.ShowRewardedAd();
-			}
+                ShowAd();
+            }
 			else
 				num += 1;
 			PlayerPrefs.SetInt("AdCount", num);
 		}
 
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
-
-	}
-	public void settings()
+    }
+    public void settings()
 	{
 		setSettingsText();
 		PlayerPrefs.SetInt("Fish", fishChoose);

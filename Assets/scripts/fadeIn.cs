@@ -16,7 +16,7 @@ public class fadeIn : MonoBehaviour {
 	void Update()
 	{
 		if (i > 0f)
-			i -= .05f;
+			i -= .02f;
 		else
 			Destroy(this.gameObject);
 		sr.color = new Color(0f,0f,0f,i);

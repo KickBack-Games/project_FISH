@@ -26,7 +26,7 @@ allprojects {
             url "https://maven.google.com"
         }
         maven {
-            url "file:///C:/Users/zarof/Documents/Projects/project_FISH/Assets/GooglePlayGames/Editor/m2repository" // Assets/GooglePlayGames/Editor/GooglePlayGamesPluginDependencies.xml:11
+            url "file:///C:/Users/brand/Projects/project_FISH/Assets/GooglePlayGames/Editor/m2repository" // Assets/GooglePlayGames/Editor/GooglePlayGamesPluginDependencies.xml:11
         }
         mavenLocal()
         jcenter()

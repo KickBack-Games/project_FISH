@@ -154,8 +154,8 @@ PlayerSettings:
     Android: com.DarkShotStudios.FishinHats
     iOS: com.DarkShotStudios.FishinHats
   buildNumber:
-    iOS: 1.5
-  AndroidBundleVersionCode: 22
+    iOS: 2.0
+  AndroidBundleVersionCode: 30
   AndroidMinSdkVersion: 21
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 1
@@ -241,10 +241,10 @@ PlayerSettings:
   clonedFromGUID: 00000000000000000000000000000000
   templatePackageId: 
   templateDefaultScene: 
-  AndroidTargetArchitectures: 7
+  AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/zarof/Documents/Projects/project_FISH/keystore.keystore
+  AndroidKeystoreName: C:/Users/brand/Projects/project_FISH/keystore.keystore
   AndroidKeyaliasName: darkshot studios
   AndroidBuildApkPerCpuArchitecture: 0
   AndroidTVCompatibility: 1

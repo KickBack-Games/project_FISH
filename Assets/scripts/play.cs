@@ -17,7 +17,7 @@ using UnityEngine.SocialPlatforms.GameCenter;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
-					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds, iapAds2, h1, h2, h3, h4;
+					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds, iapAds2;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -70,6 +70,7 @@ public class play : MonoBehaviour {
 	        inSettings = false;
 	        inTutorial = false;
     	}
+    	
         if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
             iapAds.SetActive(false);
@@ -217,11 +218,6 @@ public class play : MonoBehaviour {
 		pm.SFX = PlayerPrefs.GetInt("MuteSFX", 1);
         pm.MUSIC = PlayerPrefs.GetInt("MuteMusic", 1);
 
-        // Activate hooks
-        h1.SetActive(true);
-        h2.SetActive(true);
-        h3.SetActive(true);
-        h4.SetActive(true);
 		// Save
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
@@ -335,6 +331,7 @@ public class play : MonoBehaviour {
 	}
 	public void tutorial_right()
 	{
+		print(tutPage);
 		if (tutPage < (tutSprites.Length - 1))
 			tutPage++;
 		tutSpr.sprite = tutSprites[tutPage];
@@ -344,6 +341,7 @@ public class play : MonoBehaviour {
 
 	public void tutorial_left()
 	{
+		print(tutPage);
 		if (tutPage > 0)
 			tutPage--;
 		tutSpr.sprite = tutSprites[tutPage];
@@ -374,6 +372,7 @@ public class play : MonoBehaviour {
 		ui_resetYes.gameObject.SetActive(false);
 		ui_back.gameObject.SetActive(true);
 		ui_rate.gameObject.SetActive(true);
+		ui_share.gameObject.SetActive(true);
 		ui_mute_music.gameObject.SetActive(true);
 		ui_mute_SFX.gameObject.SetActive(true);
 		ui_tutorial.gameObject.SetActive(true);
@@ -423,6 +422,7 @@ public class play : MonoBehaviour {
 		ui_resetNo.gameObject.SetActive(false);
 		ui_back.gameObject.SetActive(true);
 		ui_rate.gameObject.SetActive(true);
+		ui_share.gameObject.SetActive(true);
 		ui_mute_music.gameObject.SetActive(true);
 		ui_mute_SFX.gameObject.SetActive(true);
 		ui_tutorial.gameObject.SetActive(true);
@@ -462,6 +462,7 @@ public class play : MonoBehaviour {
 
 		ui_back.gameObject.SetActive(false);
 		ui_rate.gameObject.SetActive(false);
+		ui_share.gameObject.SetActive(false);
 		ui_mute_music.gameObject.SetActive(false);
 		ui_mute_SFX.gameObject.SetActive(false);
 		ui_tutorial.gameObject.SetActive(false);
@@ -1084,33 +1085,21 @@ public class play : MonoBehaviour {
 	void enableLost()
 	{
 		ui_toMenu.gameObject.SetActive(true);
-
-		// Bought... so get rid of ad button 
 		if (PlayerPrefs.GetInt("AdFree", 0) == 1)
 		{
 			ui_toMenu.transform.position = new Vector2(0, ui_toMenu.transform.position.y);
 		}
-		else // Not bought, so appear
-		{
-			ui_toMenu.transform.position = new Vector2(-1.36f, ui_toMenu.transform.position.y);
-			iapAds.SetActive(true);
-		}
 		titleObj.SetActive(true);
 		titleObj.transform.position = new Vector2(0, 3.4f);
-		titleObj.transform.localScale = new Vector2(1, 1);
 		shelf_GO.SetActive(true);
 		shelf_GO.transform.parent = cam.transform;
 		shelf_GO.transform.position = new Vector2(0f, .34f);
-		ui_share.gameObject.SetActive(true);
-		ui_share.transform.position = new Vector2(1.55f, -3.9f);
-
-		trophyBG = true;
-		trophyBGobj.SetActive(true);
+		ui_share.transform.position = new Vector2(1.55f, -3.96f);
 	}
 	void disableLost()
 	{
 		cam.transform.position = new Vector2(.75f,transform.position.y);
-		titleObj.transform.position = new Vector2(.75f, 3.5f);
+		titleObj.transform.position = new Vector2(.75f, 2.5f);
 		ui_toMenu.gameObject.SetActive(false);
 		ui_newOutfit.gameObject.SetActive(false);
 		ui_fish.gameObject.SetActive(false);
@@ -1421,6 +1410,8 @@ public class play : MonoBehaviour {
     	yield return new WaitForSeconds(1.5f);
 		enableLost();
 		// Record things only once!
+		trophyBG = true;
+		trophyBGobj.SetActive(true);
 
 		if (Mathf.Round(timer) > Mathf.Round(PlayerPrefs.GetFloat("Highscore", 0)))
 		{

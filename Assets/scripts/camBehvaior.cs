@@ -39,20 +39,20 @@ public class camBehvaior : MonoBehaviour
         {
         	if (pScript.inSettings)
         	{
-        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 10.75f, -10);
-        		view = 5.5f;
+        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 8f, -10);
+        		view = 4;
         	}
         	else if (pScript.inTutorial)
         	{
-        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 21.75f, -10);
-        		view = 5.5f;
+        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 15.5f, -10);
+        		view = 4;
 
         	}
         	else
         	{
         		// center on fish
         		pos = new Vector3(fish.transform.position.x, fish.transform.position.y, -10);
-        		view = 5.5f;
+        		view = 4;
         	}
         }
         else

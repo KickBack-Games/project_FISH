@@ -17,7 +17,7 @@ using UnityEngine.SocialPlatforms.GameCenter;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
-					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds, iapAds2;
+					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds, iapAds2, h1, h2, h3, h4;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -69,15 +69,20 @@ public class play : MonoBehaviour {
 	        inMenu = true;
 	        inSettings = false;
 	        inTutorial = false;
-    	}
-    	
+    	} 
         if (PlayerPrefs.GetInt("AdFree", 0) == 1)
         {
             iapAds.SetActive(false);
             iapAds2.SetActive(false);
         }
+        #if UNITY_IOS
+        	Advertisement.Initialize("ca-app-pub-3897066097468868~3353672524");
+		#endif
+		#if UNITY_ANDROID
+		    Advertisement.Initialize("ca-app-pub-3897066097468868~1524503965");
+		#endif
     }
-    void Start () 
+	void Start () 
 	{
 		setSettingsText();
 		Screen.SetResolution(1080, 1920, true);
@@ -176,6 +181,7 @@ public class play : MonoBehaviour {
 					ui_pause.gameObject.SetActive(false);
 					obj_life_stuff.SetActive(false);
 					obj_txt_time.SetActive(false);
+
 				}
 			}
 			else
@@ -224,6 +230,12 @@ public class play : MonoBehaviour {
 		txtLife.text = 100.ToString();
 		txtGameTimer.text = 0.ToString();
 		
+		// Activate hooks
+		h1.SetActive(true);
+		h2.SetActive(true);
+		h3.SetActive(true);
+		h4.SetActive(true);
+
 		// Texts
 		obj_txt_hs.SetActive(true);
 		obj_txt_time.SetActive(true);
@@ -268,42 +280,24 @@ public class play : MonoBehaviour {
 	}
 	public void toMenu()
 	{
-        //show every 3rd game
-        if (PlayerPrefs.GetInt("AdFree", 0) == 0)
-        {
-            int num = PlayerPrefs.GetInt("AdCount", 0);
-            if (num > 2)
-            {
-                num = 0;
-                Advertisement.Show("video");
-            }
-            else
-                num += 1;
-            PlayerPrefs.SetInt("AdCount", num);
-        }
-        Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
-        
-    }
-    public  IEnumerator ShowAd()
-    {
-        yield return new WaitForSeconds(1);
-        if (PlayerPrefs.GetInt("AdFree", 0) == 0)
+		// show every 3rd game
+		if (PlayerPrefs.GetInt("AdFree", 0) == 0)
 		{
 			int num = PlayerPrefs.GetInt("AdCount", 0);
 			if (num > 2)
 			{
 				num = 0;
-                
-            }
+				ads.ShowRewardedAd();
+			}
 			else
-            {
-                num += 1;
-                PlayerPrefs.SetInt("AdCount", num);
-            }
+				num += 1;
+			PlayerPrefs.SetInt("AdCount", num);
 		}
+
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
-    }
-    public void settings()
+
+	}
+	public void settings()
 	{
 		setSettingsText();
 		PlayerPrefs.SetInt("Fish", fishChoose);
@@ -1087,6 +1081,7 @@ public class play : MonoBehaviour {
 		ui_toMenu.gameObject.SetActive(true);
 		if (PlayerPrefs.GetInt("AdFree", 0) == 1)
 		{
+			iapAds2.SetActive(false);
 			ui_toMenu.transform.position = new Vector2(0, ui_toMenu.transform.position.y);
 		}
 		titleObj.SetActive(true);

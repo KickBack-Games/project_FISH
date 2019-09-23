@@ -23,7 +23,7 @@ public class messageDownBehavior : MonoBehaviour
 		{
 			if (pl.isGhost)
 			{
-				transform.localScale = new Vector2(-1.5f, 1.5f);
+				transform.localScale = new Vector2(-2f, 2f);
 			}
 			else
 			{
@@ -31,13 +31,13 @@ public class messageDownBehavior : MonoBehaviour
 				{
 					pl.messageSpr.sprite = pl.messageSprites[0];
 				}
-				if (transform.localScale.x < 1.5)
+				if (transform.localScale.x < 2)
 				{
 					transform.localScale = new Vector2(transform.localScale.x + xScale, transform.localScale.y);	
 				}
 				
 			}
-			if (transform.position.y > -6.45f)
+			if (transform.position.y > -7.45f)
 			{
 				transform.position = new Vector2(transform.position.x, transform.position.y + ySpd);
 				ySpd -= .01f;

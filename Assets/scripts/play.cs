@@ -284,7 +284,7 @@ public class play : MonoBehaviour {
 		if (PlayerPrefs.GetInt("AdFree", 0) == 0)
 		{
 			int num = PlayerPrefs.GetInt("AdCount", 0);
-			if (num > 2)
+			if (num > 3)
 			{
 				num = 0;
 				ads.ShowRewardedAd();
@@ -366,7 +366,6 @@ public class play : MonoBehaviour {
 		ui_resetYes.gameObject.SetActive(false);
 		ui_back.gameObject.SetActive(true);
 		ui_rate.gameObject.SetActive(true);
-		ui_share.gameObject.SetActive(true);
 		ui_mute_music.gameObject.SetActive(true);
 		ui_mute_SFX.gameObject.SetActive(true);
 		ui_tutorial.gameObject.SetActive(true);
@@ -416,7 +415,6 @@ public class play : MonoBehaviour {
 		ui_resetNo.gameObject.SetActive(false);
 		ui_back.gameObject.SetActive(true);
 		ui_rate.gameObject.SetActive(true);
-		ui_share.gameObject.SetActive(true);
 		ui_mute_music.gameObject.SetActive(true);
 		ui_mute_SFX.gameObject.SetActive(true);
 		ui_tutorial.gameObject.SetActive(true);
@@ -456,7 +454,6 @@ public class play : MonoBehaviour {
 
 		ui_back.gameObject.SetActive(false);
 		ui_rate.gameObject.SetActive(false);
-		ui_share.gameObject.SetActive(false);
 		ui_mute_music.gameObject.SetActive(false);
 		ui_mute_SFX.gameObject.SetActive(false);
 		ui_tutorial.gameObject.SetActive(false);
@@ -1085,16 +1082,16 @@ public class play : MonoBehaviour {
 			ui_toMenu.transform.position = new Vector2(0, ui_toMenu.transform.position.y);
 		}
 		titleObj.SetActive(true);
-		titleObj.transform.position = new Vector2(0, 3.4f);
+		titleObj.transform.position = new Vector2(0, 3.52f);
 		shelf_GO.SetActive(true);
 		shelf_GO.transform.parent = cam.transform;
 		shelf_GO.transform.position = new Vector2(0f, .34f);
-		ui_share.transform.position = new Vector2(1.55f, -3.96f);
+		ui_share.gameObject.SetActive(true);
 	}
 	void disableLost()
 	{
 		cam.transform.position = new Vector2(.75f,transform.position.y);
-		titleObj.transform.position = new Vector2(.75f, 2.5f);
+		titleObj.transform.position = new Vector2(.75f, 3.56f);
 		ui_toMenu.gameObject.SetActive(false);
 		ui_newOutfit.gameObject.SetActive(false);
 		ui_fish.gameObject.SetActive(false);
@@ -1406,6 +1403,7 @@ public class play : MonoBehaviour {
 		enableLost();
 		// Record things only once!
 		trophyBG = true;
+		fish.transform.position = new Vector2(0.0f, -4.0f);
 		trophyBGobj.SetActive(true);
 
 		if (Mathf.Round(timer) > Mathf.Round(PlayerPrefs.GetFloat("Highscore", 0)))

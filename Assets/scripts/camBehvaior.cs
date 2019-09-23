@@ -9,7 +9,7 @@ public class camBehvaior : MonoBehaviour
 
 	public playerMovement fishy;
 	public GameObject fish;
-	public float view;
+	public float view, xOff, yOff;
 	private Vector2 pos;
 
 	public Camera m_OrthographicCamera;
@@ -39,20 +39,20 @@ public class camBehvaior : MonoBehaviour
         {
         	if (pScript.inSettings)
         	{
-        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 8f, -10);
-        		view = 4;
+        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y -11f, -10);
+        		view = 5.5f;
         	}
         	else if (pScript.inTutorial)
         	{
-        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y - 15.5f, -10);
-        		view = 4;
+        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y -21.67f, -10);
+        		view = 5.5f;
 
         	}
         	else
         	{
         		// center on fish
-        		pos = new Vector3(fish.transform.position.x, fish.transform.position.y, -10);
-        		view = 4;
+        		pos = new Vector3(fish.transform.position.x + xOff, fish.transform.position.y + yOff, -10);
+        		view = 5.5f;
         	}
         }
         else

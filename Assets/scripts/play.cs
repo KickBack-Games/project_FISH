@@ -17,24 +17,24 @@ using UnityEngine.SocialPlatforms.GameCenter;
 
 public class play : MonoBehaviour {
 	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
-					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, iapAds, iapAds2, h1, h2, h3, h4;
+					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, credObj, iapAds, iapAds2, h1, h2, h3, h4;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
 	public SpriteRenderer messageSpr;
-	private SpriteRenderer fishSpr,hatSpr, tutSpr;
-	private Sprite[] fishSprites,hatSprites, tutSprites;
+	private SpriteRenderer fishSpr,hatSpr, tutSpr, credSpr;
+	private Sprite[] fishSprites,hatSprites, tutSprites, credSprites;
 	public Sprite[] messageSprites;
 
     NativeShare sharefile;
 
-    private int hatChoose, fishChoose, messageChoose, ghostNum, tutPage;
+    private int hatChoose, fishChoose, messageChoose, ghostNum, tutPage, credPage;
 	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
 				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
 				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_mute_music, ui_mute_SFX,
-				  ui_pause, ui_restart, ui_tutorial;
+				  ui_pause, ui_restart, ui_tutorial, ui_credits;
 
 	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore,txtGameTimer;
 
@@ -42,7 +42,7 @@ public class play : MonoBehaviour {
 	public float timer,life;
 
 	private bool unlocked;
-	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused, inTutorial;
+	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused, inTutorial, inCredits;
 	public Sprite sfxOn,sfxOff,musicOn,musicOff;
 	public Transform bandaidobj;
 
@@ -57,6 +57,7 @@ public class play : MonoBehaviour {
         hatSprites = Resources.LoadAll<Sprite>("hats_wave_2");
         messageSprites = Resources.LoadAll<Sprite>("reset_message");
         tutSprites = Resources.LoadAll<Sprite>("tut_full");
+        credSprites = Resources.LoadAll<Sprite>("cred_full");
 
         if(PlayerPrefs.GetInt("FirstTimer") == 0)
         {
@@ -142,6 +143,7 @@ public class play : MonoBehaviour {
 		fishSpr = fish.GetComponent<SpriteRenderer>();
 		hatSpr = hat.GetComponent<SpriteRenderer>();
 		messageSpr = resetMessage.GetComponent<SpriteRenderer>();
+		credSpr = credObj.GetComponent<SpriteRenderer>();
 		tutSpr = tutObj.GetComponent<SpriteRenderer>();
 		// load the sprites
 		fishSpr.sprite = fishSprites[fishChoose];
@@ -306,6 +308,9 @@ public class play : MonoBehaviour {
 	}
 	public void toTutorial()
 	{
+		if (!inCredits) {
+			credObj.SetActive(false);
+		}
 		inTutorial = true;
 		inSettings = false;
 		tutPage = 0;
@@ -323,22 +328,47 @@ public class play : MonoBehaviour {
 #endif
 
 	}
+
+	public void toCredits()
+	{
+		credObj.SetActive(true);
+		inCredits = true;
+		inSettings = false;
+		credPage = 0;
+		credSpr.sprite = credSprites[credPage];
+	}
+
 	public void tutorial_right()
 	{
-		print(tutPage);
-		if (tutPage < (tutSprites.Length - 1))
-			tutPage++;
-		tutSpr.sprite = tutSprites[tutPage];
-		
+		if (inTutorial) 
+		{
+			if (tutPage < (tutSprites.Length - 1))
+				tutPage++;
+			tutSpr.sprite = tutSprites[tutPage];
+		}
+		else if (inCredits) 
+		{
+			if (credPage < (credSprites.Length - 1))
+				credPage++;
+			credSpr.sprite = credSprites[credPage];
+		}
 
 	}
 
 	public void tutorial_left()
 	{
-		print(tutPage);
-		if (tutPage > 0)
-			tutPage--;
-		tutSpr.sprite = tutSprites[tutPage];
+		if (inTutorial) 
+		{
+			if (tutPage > 0)
+				tutPage--;
+			tutSpr.sprite = tutSprites[tutPage];
+		}
+		else if (inCredits) 
+		{
+			if (credPage > 0)
+				credPage--;
+			credSpr.sprite = credSprites[credPage];
+		}
 
 	}
 	public void backToSettings()
@@ -352,8 +382,16 @@ public class play : MonoBehaviour {
 		}
 		else
 		{
-			inTutorial = false;
-			inSettings = true;
+			if (inTutorial)
+			{
+				inTutorial = false;
+				inSettings = true;
+			}
+			else if(inCredits) 
+			{
+				inCredits = false;
+				inSettings = true;
+			}
 		}
 	}
 	public void back()
@@ -1082,7 +1120,7 @@ public class play : MonoBehaviour {
 			ui_toMenu.transform.position = new Vector2(0, ui_toMenu.transform.position.y);
 		}
 		titleObj.SetActive(true);
-		titleObj.transform.position = new Vector2(0, 3.52f);
+		titleObj.transform.position = new Vector2(0, 3.59f);
 		shelf_GO.SetActive(true);
 		shelf_GO.transform.parent = cam.transform;
 		shelf_GO.transform.position = new Vector2(0f, .34f);

@@ -42,7 +42,7 @@ public class camBehvaior : MonoBehaviour
         		pos = new Vector3(fish.transform.position.x, fish.transform.position.y -11f, -10);
         		view = 5.5f;
         	}
-        	else if (pScript.inTutorial)
+        	else if (pScript.inTutorial || pScript.inCredits)
         	{
         		pos = new Vector3(fish.transform.position.x, fish.transform.position.y -21.67f, -10);
         		view = 5.5f;

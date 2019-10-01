@@ -37,7 +37,7 @@ public class messageDownBehavior : MonoBehaviour
 				}
 				
 			}
-			if (transform.position.y > -7.45f)
+			if (transform.position.y > -8.5f)
 			{
 				transform.position = new Vector2(transform.position.x, transform.position.y + ySpd);
 				ySpd -= .01f;

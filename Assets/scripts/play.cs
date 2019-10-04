@@ -16,8 +16,8 @@ using UnityEngine.SocialPlatforms.GameCenter;
 #endif
 
 public class play : MonoBehaviour {
-	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, obj_txt_hs, obj_txt_score, 
-					  obj_txt_time, obj_newStar, obj_life_stuff, tutObj, credObj, iapAds, iapAds2, h1, h2, h3, h4;
+	public GameObject fish, hat, titleObj, resetMessage, shelf_GO, shelf_settings, fadeIn, fadeOut, ad, trophyBGobj,audioManager, 
+					  obj_txt_hs, obj_txt_score, obj_txt_time, obj_newStar, obj_life_stuff, tutObj, credObj, iapAds, iapAds2, h1, h2, h3, h4, ui_fish2, ui_newOutfit2, ui_hat2;
 	public Camera cam;
 	public Ads ads;
 	public playerMovement pm; 
@@ -32,14 +32,13 @@ public class play : MonoBehaviour {
 	//public GameObject bubbles;
 
 	public Button ui_leftSkin, ui_rightSkin, ui_rightHat, ui_leftHat, ui_play, ui_settings,
-				  ui_back, ui_resetAll, ui_toMenu, ui_newOutfit, ui_fish, ui_hat, 
-				  ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_mute_music, ui_mute_SFX,
-				  ui_pause, ui_restart, ui_tutorial, ui_credits;
+				  ui_back, ui_resetAll, ui_toMenu, ui_resetNo, ui_resetYes, ui_ghostRepellant, ui_rate, ui_share, ui_mute_music, 
+				  ui_mute_SFX, ui_pause, ui_restart, ui_tutorial, ui_credits;
 
 	public Text txtLife,txtHighScrInt,txtHatsRemaining,txtFishRemaining,txtDeath,txtTimePlayed,txtScore,txtGameTimer;
 
 	private float hr, min, sec,ti;
-	public float timer,life;
+	public float timer, life;
 
 	private bool unlocked;
 	public bool onceTrigger, msgDown, isGhost, inMenu, inSettings, trophyBG, paused, inTutorial, inCredits;
@@ -1055,19 +1054,21 @@ public class play : MonoBehaviour {
 		// Final touch
 		if (unlocked)
 		{
-			ui_newOutfit.gameObject.SetActive(true);
+			//ui_newOutfit.gameObject.SetActive(true);
+			ui_newOutfit2.SetActive(true);
 			// Initialize arrays with the total amount for hats or fish
 			if (b_hat)
 			{
 				// These wll be initialized at the end when we are done counting how many.
 				starActivation(counterHats,hatArr,"hats");
-
-				ui_hat.gameObject.SetActive(true);
+				ui_hat2.SetActive(true);
+				//ui_hat.gameObject.SetActive(true);
 			}
 			if (b_fish)
 			{
 				starActivation(counterFish,fishArr,"skins");
-				ui_fish.gameObject.SetActive(true);
+				ui_fish2.SetActive(true);
+				//ui_fish.gameObject.SetActive(true);
 			}
 		}
 	}
@@ -1096,9 +1097,6 @@ public class play : MonoBehaviour {
 		ui_rightSkin.gameObject.SetActive(false);
 		ui_play.gameObject.SetActive(false);
 		ui_settings.gameObject.SetActive(false);
-		ui_newOutfit.gameObject.SetActive(false);
-		ui_hat.gameObject.SetActive(false);
-		ui_fish.gameObject.SetActive(false);
 		titleObj.SetActive(false);
 	}
 	void enableSettings()
@@ -1124,6 +1122,9 @@ public class play : MonoBehaviour {
 		shelf_GO.SetActive(true);
 		shelf_GO.transform.parent = cam.transform;
 		shelf_GO.transform.position = new Vector2(0f, .34f);
+		ui_fish2.SetActive(false);
+		ui_hat2.SetActive(false);
+		ui_newOutfit2.SetActive(false);
 		ui_share.gameObject.SetActive(true);
 	}
 	void disableLost()
@@ -1131,9 +1132,9 @@ public class play : MonoBehaviour {
 		cam.transform.position = new Vector2(.75f,transform.position.y);
 		titleObj.transform.position = new Vector2(.75f, 3.56f);
 		ui_toMenu.gameObject.SetActive(false);
-		ui_newOutfit.gameObject.SetActive(false);
-		ui_fish.gameObject.SetActive(false);
-		ui_hat.gameObject.SetActive(false);
+		ui_newOutfit2.SetActive(false);
+		ui_fish2.SetActive(false);
+		ui_hat2.SetActive(false);
 		shelf_GO.SetActive(false);
 	}
 

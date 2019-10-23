@@ -17,7 +17,7 @@ public class SplashScreenBehavior : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		if (dimensions < 1f) {
+		if (dimensions < .85f) {
 			dimensions += acc + Time.deltaTime * 1f;
 			acc += .00005f;
 		} else {

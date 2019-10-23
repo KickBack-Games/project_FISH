@@ -2130,9 +2130,6 @@ MonoBehaviour:
   ui_back: {fileID: 1741002728}
   ui_resetAll: {fileID: 42679133}
   ui_toMenu: {fileID: 2055361031}
-  ui_newOutfit: {fileID: 0}
-  ui_fish: {fileID: 0}
-  ui_hat: {fileID: 0}
   ui_resetNo: {fileID: 641858854}
   ui_resetYes: {fileID: 352645596}
   ui_ghostRepellant: {fileID: 1251241718}
@@ -2652,7 +2649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &549641898
 SpriteRenderer:
   m_ObjectHideFlags: 0

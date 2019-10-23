@@ -274,8 +274,6 @@ public class play : MonoBehaviour {
 	}
 	public void restart()
 	{
-
-		//fadeOut.SetActive(true);
 		Instantiate(fadeOut, new Vector3(.7f, 3f, 0f), Quaternion.identity);
 		ui_restart.gameObject.SetActive(false);
 	}

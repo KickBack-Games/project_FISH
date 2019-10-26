@@ -31,7 +31,7 @@ public class SM : MonoBehaviour
 	
 	void Start() 
 	{
-		if (PlayerPrefs.GetInt("MuteMusic") == 1)
+		if (PlayerPrefs.GetInt("MuteMusic", 1) == 1)
 			Play("Theme");
 
 	}

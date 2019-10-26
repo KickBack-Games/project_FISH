@@ -2140,7 +2140,7 @@ MonoBehaviour:
   ui_pause: {fileID: 1539286469}
   ui_restart: {fileID: 1515751195}
   ui_tutorial: {fileID: 321273312}
-  ui_credits: {fileID: 0}
+  ui_credits: {fileID: 586352235}
   txtLife: {fileID: 505376582}
   txtHighScrInt: {fileID: 309446819}
   txtHatsRemaining: {fileID: 1994823702}

@@ -52,17 +52,20 @@ public class play : MonoBehaviour {
     	Time.timeScale = 1;
         Application.targetFrameRate = 60;
         // load all frames in fruitsSprites array
-        fishSprites = Resources.LoadAll<Sprite>("fish_sheetv4");
-        hatSprites = Resources.LoadAll<Sprite>("hats_wave_2");
+        fishSprites = Resources.LoadAll<Sprite>("fish_sheetv5");
+        hatSprites = Resources.LoadAll<Sprite>("hats_wave_5");
         messageSprites = Resources.LoadAll<Sprite>("reset_message");
         tutSprites = Resources.LoadAll<Sprite>("tut_full");
         credSprites = Resources.LoadAll<Sprite>("cred_full");
 
+        // Opening the app for the very first time? Send them straight to tutorial and set the music prefs to on
         if(PlayerPrefs.GetInt("FirstTimer") == 0)
         {
 	        inMenu = true;
 	        inSettings = false;
 	        inTutorial = true;
+	        PlayerPrefs.SetInt("MuteSFX", 1);
+			PlayerPrefs.SetInt("MuteMusic", 1);
     	}
     	else
     	{
@@ -96,6 +99,7 @@ public class play : MonoBehaviour {
 		obj_txt_time.SetActive(false);
 		tutPage = 0;
 
+
 		if (PlayerPrefs.GetInt("MuteSFX", 0) == 0)
 		{
 			ui_mute_SFX.GetComponent<Image>().sprite = sfxOn;
@@ -114,24 +118,25 @@ public class play : MonoBehaviour {
 		}
 
 		ti = 0;
+
 		// Save player outfit
-		
 		PlayerPrefs.SetInt("u_skins0", 1);
 		PlayerPrefs.SetInt("u_skins1", 1);
 		PlayerPrefs.SetInt("u_hats0", 1);
 		PlayerPrefs.SetInt("u_hats1", 1);
-		PlayerPrefs.SetInt("u_hats25", 1);
+		PlayerPrefs.SetInt("u_hats2", 1);
 		PlayerPrefs.SetInt("u_hats0_new", 2);
 		PlayerPrefs.SetInt("u_hats1_new", 2);
-		PlayerPrefs.SetInt("u_hats25_new", 2);
+		PlayerPrefs.SetInt("u_hats2_new", 2);
 		PlayerPrefs.SetInt("u_skins0_new", 2);
 		PlayerPrefs.SetInt("u_skins1_new", 2);
 		fishChoose = PlayerPrefs.GetInt("Fish", 0);
 		hatChoose = PlayerPrefs.GetInt("Hat", 0);
+		print("Current hatChoose: " + hatChoose);
 		// End player outfit
 
-		//PRECAUTION
-		if (fishChoose == (fishSprites.Length - 1))
+		//PRECAUTION -- If game starts out with the boot being on, then deactivate the hat.
+		if (fishChoose == 9)
 			hat.gameObject.SetActive(false);
 		else
 			hat.gameObject.SetActive(true);
@@ -232,7 +237,7 @@ public class play : MonoBehaviour {
 		txtGameTimer.text = 0.ToString();
 		
 		// Activate hooks
-		h1.SetActive(true);
+		//h1.SetActive(true);
 		h2.SetActive(true);
 		h3.SetActive(true);
 		h4.SetActive(true);
@@ -418,7 +423,7 @@ public class play : MonoBehaviour {
 		}
 		// hats
 		str_ = "u_hats";
-		for (int i = int_; i < hatSprites.Length - 1; i++)
+		for (int i = (int_ + 1); i < hatSprites.Length; i++)
 		{
 			PlayerPrefs.SetInt(str_ + i.ToString(), 0);
 			PlayerPrefs.SetInt(str_ + i.ToString() + "_new", 0);
@@ -436,13 +441,13 @@ public class play : MonoBehaviour {
 		// Also need to do this for the new star when unlocking stuff
 		PlayerPrefs.SetInt("u_hats0_new", 2);
 		PlayerPrefs.SetInt("u_hats1_new", 2);
-		PlayerPrefs.SetInt("u_hats25_new", 2);
+		PlayerPrefs.SetInt("u_hats2_new", 2);
 		PlayerPrefs.SetInt("u_skins0_new", 2);
 		PlayerPrefs.SetInt("u_skins1_new", 2);
 		fishChoose = 0;
-		hatChoose = hatSprites.Length-1;
+		hatChoose = 0;
 		fishSpr.sprite = fishSprites[fishChoose];
-		hatSpr.sprite = hatSprites[hatSprites.Length-1];
+		hatSpr.sprite = hatSprites[hatChoose];
 		PlayerPrefs.SetInt("Fish", fishChoose);
 		PlayerPrefs.SetInt("Hat", hatChoose);
 
@@ -542,8 +547,8 @@ public class play : MonoBehaviour {
 		bool b_fish = false;
 
 		// will never get bigger than that. Camn't unlock that many hats or fish at once.
-		int[] hatArr = new int[10];
-		int[] fishArr = new int[10];
+		int[] hatArr = new int[20];
+		int[] fishArr = new int[20];
 
 		// Will count the total of unlocked for each and if any then an array will be initialized to activate them as discovered
 		int counterHats = 0;
@@ -552,14 +557,14 @@ public class play : MonoBehaviour {
 		// Timer based unlockables
 		if (timer > 10)
 		{
-			lm = PlayerPrefs.GetInt("u_hats2", 0);
+			lm = PlayerPrefs.GetInt("u_hats25", 0);
 			if (lm == 0)
 			{
 				b_hat = true;
 				unlocked = true;
-				PlayerPrefs.SetInt("u_hats2", 1);
+				PlayerPrefs.SetInt("u_hats25", 1);
 
-				hatArr[counterHats] = 2;
+				hatArr[counterHats] = 25;
 				counterHats += 1;
 
 			}
@@ -1052,6 +1057,158 @@ public class play : MonoBehaviour {
 		// Final touch
 		if (unlocked)
 		{
+			ui_newOutfit2.SetActive(true);
+			// Initialize arrays with the total amount for hats or fish
+			if (b_hat)
+			{
+				// These wll be initialized at the end when we are done counting how many.
+				starActivation(counterHats,hatArr,"hats");
+				ui_hat2.SetActive(true);
+			}
+			if (b_fish)
+			{
+				starActivation(counterFish,fishArr,"skins");
+				ui_fish2.SetActive(true);
+			}
+		}
+
+		///////////////////////////// COMMENT OUT THIS NEXT LINE IF NO EVENT IS GOING ON
+		CHECKSPECIALEVENTUNLOCKED(time_);
+	}
+
+	void CHECKSPECIALEVENTUNLOCKED(float time_) 
+	{
+		int lm;
+		bool unlocked = false;
+		bool b_hat = false;
+		bool b_fish = false;
+
+		// will never get bigger than that. Camn't unlock that many hats or fish at once.
+		int[] hatArr = new int[5];
+		int[] fishArr = new int[5];
+
+		// Will count the total of unlocked for each and if any then an array will be initialized to activate them as discovered
+		int counterHats = 0;
+		int counterFish = 0;
+		/***************************************************************
+		HALLOWEEN 2019 												BEGIN
+		COMMENT OUT SECTION BELOW WHEN EVENT IS OVER
+
+		****************************************************************/
+		int totalHalloween2019Deaths = PlayerPrefs.GetInt("Halloween2019", 0);
+
+		// increase it by 1 now
+		totalHalloween2019Deaths += 1;
+
+		// Timer based unlockables
+		if (timer > 45)
+		{
+			lm = PlayerPrefs.GetInt("u_skins10", 0);
+			if (lm == 0)
+			{
+				unlocked = true;
+				b_fish = true;
+				PlayerPrefs.SetInt("u_skins10", 1);
+
+				fishArr[counterFish] = 10;
+				counterFish += 1;
+			}
+
+
+			if (timer > 90)
+			{
+				lm = PlayerPrefs.GetInt("u_skins12", 0);
+				if (lm == 0)
+				{
+					unlocked = true;
+					b_fish = true;
+					PlayerPrefs.SetInt("u_skins12", 1);
+
+					fishArr[counterFish] = 12;
+					counterFish += 1;
+				}
+
+
+				if (timer > 180)
+				{        
+					lm = PlayerPrefs.GetInt("u_skins11", 0);
+					if (lm == 0)
+					{
+						unlocked = true;
+						b_fish = true;
+						PlayerPrefs.SetInt("u_skins11", 1);
+
+						fishArr[counterFish] = 11;
+						counterFish += 1;
+					}
+
+				}
+			}
+		}
+
+		// Death based unlockables
+		if (totalHalloween2019Deaths >= 15)
+		{
+			lm = PlayerPrefs.GetInt("u_hats28", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats28", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 28;
+				counterHats += 1;
+			}
+		}
+		else if (totalHalloween2019Deaths == 5)
+		{			
+			lm = PlayerPrefs.GetInt("u_hats27", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats27", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 27;
+				counterHats += 1;
+			}
+
+		}
+		else if (totalHalloween2019Deaths == 1)
+		{
+			lm = PlayerPrefs.GetInt("u_hats26", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats26", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 26;
+				counterHats += 1;
+			}
+		}
+		// Make sure to now set the playerPrefs deaths to the increased total
+		PlayerPrefs.SetInt("Halloween2019", totalHalloween2019Deaths);
+
+		/***************************************************************
+		HALLOWEEN 2019 ---- 										END
+		COMMENT OUT SECTION BELOW WHEN EVENT IS OVER
+
+		****************************************************************/
+
+
+
+		/***************************************************************
+		TBD															BEGIN
+
+		****************************************************************/
+
+		/***************************************************************
+		TBD															END
+
+		****************************************************************/
+
+
+		// Final touch
+		if (unlocked)
+		{
 			//ui_newOutfit.gameObject.SetActive(true);
 			ui_newOutfit2.SetActive(true);
 			// Initialize arrays with the total amount for hats or fish
@@ -1186,7 +1343,8 @@ public class play : MonoBehaviour {
 		}
 
 		fishSpr.sprite = fishSprites[fishChoose];
-		if (fishChoose == (fishSprites.Length-1))
+		// the ninth is for the boot!
+		if (fishChoose == 9)
 			hat.gameObject.SetActive(false);
 		else
 			hat.gameObject.SetActive(true);
@@ -1218,7 +1376,9 @@ public class play : MonoBehaviour {
 			}
 		}
 		fishSpr.sprite = fishSprites[fishChoose];
-		if (fishChoose == (fishSprites.Length - 1))
+
+		// The ninth is for the boot.. no hats allowed
+		if (fishChoose == 9)
 			hat.gameObject.SetActive(false);
 		else
 			hat.gameObject.SetActive(true);

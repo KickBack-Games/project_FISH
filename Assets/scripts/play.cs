@@ -1591,7 +1591,7 @@ public class play : MonoBehaviour {
 
     public void IapAds()
     {
-        PlayerPrefs.SetInt("AdFree",1);
+        PlayerPrefs.SetInt("AdFree", 1);
     }
 
     IEnumerator onLost()

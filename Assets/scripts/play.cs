@@ -237,7 +237,7 @@ public class play : MonoBehaviour {
 		txtGameTimer.text = 0.ToString();
 		
 		// Activate hooks
-		//h1.SetActive(true);
+		h1.SetActive(true);
 		h2.SetActive(true);
 		h3.SetActive(true);
 		h4.SetActive(true);

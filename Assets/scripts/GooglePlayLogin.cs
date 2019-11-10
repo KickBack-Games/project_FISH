@@ -32,7 +32,7 @@ public class GooglePlayLogin : MonoBehaviour
 
         // Try silent sign-in (second parameter is isSilent)
         // This should always be the last line of Start()
-        PlayGamesPlatform.Instance.Authenticate(SignInCallback, true);	
+        PlayGamesPlatform.Instance.Authenticate(SignInCallback, false);	
 	}
 	public void Update() {
 

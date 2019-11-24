@@ -1623,7 +1623,7 @@ public class play : MonoBehaviour {
         }
 #endif
 #if UNITY_IOS
-        Social.ReportScore(Mathf.RoundToInt(timer), "fishin_leaderboard", success => {
+        Social.ReportScore(Mathf.RoundToInt(timer), "swimmin_leaderboard", success => {
             Debug.Log(success ? "Reported score successfully" : "Failed to report score");
         });
 #endif

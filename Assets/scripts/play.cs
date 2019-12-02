@@ -1092,10 +1092,10 @@ public class play : MonoBehaviour {
 		}
 
 		///////////////////////////// COMMENT OUT THIS NEXT LINE IF NO EVENT IS GOING ON
-		CHECKSPECIALEVENTUNLOCKED(time_);
+		CHECKSPECIALEVENTUNLOCKED(time_, timer);
 	}
 
-	void CHECKSPECIALEVENTUNLOCKED(float time_) 
+	void CHECKSPECIALEVENTUNLOCKED(float time_, float timer) 
 	{
 		int lm;
 		bool unlocked = false;
@@ -1120,7 +1120,7 @@ public class play : MonoBehaviour {
 		totalHalloween2019Deaths += 1;
 
 		// Timer based unlockables
-		if (timer > 2500)
+		if (timer > 150)
 		{
 			lm = PlayerPrefs.GetInt("u_skins10", 0);
 			if (lm == 0)
@@ -1134,7 +1134,7 @@ public class play : MonoBehaviour {
 			}
 
 
-			if (timer > 3000)
+			if (timer > 200)
 			{
 				lm = PlayerPrefs.GetInt("u_skins12", 0);
 				if (lm == 0)
@@ -1148,7 +1148,7 @@ public class play : MonoBehaviour {
 				}
 
 
-				if (timer > 3500)
+				if (timer > 230)
 				{        
 					lm = PlayerPrefs.GetInt("u_skins11", 0);
 					if (lm == 0)

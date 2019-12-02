@@ -1217,7 +1217,7 @@ public class play : MonoBehaviour {
 		totalChristmas2019Deaths += 1;
 
 		// Timer based unlockables
-		if (timer > 15)
+		if (timer > 10)
 		{
 			lm = PlayerPrefs.GetInt("u_skins13", 0);
 			if (lm == 0)
@@ -1231,7 +1231,7 @@ public class play : MonoBehaviour {
 			}
 
 
-			if (timer > 45)
+			if (timer > 20)
 			{
 				lm = PlayerPrefs.GetInt("u_skins14", 0);
 				if (lm == 0)
@@ -1245,7 +1245,7 @@ public class play : MonoBehaviour {
 				}
 
 
-				if (timer > 90)
+				if (timer > 30)
 				{        
 					lm = PlayerPrefs.GetInt("u_skins15", 0);
 					if (lm == 0)
@@ -1263,7 +1263,7 @@ public class play : MonoBehaviour {
 		}
 
 		// Death based unlockables
-		if (totalChristmas2019Deaths >= 15)
+		if (totalChristmas2019Deaths >= 10)
 		{
 			lm = PlayerPrefs.GetInt("u_hats30", 0);
 			if (lm == 0)
@@ -1275,7 +1275,7 @@ public class play : MonoBehaviour {
 				counterHats += 1;
 			}
 		}
-		else if (totalChristmas2019Deaths == 8) 
+		else if (totalChristmas2019Deaths == 7) 
 		{
 			lm = PlayerPrefs.GetInt("u_hats32", 0);
 			if (lm == 0)
@@ -1299,7 +1299,7 @@ public class play : MonoBehaviour {
 				counterHats += 1;
 			}
 		}
-		else if (totalChristmas2019Deaths == 1)
+		else if (totalChristmas2019Deaths == 3)
 		{
 			lm = PlayerPrefs.GetInt("u_hats33", 0);
 			if (lm == 0)
@@ -1310,6 +1310,9 @@ public class play : MonoBehaviour {
 				hatArr[counterHats] = 33;
 				counterHats += 1;
 			}
+		}
+		else if (totalChristmas2019Deaths == 1)
+		{
 			lm = PlayerPrefs.GetInt("u_hats31", 0);
 			if (lm == 0)
 			{

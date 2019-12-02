@@ -52,8 +52,8 @@ public class play : MonoBehaviour {
     	Time.timeScale = 1;
         Application.targetFrameRate = 60;
         // load all frames in fruitsSprites array
-        fishSprites = Resources.LoadAll<Sprite>("fish_sheetv5");
-        hatSprites = Resources.LoadAll<Sprite>("hats_wave_5");
+        fishSprites = Resources.LoadAll<Sprite>("fish_sheetv6");
+        hatSprites = Resources.LoadAll<Sprite>("hats_wave_6");
         messageSprites = Resources.LoadAll<Sprite>("reset_message");
         tutSprites = Resources.LoadAll<Sprite>("tut_full");
         credSprites = Resources.LoadAll<Sprite>("cred_full");
@@ -132,7 +132,6 @@ public class play : MonoBehaviour {
 		PlayerPrefs.SetInt("u_skins1_new", 2);
 		fishChoose = PlayerPrefs.GetInt("Fish", 0);
 		hatChoose = PlayerPrefs.GetInt("Hat", 0);
-		print("Current hatChoose: " + hatChoose);
 		// End player outfit
 
 		//PRECAUTION -- If game starts out with the boot being on, then deactivate the hat.
@@ -257,7 +256,7 @@ public class play : MonoBehaviour {
 		disableButtons();
 		disableSettings();
 
-		if ((PlayerPrefs.GetInt("Hat") == 5) && (PlayerPrefs.GetInt("Fish") == 7))
+		if ((PlayerPrefs.GetInt("Hat") == 6) && (PlayerPrefs.GetInt("Fish") == 7))
 		{
             #if UNITY_ANDROID
 			PlayGamesPlatform.Instance.ReportProgress(
@@ -537,6 +536,26 @@ public class play : MonoBehaviour {
 			type = "u_" + type + unlockIdArr[i].ToString() + "_new";
 			PlayerPrefs.SetInt(type, 1);
 			type = og;
+		}
+	}
+	public void UNLOCKALLDEBUG(){
+		// UNLOCK THEM ALL!!!
+		int lm;
+		for (int i = 0; i < fishSprites.Length; i++) 
+		{
+			lm = PlayerPrefs.GetInt("u_skins" + i, 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_skins" + i, 1);
+			}
+		}
+		for (int i = 0; i < hatSprites.Length; i++) 
+		{
+			lm = PlayerPrefs.GetInt("u_hats" + i, 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats" + i, 1);
+			}
 		}
 	}
 	void checkUnlocked(int deaths, float time_)
@@ -1084,8 +1103,8 @@ public class play : MonoBehaviour {
 		bool b_fish = false;
 
 		// will never get bigger than that. Camn't unlock that many hats or fish at once.
-		int[] hatArr = new int[5];
-		int[] fishArr = new int[5];
+		int[] hatArr = new int[10];
+		int[] fishArr = new int[10];
 
 		// Will count the total of unlocked for each and if any then an array will be initialized to activate them as discovered
 		int counterHats = 0;
@@ -1101,7 +1120,7 @@ public class play : MonoBehaviour {
 		totalHalloween2019Deaths += 1;
 
 		// Timer based unlockables
-		if (timer > 45)
+		if (timer > 2500)
 		{
 			lm = PlayerPrefs.GetInt("u_skins10", 0);
 			if (lm == 0)
@@ -1115,7 +1134,7 @@ public class play : MonoBehaviour {
 			}
 
 
-			if (timer > 90)
+			if (timer > 3000)
 			{
 				lm = PlayerPrefs.GetInt("u_skins12", 0);
 				if (lm == 0)
@@ -1129,7 +1148,7 @@ public class play : MonoBehaviour {
 				}
 
 
-				if (timer > 180)
+				if (timer > 3500)
 				{        
 					lm = PlayerPrefs.GetInt("u_skins11", 0);
 					if (lm == 0)
@@ -1147,7 +1166,7 @@ public class play : MonoBehaviour {
 		}
 
 		// Death based unlockables
-		if (totalHalloween2019Deaths >= 15)
+		if (totalHalloween2019Deaths >= 75)
 		{
 			lm = PlayerPrefs.GetInt("u_hats28", 0);
 			if (lm == 0)
@@ -1158,9 +1177,6 @@ public class play : MonoBehaviour {
 				hatArr[counterHats] = 28;
 				counterHats += 1;
 			}
-		}
-		else if (totalHalloween2019Deaths == 5)
-		{			
 			lm = PlayerPrefs.GetInt("u_hats27", 0);
 			if (lm == 0)
 			{
@@ -1170,10 +1186,6 @@ public class play : MonoBehaviour {
 				hatArr[counterHats] = 27;
 				counterHats += 1;
 			}
-
-		}
-		else if (totalHalloween2019Deaths == 1)
-		{
 			lm = PlayerPrefs.GetInt("u_hats26", 0);
 			if (lm == 0)
 			{
@@ -1196,12 +1208,123 @@ public class play : MonoBehaviour {
 
 
 		/***************************************************************
-		TBD															BEGIN
+		CHRISTMAS 2019 ----											BEGIN
 
 		****************************************************************/
+		int totalChristmas2019Deaths = PlayerPrefs.GetInt("Christmas2019", 0);
+
+		// increase it by 1 now
+		totalChristmas2019Deaths += 1;
+
+		// Timer based unlockables
+		if (timer > 15)
+		{
+			lm = PlayerPrefs.GetInt("u_skins13", 0);
+			if (lm == 0)
+			{
+				unlocked = true;
+				b_fish = true;
+				PlayerPrefs.SetInt("u_skins13", 1);
+
+				fishArr[counterFish] = 13;
+				counterFish += 1;
+			}
+
+
+			if (timer > 45)
+			{
+				lm = PlayerPrefs.GetInt("u_skins14", 0);
+				if (lm == 0)
+				{
+					unlocked = true;
+					b_fish = true;
+					PlayerPrefs.SetInt("u_skins14", 1);
+
+					fishArr[counterFish] = 14;
+					counterFish += 1;
+				}
+
+
+				if (timer > 90)
+				{        
+					lm = PlayerPrefs.GetInt("u_skins15", 0);
+					if (lm == 0)
+					{
+						unlocked = true;
+						b_fish = true;
+						PlayerPrefs.SetInt("u_skins15", 1);
+
+						fishArr[counterFish] = 15;
+						counterFish += 1;
+					}
+
+				}
+			}
+		}
+
+		// Death based unlockables
+		if (totalChristmas2019Deaths >= 15)
+		{
+			lm = PlayerPrefs.GetInt("u_hats30", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats30", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 30;
+				counterHats += 1;
+			}
+		}
+		else if (totalChristmas2019Deaths == 8) 
+		{
+			lm = PlayerPrefs.GetInt("u_hats32", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats32", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 32;
+				counterHats += 1;
+			}
+		}
+		else if (totalChristmas2019Deaths == 5) 
+		{
+			lm = PlayerPrefs.GetInt("u_hats29", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats29", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 29;
+				counterHats += 1;
+			}
+		}
+		else if (totalChristmas2019Deaths == 1)
+		{
+			lm = PlayerPrefs.GetInt("u_hats33", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats33", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 33;
+				counterHats += 1;
+			}
+			lm = PlayerPrefs.GetInt("u_hats31", 0);
+			if (lm == 0)
+			{
+				PlayerPrefs.SetInt("u_hats31", 1);
+				unlocked = true;
+				b_hat = true;
+				hatArr[counterHats] = 31;
+				counterHats += 1;
+			}
+		}
+		// Make sure to now set the playerPrefs deaths to the increased total
+		PlayerPrefs.SetInt("Christmas2019", totalChristmas2019Deaths);
 
 		/***************************************************************
-		TBD															END
+		CHRISTMAS 2019 ----											END
 
 		****************************************************************/
 
@@ -1407,7 +1530,6 @@ public class play : MonoBehaviour {
 				newStar(str_);		
 			}
 		}
-
 		hatSpr.sprite = hatSprites[hatChoose];
 	}
 	public void rightHat()
